@@ -4,8 +4,6 @@ import dto.Activity;
 import entities.RActivity;
 
 public class ActivityMapper {
-
-	private WorkoutMapper workoutMapper = new WorkoutMapper();
 	
 	/**
 	 * Entity to DTO Activity
@@ -19,9 +17,6 @@ public class ActivityMapper {
 			a = new Activity();
 			a.setWeight(ra.getWeight());
 			a.setWorkoutType(ra.getWorkoutType());
-			a.setWorkout(workoutMapper.toWorkout(ra.getWorkout()));
-			a.setCreatedDate(ra.getCreatedDate());
-			a.setId(ra.getId());
 		}
 		
 		return a;
@@ -40,9 +35,6 @@ public class ActivityMapper {
 			ra = new RActivity();
 			ra.setWeight(a.getWeight());
 			ra.setWorkoutType(a.getWorkoutType());
-			ra.setWorkout(workoutMapper.toEntityWorkout(a.getWorkout()));
-			ra.setCreatedDate(a.getCreatedDate());
-			ra.setId(a.getId());
 		}
 
 		return ra;

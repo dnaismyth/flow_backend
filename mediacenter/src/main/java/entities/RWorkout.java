@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -25,8 +26,9 @@ public class RWorkout extends BaseEntity {
 	/**
 	 * Stores the activites that were completed during the workout
 	 */
-	@OneToMany(mappedBy="workout")
-	private List<RActivity> activities;
+	@Embedded
+	@ElementCollection
+	private List<RActivity> activities = new ArrayList<RActivity>();
 	
 	@Embedded
 	private RLocation location;

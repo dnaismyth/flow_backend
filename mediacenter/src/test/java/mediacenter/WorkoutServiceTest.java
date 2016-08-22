@@ -1,7 +1,11 @@
 package mediacenter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +36,36 @@ public class WorkoutServiceTest {
 	
 	private UserMapper userMapper = new UserMapper();
 	
+	private List<Activity> activities;
+	
 	@Autowired
 	private UserRepository userRepo;
 	
 	@Autowired
 	private WorkoutService workoutService;
 	
+	private List<Long>userIds;
+	
+	@Before
+	public void setUp(){
+		activities = new ArrayList<Activity>();
+		userIds = new ArrayList<Long>();
+		
+	}
+	
+	@After
+	public void tearDown(){
+		
+		for(Long l : userIds){
+			userRepo.delete(l);
+		}
+	}
+	
 	@Test
 	public void testCreate(){
 		Activity activity = new Activity();
 		activity.setWorkoutType(WorkoutType.RUN);
+		activities.add(activity);
 		user = new RUser();
 		user.setName("Dayna");
 		user.setUsername("workouttest");
@@ -49,10 +73,11 @@ public class WorkoutServiceTest {
 		user.setEmail("www.dayna.com");
 		user.setId(5L);
 		user = userRepo.save(user);
+		userIds.add(user.getId());
 		testWorkout = new Workout();
-		testWorkout.setId(6L);
+		testWorkout.setId(5L);
 		testWorkout.setOwner(userMapper.toUser(user));
-		testWorkout.getActivities().add(activity);
+		testWorkout.setActivities(activities);
 		workoutService.createWorkout(userMapper.toUser(user), testWorkout);
 	}
 }

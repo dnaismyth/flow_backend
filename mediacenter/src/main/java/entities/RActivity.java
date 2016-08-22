@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -12,11 +14,9 @@ import javax.persistence.Table;
 import dto.WorkoutType;
 
 //TODO: check to see query speed when there is an index on pk
-@Entity
-@Table(name="activity")
-public class RActivity extends BaseEntity{
+@Embeddable
+public class RActivity{
 	
-
 	/**
 	 * 
 	 */
@@ -25,12 +25,9 @@ public class RActivity extends BaseEntity{
 	@Column(name="weight_amount")
 	private String weight;
 	
-	@Column(name="workout", nullable=false)
-	private RWorkout workout;
-	
     @Enumerated(EnumType.STRING)
     @Column(name="workout_type")
-    private WorkoutType workoutType;
+    private WorkoutType workoutTypes;
 	
 	
 	public void setWeight(String weight){
@@ -42,20 +39,13 @@ public class RActivity extends BaseEntity{
 	}
 	
 	public WorkoutType getWorkoutType(){
-		return workoutType;
+		return workoutTypes;
 	}
 	
-	public void setWorkoutType(WorkoutType workoutType){
-		this.workoutType = workoutType;
+	public void setWorkoutType(WorkoutType workoutTypes){
+		this.workoutTypes = workoutTypes;
 	}
 	
-	public RWorkout getWorkout(){
-		return workout;
-	}
-	
-	public void setWorkout(RWorkout workout){
-		this.workout = workout;
-	}
 	
 	
 }

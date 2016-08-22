@@ -21,18 +21,17 @@ public class WorkoutMapper {
 		
 		Workout w = null;
 		if(rw != null){
-			List<Activity> activities;
+			List<Activity> activities = new ArrayList<Activity>();
 			w = new Workout();
 			w.setId(rw.getId());
 			w.setOwner(userMapper.toUser(rw.getOwner()));
 			
-			if(rw.getActivities().size() > 0){
-				activities = new ArrayList<Activity>();
+			if(rw.getActivities().size() > 0 && rw.getActivities()!= null){
 				for(RActivity a : rw.getActivities()){
 					activities.add(activityMapper.toActivity(a));
 				}
-				w.setActivities(activities);
 			}
+			w.setActivities(activities);
 		}
 		return w;
 	}
@@ -44,19 +43,18 @@ public class WorkoutMapper {
 	 */
 	public RWorkout toEntityWorkout(Workout workout){
 		RWorkout rw = null;
-		List<RActivity> activities;
+		List<RActivity> activities = new ArrayList<RActivity>();
 
 		if(workout != null){
 			rw = new RWorkout();
 			rw.setCreatedDate(workout.getCreatedDate());
 			rw.setId(workout.getId());
-			if(workout.getActivities().size() > 0){
-				activities = new ArrayList<RActivity>();
+			if(workout.getActivities().size() > 0 && workout.getActivities()!= null){
 				for(Activity a : workout.getActivities()){
 					activities.add(activityMapper.toEntityActivity(a));
 				}
-				rw.setActivities(activities);
 			}
+			rw.setActivities(activities);
 			//TODO: create location mapper
 			//rw.setLocation(w.getLocation());
 		}
