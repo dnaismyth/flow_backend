@@ -2,10 +2,12 @@ package repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import dto.User;
+import entities.RUser;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+@Transactional
+public interface UserRepository extends JpaRepository<RUser, Long> {
 
 }

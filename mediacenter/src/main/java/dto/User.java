@@ -1,11 +1,17 @@
 package dto;
 
+import java.util.Date;
+
 public class User {
 
+	private Long id;
+	
 	/**
 	 * Unique username
 	 */
 	private String username;
+	
+	private String password;
 	
 	/**
 	 * Unique email
@@ -27,8 +33,28 @@ public class User {
 	 */
 	private String bio;
 	
+	/**
+	 * Phone number
+	 */
+	private String phone;
+	
+	/**
+	 * User Location
+	 */
+	private Location location;
+	
+	private Date createdDate;
+		
 	
 	public User(){}
+	
+	public Long getId(){
+		return id;
+	}
+	
+	public void setId(Long id){
+		this.id = id;
+	}
 	
 	public String getUsername(){
 		return username;
@@ -69,6 +95,39 @@ public class User {
 	public void setBio(String bio){
 		this.bio = bio;
 	}
+	
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+	
+	public String getPhone(){
+		return phone;
+	}
+	
+	public Location getLocation(){
+		return location;
+	}
+	
+	public void setLoation(Location location){
+		this.location = location;
+	}
+	
+	public void setPassword(String password){
+		this.password = password;
+	}
+	
+	public String getPassword(){
+		return password;
+	}
+	
+	public void setCreatedDate(Date date){
+		this.createdDate = date;
+	}
+	
+	public Date getCreatedDate(){
+		return createdDate;
+	}
+	
 	
 
 }

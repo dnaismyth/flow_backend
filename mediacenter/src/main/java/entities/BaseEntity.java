@@ -7,10 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+@MappedSuperclass
 public class BaseEntity implements Serializable {
 
 	/**
@@ -28,7 +29,7 @@ public class BaseEntity implements Serializable {
 	 * Date of creation
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date", nullable=false)
+	@Column(name="created_date")
 	private Date createdDate;
 	
 	public Long getId(){

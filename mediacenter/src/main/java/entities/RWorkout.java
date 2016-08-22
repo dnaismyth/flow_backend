@@ -1,59 +1,57 @@
 package entities;
 
+import java.util.List;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import dto.WorkoutType;
-
-//TODO: check to see query speed when there is an index on pk
 @Entity
-@Table(name="workout")
-public class RWorkout {
+@Table(name = "workout")
+public class RWorkout extends BaseEntity {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7649522972658785277L;
+	private static final long serialVersionUID = 1195501156843452445L;
+
+	@Column(nullable = false)
+	private RUser owner;
 	
-	@Id
-	@GeneratedValue
-	private Long id;
+	/**
+	 * Stores the activites that were completed during the workout
+	 */
+	@OneToMany(mappedBy="workout")
+	private List<RActivity> activities;
 	
-	@Column(name="weight_amount")
-	private String weight;
+	@Embedded
+	private RLocation location;
 	
-    @Enumerated(EnumType.STRING)
-    @Column(name="workout_type")
-    private WorkoutType workoutType;
-	
-	
-	public void setWeight(String weight){
-		this.weight = weight;
+	public List<RActivity> getActivities(){
+		return activities;
 	}
 	
-	public String getWeight(){
-		return weight;
+	public void setActivities(List<RActivity> activities){
+		this.activities = activities;
 	}
 	
-	public WorkoutType getWorkoutType(){
-		return workoutType;
+	public RUser getOwner(){
+		return owner;
 	}
 	
-	public void setWorkoutType(WorkoutType workoutType){
-		this.workoutType = workoutType;
+	public void setOwner(RUser owner){
+		this.owner = owner;
 	}
 	
-	public Long getId(){
-		return id;
+	public RLocation getLocation(){
+		return location;
 	}
 	
-	public void setId(Long id){
-		this.id = id;
+	public void setLocation(RLocation location){
+		this.location = location;
 	}
-	
 }
