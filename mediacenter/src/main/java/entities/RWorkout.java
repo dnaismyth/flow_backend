@@ -8,8 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "workout")
@@ -27,7 +31,9 @@ public class RWorkout extends BaseEntity {
 	 * Stores the activites that were completed during the workout
 	 */
 	@Embedded
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name="workout_activities")
+	@Cascade(value=CascadeType.ALL)
 	private List<RActivity> activities = new ArrayList<RActivity>();
 	
 	@Embedded

@@ -17,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @EnableJpaRepositories("repository")
 @SpringBootApplication
-@ComponentScan(basePackages={"service", "dto"})
+@ComponentScan(basePackages={"service", "dto", "controller"})
 @EntityScan(basePackages = "entities")
 public class MainApplication {
 	
