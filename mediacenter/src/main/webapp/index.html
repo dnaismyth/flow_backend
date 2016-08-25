@@ -12,30 +12,17 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Demo</h1>
+	<h1>Demo Controller</h1>
 	<div class="container"></div>
-	
-	<div class="container" ng-show="home.authenticated">
-  Logged in as: <span ng-bind="home.user"></span>
-  <div>
-    <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+		
+		<h1>Form</h1>
+     <form action="/api/workout/" method="get">
+  		id: <input type="number" name="id"><br>
+  		<input type="submit" value="Submit">
+		</form> 
+    
   </div>
 </div>
-
-angular
-  .module("app", [])
-  .controller("home", function($http, $location) {
-    var self = this;
-    self.logout = function() {
-      $http.post('/logout', {}).success(function() {
-        self.authenticated = false;
-        $location.path("/");
-      }).error(function(data) {
-        console.log("Logout failed")
-        self.authenticated = false;
-      });
-    };
-  });
 </body>
 </html>
 

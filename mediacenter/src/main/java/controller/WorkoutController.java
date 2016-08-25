@@ -12,7 +12,7 @@ import entities.RWorkout;
 @RequestMapping(value="/api/workout")
 public class WorkoutController extends BaseController {
 
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/?id=", method=RequestMethod.GET)
 	
 	public RWorkout get(@PathVariable Long id) {
 
