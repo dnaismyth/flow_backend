@@ -14,6 +14,10 @@ import dto.Workout;
 import entities.RWorkout;
 import exception.ResourceNotFoundException;
 
+/**
+ * Service class for Workout objects
+ * @author DN
+ */
 @Service
 public class WorkoutService {
 
@@ -45,16 +49,20 @@ public class WorkoutService {
 	public Workout updateWorkout(Long workoutId, Workout updated) throws IllegalArgumentException, ResourceNotFoundException  {
 		RestPreconditions.checkNotNull(workoutId);
 		RWorkout rw = workoutRepo.findOne(workoutId);
+		
+		// Cannot find the workout in the db
 		if(rw == null){
 			String message = String.format("Cannot find workout with id: %s", workoutId);
 			throw new ResourceNotFoundException(message);
 		}
 		
+		// Compare updated input workout to the one currently stored in the db,
+		// if they are different then we should update and save differences. 
 		if(!CompareUtil.compare(rw.getActivities(), updated.getActivities())){
 			//TODO: update acitivty mapper for lists
 		}
 		
-		if(!CompareUtil.compare(rw.getLocation(), updated.getLocation()){
+		if(!CompareUtil.compare(rw.getLocation(), updated.getLocation())){
 			//TODO: create location mapper
 			//rw.setLocation(updated.getLocation());
 		}
@@ -67,13 +75,24 @@ public class WorkoutService {
 		return workoutMapper.toWorkout(saved);	
 	}
 	
+	/**
+	 * Delete a workout by provided id
+	 * @param workoutId
+	 * @return
+	 */
 	public boolean deleteWorkout(Long workoutId){
 		RestPreconditions.checkNotNull(workoutId);
-		//TODO: first delete dependencies
+		//TODO: first delete dependencies, check user authority
 		workoutRepo.delete(workoutId);
 		return true;
 	}
 	
+	/**
+	 * Find a workout by provided id
+	 * @param workoutId
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
 	public Workout findWorkoutById(Long workoutId) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(workoutId);
 		RWorkout rw = workoutRepo.findOne(workoutId);
