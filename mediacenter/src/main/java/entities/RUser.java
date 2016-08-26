@@ -3,7 +3,11 @@ package entities;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import dto.UserRole;
 
 
 /**
@@ -35,6 +39,10 @@ public class RUser extends BaseEntity {
 	
 	@Column
 	private String phone;
+	
+	@Column(name="userrole")
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 	
 	public String getName(){
 		return name;

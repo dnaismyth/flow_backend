@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,41 +25,40 @@ import dto.User;
 import dto.Workout;
 import dto.WorkoutType;
 import entities.RUser;
+import exception.ResourceNotFoundException;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=MainApplication.class)
-public class WorkoutServiceTest {
+public class WorkoutServiceTest extends TestBaseClass {
 
 	private Workout testWorkout;
 	
-	private RUser user;
+	private User user;
+	private String userName1 = "testWorkoutService@mediacenter.com";
 	
 	private UserMapper userMapper = new UserMapper();
 	
 	private List<Activity> activities;
 	
-	@Autowired
-	private UserRepository userRepo;
-	
-	@Autowired
-	private WorkoutService workoutService;
-	
 	private List<Long>userIds;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws ResourceNotFoundException{
 		activities = new ArrayList<Activity>();
 		userIds = new ArrayList<Long>();
+		user = userService.findUserByUsername(userName1);
+		if(user == null){
+			user = new User();
+			user.setName("Test workout service");
+			user.setUsername(userName1);
+			user.setPassword("test12");
+			user.setEmail(userName1);
+			user = userService.create(user);
+		}
 		
 	}
 	
 	@After
 	public void tearDown(){
-		
-		for(Long l : userIds){
-			userRepo.delete(l);
-		}
+		userService.delete(user.getId());
 	}
 	
 	@Test
@@ -66,18 +66,12 @@ public class WorkoutServiceTest {
 		Activity activity = new Activity();
 		activity.setWorkoutType(WorkoutType.RUN);
 		activities.add(activity);
-		user = new RUser();
-		user.setName("Dayna");
-		user.setUsername("workouttest");
-		user.setPassword("test12");
-		user.setEmail("www.dayna.com");
-		user.setId(5L);
-		user = userRepo.save(user);
 		userIds.add(user.getId());
 		testWorkout = new Workout();
-		testWorkout.setId(5L);
-		testWorkout.setOwner(userMapper.toUser(user));
+		testWorkout.setOwner(user);
 		testWorkout.setActivities(activities);
-		workoutService.createWorkout(userMapper.toUser(user), testWorkout);
+		Workout created = workoutService.createWorkout(user, testWorkout);
+		Assert.assertNotNull(created);
+		
 	}
 }

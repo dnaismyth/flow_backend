@@ -1,5 +1,7 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 import service.mapper.UserMapper;
 import service.util.CompareUtil;
 import util.RestPreconditions;
@@ -11,6 +13,7 @@ import exception.ResourceNotFoundException;
  * Service class for Users
  * @author DN
  */
+@Service
 public class UserService extends ServiceBase {
 
 	private UserMapper userMapper = new UserMapper();
@@ -90,6 +93,24 @@ public class UserService extends ServiceBase {
 		RestPreconditions.checkNotNull(userId);
 		userRepo.delete(userId);
 	}
+	
+	/**
+	 * Find a user with provided username
+	 * @param username
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	public User findUserByUsername(String username) throws ResourceNotFoundException{
+		RestPreconditions.checkNotNull(username);
+		RUser found = userRepo.findUserByUsername(username);
+		if(found == null){
+			String message = String.format("Cannot find user with provided username: %s" , username);
+			throw new ResourceNotFoundException(message);
+		}
+		
+		return userMapper.toUser(found);
+	}
+	
 	
 	
 	

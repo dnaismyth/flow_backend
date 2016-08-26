@@ -19,7 +19,7 @@ import exception.ResourceNotFoundException;
  * @author DN
  */
 @Service
-public class WorkoutService {
+public class WorkoutService extends ServiceBase {
 
 	@Autowired
 	private WorkoutRepository workoutRepo;
@@ -33,11 +33,12 @@ public class WorkoutService {
 	 * @param workout
 	 * @throws ResourceNotFoundException 
 	 */
-	public void createWorkout(User owner, Workout workout) throws IllegalArgumentException {
+	public Workout createWorkout(User owner, Workout workout) throws IllegalArgumentException {
 		RestPreconditions.checkNotNull(owner);
 		RWorkout rw = workoutMapper.toEntityWorkout(workout);
 		rw.setOwner(userMapper.toEntityUser(owner));
-		workoutRepo.save(rw);
+		RWorkout saved = workoutRepo.save(rw);
+		return workoutMapper.toWorkout(saved);
 		
 	}
 	

@@ -8,6 +8,7 @@ entities\RActivity.class
 entities\RLocation.class
 entities\REvent.class
 dto\Journal.class
+dto\UserRole.class
 service\util\CompareUtil.class
 service\ServiceBase.class
 entities\RMedia.class
