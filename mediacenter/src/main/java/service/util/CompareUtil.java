@@ -2,7 +2,7 @@ package service.util;
 
 import java.util.List;
 
-public class CompareUtil {
+public abstract class CompareUtil {
 
 	public static boolean compare(Object obj1, Object obj2){
 		
