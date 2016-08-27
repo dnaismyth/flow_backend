@@ -16,6 +16,17 @@ public class Workout {
 	private Date createdDate;
 	
 	/**
+	 * Description/caption of the workout
+	 */
+	private String description;
+	
+	/**
+	 * Image associated with the workout
+	 */
+	private Media media;
+	
+	
+	/**
 	 * Stores the activites that were completed during the workout
 	 */
 	private List<Activity> activities;
@@ -61,4 +72,21 @@ public class Workout {
 	public Date getCreatedDate(){
 		return createdDate;
 	}
+	
+	public Media getMedia(){
+		return media;
+	}
+	
+	public void setMedia(Media media){
+		this.media = media;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
+	}
+	
 }

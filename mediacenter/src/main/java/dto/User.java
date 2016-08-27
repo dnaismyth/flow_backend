@@ -44,6 +44,11 @@ public class User {
 	private Location location;
 	
 	private Date createdDate;
+	
+	/**
+	 * Admin, Guest, User
+	 */
+	private UserRole roleType;
 		
 	
 	public User(){}
@@ -126,6 +131,14 @@ public class User {
 	
 	public Date getCreatedDate(){
 		return createdDate;
+	}
+	
+	public UserRole getUserRole(){
+		return roleType;
+	}
+	
+	public void setUserRole(UserRole roleType){
+		this.roleType = roleType;
 	}
 	
 	

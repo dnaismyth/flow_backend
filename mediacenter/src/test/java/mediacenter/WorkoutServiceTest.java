@@ -80,7 +80,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	}
 	
 	@Test
-	public void testQuery(){
-		workoutJDBCRepo.deleteWorkoutQueryReferences(1l);
+	public void testDeleteWorkout(){
+		
 	}
 }

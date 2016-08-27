@@ -20,6 +20,7 @@ public class UserMapper {
 			u.setUsername(user.getUsername());
 			u.setPassword(user.getPassword());
 			u.setCreatedDate(user.getCreatedDate());
+			u.setUserRole(user.getRoleType());
 		}
 		return u;
 		
@@ -38,6 +39,7 @@ public class UserMapper {
 			ru.setName(user.getName());
 			ru.setUsername(user.getUsername());
 			ru.setCreatedDate(user.getCreatedDate());
+			ru.setUserRole(user.getUserRole());
 		}
 		return ru;
 	}

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
 import service.mapper.ActivityMapper;
 import service.mapper.UserMapper;
@@ -11,8 +12,10 @@ import service.mapper.WorkoutMapper;
 import service.util.CompareUtil;
 import util.RestPreconditions;
 import dto.User;
+import dto.UserRole;
 import dto.Workout;
 import entities.RWorkout;
+import exception.NoPermissionException;
 import exception.ResourceNotFoundException;
 
 /**
@@ -25,6 +28,9 @@ public class WorkoutService {
 
 	@Autowired
 	private WorkoutRepository workoutRepo;
+	
+	@Autowired
+	private WorkoutJDBCRepository workoutJDBCRepo;
 	
 	private WorkoutMapper workoutMapper = new WorkoutMapper();
 	private UserMapper userMapper = new UserMapper();
@@ -82,12 +88,23 @@ public class WorkoutService {
 	 * Delete a workout by provided id
 	 * @param workoutId
 	 * @return
+	 * @throws ResourceNotFoundException 
+	 * @throws NoPermissionException 
 	 */
-	public boolean deleteWorkout(Long workoutId){
+	public boolean deleteWorkout(User user, Long workoutId) throws ResourceNotFoundException, NoPermissionException{
 		RestPreconditions.checkNotNull(workoutId);
-		//TODO: first delete dependencies, check user authority, delete workout references
-		// (activity table)
+		RestPreconditions.checkNotNull(user);
+		RWorkout found = workoutRepo.findOne(workoutId);
+		if(found == null){
+			String message = String.format("Cannot find workout with provided id: " + workoutId);
+			throw new ResourceNotFoundException(message);
+		}
 		
+		if(found.getOwner().getId() != user.getId() && user.getUserRole()!= UserRole.ADMIN){
+			throw new NoPermissionException("User does not have access to modify this content.");
+		}
+		
+		workoutJDBCRepo.deleteWorkoutQueryReferences(workoutId);
 		workoutRepo.delete(workoutId);
 		return true;
 	}

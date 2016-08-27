@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import dto.TextLength;
+
 @Entity
 @Table(name = "workout")
 public class RWorkout extends BaseEntity {
@@ -26,6 +28,12 @@ public class RWorkout extends BaseEntity {
 
 	@Column(nullable = false)
 	private RUser owner;
+	
+	@Column(name="description", length=TextLength.DESCRIPTION)
+	private String description;
+	
+	@Column (name="media")
+	private RMedia media;
 	
 	/**
 	 * Stores the activites that were completed during the workout
@@ -61,5 +69,21 @@ public class RWorkout extends BaseEntity {
 	
 	public void setLocation(RLocation location){
 		this.location = location;
+	}
+	
+	public RMedia getMedia(){
+		return media;
+	}
+	
+	public void setMedia(RMedia media){
+		this.media = media;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
 	}
 }

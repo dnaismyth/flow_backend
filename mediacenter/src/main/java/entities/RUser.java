@@ -100,6 +100,14 @@ public class RUser extends BaseEntity {
 		this.password = password;
 	}
 	
+	public UserRole getRoleType(){
+		return role;
+	}
+	
+	public void setUserRole(UserRole role){
+		this.role = role;
+	}
+	
 	//TODO: encode password
 //	private String encode(String str) {
 //        

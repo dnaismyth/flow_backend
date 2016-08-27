@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import repository.UserRepository;
+import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
 import service.mapper.UserMapper;
 import service.util.CompareUtil;
@@ -26,6 +27,9 @@ public class UserService {
 	
 	@Autowired
 	private WorkoutRepository workoutRepo;
+	
+	@Autowired
+	private WorkoutJDBCRepository workoutJDBCRepo;
 	
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
@@ -103,7 +107,7 @@ public class UserService {
 		//TODO: check if current logged in user matches the provided id, or if
 		// the user role is admin
 		RestPreconditions.checkNotNull(userId);
-		//TODO: tear down references (activyt_workout table)
+		
 		workoutRepo.deleteWorkoutByOwnerId(userId);
 		userRepo.delete(userId);
 	}

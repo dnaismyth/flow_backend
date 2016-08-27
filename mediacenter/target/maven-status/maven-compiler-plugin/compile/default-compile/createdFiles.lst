@@ -1,6 +1,7 @@
 exception\IllegalArgumentException.class
 util\TimeUtil.class
 repository\WorkoutJDBCRepository.class
+dto\TextLength.class
 dto\Media.class
 controller\UserController.class
 dto\User.class
