@@ -1,7 +1,10 @@
 package service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import repository.UserRepository;
 import service.mapper.UserMapper;
 import service.util.CompareUtil;
 import util.RestPreconditions;
@@ -14,8 +17,11 @@ import exception.ResourceNotFoundException;
  * @author DN
  */
 @Service
-public class UserService extends ServiceBase {
+@Transactional
+public class UserService {
 
+	@Autowired
+	private UserRepository userRepo;
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
 	
@@ -43,6 +49,7 @@ public class UserService extends ServiceBase {
 	 * @param user
 	 * @return
 	 */
+	@Transactional
 	public User create(User user){
 		RestPreconditions.checkNotNull(user);
 		
@@ -103,11 +110,6 @@ public class UserService extends ServiceBase {
 	public User findUserByUsername(String username) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(username);
 		RUser found = userRepo.findUserByUsername(username);
-		if(found == null){
-			String message = String.format("Cannot find user with provided username: %s" , username);
-			throw new ResourceNotFoundException(message);
-		}
-		
 		return userMapper.toUser(found);
 	}
 	

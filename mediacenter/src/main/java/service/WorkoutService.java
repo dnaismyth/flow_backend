@@ -2,6 +2,7 @@ package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import repository.WorkoutRepository;
 import service.mapper.ActivityMapper;
@@ -19,7 +20,8 @@ import exception.ResourceNotFoundException;
  * @author DN
  */
 @Service
-public class WorkoutService extends ServiceBase {
+@Transactional
+public class WorkoutService {
 
 	@Autowired
 	private WorkoutRepository workoutRepo;
