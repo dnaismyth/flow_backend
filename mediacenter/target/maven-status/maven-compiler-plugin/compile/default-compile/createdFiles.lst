@@ -1,5 +1,6 @@
 exception\IllegalArgumentException.class
 util\TimeUtil.class
+repository\WorkoutJDBCRepository.class
 dto\Media.class
 controller\UserController.class
 dto\User.class
@@ -16,6 +17,7 @@ util\RestPreconditions.class
 repository\UserRepository.class
 dto\Event.class
 dto\Activity.class
+repository\BaseJDBCRepository.class
 entities\RJournal.class
 exception\BadRequestException.class
 exception\NoPermissionException.class

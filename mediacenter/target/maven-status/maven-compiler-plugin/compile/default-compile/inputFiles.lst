@@ -29,10 +29,12 @@ C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\entities\REvent.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\entities\RUser.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\repository\UserRepository.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\exception\NoPermissionException.java
+C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\repository\BaseJDBCRepository.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\controller\BaseController.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\controller\UserController.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\entities\RJournal.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\dto\Event.java
+C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\repository\WorkoutJDBCRepository.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\dto\Activity.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\entities\RLocation.java
 C:\Users\dayna\Desktop\Repository\mediacenter\src\main\java\dto\Location.java
