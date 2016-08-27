@@ -17,6 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import repository.UserRepository;
+import repository.WorkoutJDBCRepository;
 import service.WorkoutService;
 import service.mapper.UserMapper;
 import config.MainApplication;
@@ -29,6 +30,9 @@ import exception.ResourceNotFoundException;
 
 public class WorkoutServiceTest extends TestBaseClass {
 
+	@Autowired
+	private WorkoutJDBCRepository workoutJDBCRepo;
+	
 	private Workout testWorkout;
 	
 	private User user;
@@ -73,5 +77,10 @@ public class WorkoutServiceTest extends TestBaseClass {
 		Workout created = workoutService.createWorkout(user, testWorkout);
 		Assert.assertNotNull(created);
 		
+	}
+	
+	@Test
+	public void testQuery(){
+		workoutJDBCRepo.deleteWorkoutQueryReferences(1l);
 	}
 }

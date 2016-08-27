@@ -1,4 +1,3 @@
-package config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @EnableJpaRepositories("repository")
 @SpringBootApplication
-@ComponentScan(basePackages={"service", "dto", "controller", "repository"})
+@ComponentScan(basePackages={"service", "dto", "controller"})
 @EntityScan(basePackages = "entities")
 public class MainApplication {
 	
