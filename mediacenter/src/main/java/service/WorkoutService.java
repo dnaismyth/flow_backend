@@ -85,7 +85,9 @@ public class WorkoutService {
 	 */
 	public boolean deleteWorkout(Long workoutId){
 		RestPreconditions.checkNotNull(workoutId);
-		//TODO: first delete dependencies, check user authority
+		//TODO: first delete dependencies, check user authority, delete workout references
+		// (activity table)
+		
 		workoutRepo.delete(workoutId);
 		return true;
 	}
