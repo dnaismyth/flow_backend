@@ -41,7 +41,7 @@ public class User {
 	/**
 	 * User Location
 	 */
-	private Location location;
+	private String address;
 	
 	private Date createdDate;
 	
@@ -109,12 +109,12 @@ public class User {
 		return phone;
 	}
 	
-	public Location getLocation(){
-		return location;
+	public String getAddress(){
+		return address;
 	}
 	
-	public void setLoation(Location location){
-		this.location = location;
+	public void setLoation(String address){
+		this.address = address;
 	}
 	
 	public void setPassword(String password){

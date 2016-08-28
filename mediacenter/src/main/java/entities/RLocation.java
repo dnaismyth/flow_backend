@@ -1,5 +1,7 @@
 package entities;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -30,6 +32,9 @@ public class RLocation {
 		this.longitude = longitude;
 	}
 	
+	public float getLongitude(){
+		return longitude;
+	}
 	public void setAddress(String address){
 		this.address = address;
 	}

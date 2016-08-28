@@ -100,7 +100,7 @@ public class WorkoutService {
 			throw new ResourceNotFoundException(message);
 		}
 		
-		if(found.getOwner().getId() != user.getId() && user.getUserRole()!= UserRole.ADMIN){
+		if(!found.getOwner().getId().equals(user.getId()) && user.getUserRole()!= UserRole.ADMIN){
 			throw new NoPermissionException("User does not have access to modify this content.");
 		}
 		

@@ -12,6 +12,7 @@ public class WorkoutMapper {
 
 	private UserMapper userMapper = new UserMapper();
 	private ActivityMapper activityMapper = new ActivityMapper();
+	private LocationMapper locationMapper = new LocationMapper();
 	/**
 	 * RWorkout to Workout
 	 * @param rw
@@ -34,6 +35,8 @@ public class WorkoutMapper {
 				}
 			}
 			w.setActivities(activities);
+			if(rw.getLocation() != null)
+				w.setLocation(rw.getLocation().getAddress());
 		}
 		return w;
 	}
@@ -59,7 +62,8 @@ public class WorkoutMapper {
 			}
 			rw.setActivities(activities);
 			//TODO: create location mapper, set media and create media mapper
-			//rw.setLocation(w.getLocation());
+			if(workout.getLocation()!=null)
+				rw.setLocation(locationMapper.toRLocation(workout.getLocation()));
 		}
 		
 		return rw;

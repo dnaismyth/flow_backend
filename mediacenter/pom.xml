@@ -89,6 +89,13 @@
 			<artifactId>webjars-locator</artifactId>
 		</dependency>
 		
+		<!-- Geocoder -->
+		<dependency>
+    		<groupId>com.google.code.geocoder-java</groupId>
+    		<artifactId>geocoder-java</artifactId>
+    		<version>0.15</version>
+		</dependency>
+		
 	<!-- End Web Dependencies -->
 	
 	</dependencies>

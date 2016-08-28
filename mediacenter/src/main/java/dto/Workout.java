@@ -31,7 +31,7 @@ public class Workout {
 	 */
 	private List<Activity> activities;
 	
-	private Location location;
+	private String address;
 	
 	public List<Activity> getActivities(){
 		return activities;
@@ -41,12 +41,12 @@ public class Workout {
 		this.activities = activities;
 	}
 	
-	public Location getLocation(){
-		return location;
+	public String getLocation(){
+		return address;
 	}
 	
-	public void setLocation(Location location){
-		this.location = location;
+	public void setLocation(String address){
+		this.address = address;
 	}
 	
 	public User getOwner(){

@@ -19,13 +19,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import repository.UserRepository;
 import repository.WorkoutJDBCRepository;
 import service.WorkoutService;
+import service.mapper.LocationMapper;
 import service.mapper.UserMapper;
 import config.MainApplication;
 import dto.Activity;
 import dto.User;
 import dto.Workout;
 import dto.WorkoutType;
+import entities.RLocation;
 import entities.RUser;
+import entities.RWorkout;
+import exception.NoPermissionException;
 import exception.ResourceNotFoundException;
 
 public class WorkoutServiceTest extends TestBaseClass {
@@ -35,10 +39,12 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	private Workout testWorkout;
 	
-	private User user;
+	private User user, user2;
 	private String userName1 = "testWorkoutService@mediacenter.com";
+	private String userName2 = "testWorkoutService2@mediacenter.com";
 	
 	private UserMapper userMapper = new UserMapper();
+	private LocationMapper locationMapper = new LocationMapper();
 	
 	private List<Activity> activities;
 	
@@ -58,13 +64,25 @@ public class WorkoutServiceTest extends TestBaseClass {
 			user = userService.create(user);
 		}
 		
+		user2 = userService.findUserByUsername(userName2);
+		if(user2 == null){
+			user2 = new User();
+			user2.setName("Test workout service 2");
+			user2.setUsername(userName2);
+			user2.setPassword("test12");
+			user2.setEmail(userName2);
+			user2 = userService.create(user2);
+		}
+		
 	}
 	
 	@After
 	public void tearDown(){
 		userService.delete(user.getId());
+		userService.delete(user2.getId());
 	}
 	
+	// Test that a workout can be created
 	@Test
 	public void testCreate(){
 		Activity activity = new Activity();
@@ -79,8 +97,51 @@ public class WorkoutServiceTest extends TestBaseClass {
 		
 	}
 	
-	@Test
-	public void testDeleteWorkout(){
+	@Test(expected=ResourceNotFoundException.class)
+	public void testDeleteWorkout() throws ResourceNotFoundException, NoPermissionException{
+		Activity activity = new Activity();
+		activity.setWorkoutType(WorkoutType.DEADLIFT);
+		activities.add(activity);
+		Workout w = createWorkout(activities, user2, null);
+		Assert.assertNotNull(w);
+		logger.info("The owner name is:" + w.getOwner().getName());
+		workoutService.deleteWorkout(user2, w.getId());
+		workoutService.findWorkoutById(w.getId());
+		
 		
 	}
+	
+	// Check that a workout can be updated
+	@Test
+	public void testUpdateWorkout(){
+		Activity activity = new Activity();
+		activity.setWorkoutType(WorkoutType.DEADLIFT);
+		activities.add(activity);
+		Workout w = createWorkout(activities, user2, null);
+		
+		
+	}
+	
+//	// Test that a workout location is being mapped as expected
+//	@Test
+//	public void testWorkoutLocation(){
+//		RLocation location = locationMapper.toRLocation("Vancouver");
+//		Assert.assertTrue(location.getAddress().equals("Vancouver"));
+//		
+//		RLocation loc = new RLocation();
+//		loc.setLatitude(49.2827f);
+//		loc.setLongitude(123.1207f);
+//		loc.setAddress("Vancouver");
+//		String l = locationMapper.toLocationAddress(loc);
+//		Assert.assertTrue(l.equals("Vancouver"));
+//	}
+	
+	
+	public Workout createWorkout(List<Activity> activities, User owner, String location){
+		Workout workout = new Workout();
+		workout.setActivities(activities);
+		workout.setLocation(location);
+		return workoutService.createWorkout(owner, workout);
+	}
+	
 }

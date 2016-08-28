@@ -44,6 +44,9 @@ public class RUser extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
+	@Column(name="avatar")
+	private String avatar;
+	
 	public String getName(){
 		return name;
 	}
@@ -106,6 +109,14 @@ public class RUser extends BaseEntity {
 	
 	public void setUserRole(UserRole role){
 		this.role = role;
+	}
+	
+	public String getAvatar(){
+		return avatar;
+	}
+	
+	public void setAvatar(String avatar){
+		this.avatar = avatar;
 	}
 	
 	//TODO: encode password

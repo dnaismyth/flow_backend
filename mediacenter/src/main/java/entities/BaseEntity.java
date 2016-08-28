@@ -29,7 +29,7 @@ public class BaseEntity implements Serializable {
 	 * Date of creation
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date")
+	@Column(name="created_date", nullable = false)
 	private Date createdDate;
 	
 	public Long getId(){
