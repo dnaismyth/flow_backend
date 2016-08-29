@@ -3,6 +3,8 @@ package entities;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import dto.Relationship;
@@ -20,6 +22,7 @@ public class RUserRelationPK {
 	@Column(nullable = false)
 	private Long following_id;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Relationship relationship;
 	

@@ -31,14 +31,7 @@ public class RFollow extends BaseEntity {
 	public void setUserRelation(RUserRelationPK userRelation){
 		this.userRelation = userRelation;
 	}
-//	
-//	public Long getUserId(){
-//		return userId;
-//	}
-//	
-//	public void setUserId(Long userId){
-//		this.userId = userId;
-//	}
+
 	
 	
 }
