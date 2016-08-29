@@ -104,7 +104,6 @@ public class WorkoutServiceTest extends TestBaseClass {
 		activities.add(activity);
 		Workout w = createWorkout(activities, user2, null);
 		Assert.assertNotNull(w);
-		logger.info("The owner name is:" + w.getOwner().getName());
 		workoutService.deleteWorkout(user2, w.getId());
 		workoutService.findWorkoutById(w.getId());
 		
@@ -122,26 +121,19 @@ public class WorkoutServiceTest extends TestBaseClass {
 		
 	}
 	
-//	// Test that a workout location is being mapped as expected
-//	@Test
-//	public void testWorkoutLocation(){
-//		RLocation location = locationMapper.toRLocation("Vancouver");
-//		Assert.assertTrue(location.getAddress().equals("Vancouver"));
-//		
-//		RLocation loc = new RLocation();
-//		loc.setLatitude(49.2827f);
-//		loc.setLongitude(123.1207f);
-//		loc.setAddress("Vancouver");
-//		String l = locationMapper.toLocationAddress(loc);
-//		Assert.assertTrue(l.equals("Vancouver"));
-//	}
-	
-	
+	// Test that a workout location is being mapped as expected
+	@Test
+	public void testWorkoutLocation(){
+		RLocation location = locationMapper.toRLocation("Vancouver");
+		Assert.assertTrue(location.getAddress().equals("Vancouver"));
+	}
+		
 	public Workout createWorkout(List<Activity> activities, User owner, String location){
 		Workout workout = new Workout();
 		workout.setActivities(activities);
 		workout.setLocation(location);
 		return workoutService.createWorkout(owner, workout);
 	}
+	
 	
 }

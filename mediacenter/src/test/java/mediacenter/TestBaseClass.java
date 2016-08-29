@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import repository.UserRepository;
 import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
+import service.FollowService;
 import service.UserService;
 import service.WorkoutService;
 import config.MainApplication;
@@ -20,6 +21,9 @@ public class TestBaseClass {
 
 	@Autowired
 	protected UserService userService;
+	
+	@Autowired
+	protected FollowService followService;
 	
 	@Autowired
 	protected UserRepository userRepo;

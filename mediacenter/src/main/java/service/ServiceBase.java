@@ -9,8 +9,6 @@ import repository.UserRepository;
 import repository.WorkoutRepository;
 import util.RestPreconditions;
 
-@Service
-@Transactional
 public class ServiceBase {
 
 	@Autowired

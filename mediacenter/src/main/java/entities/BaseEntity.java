@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class BaseEntity implements Serializable {
 	 * Date of creation
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_date", nullable = false)
+	@Column(name="created_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", nullable=false)
 	private Date createdDate;
 	
 	public Long getId(){

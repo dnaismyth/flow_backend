@@ -20,6 +20,7 @@
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
 		<hibernate.version>4.3.11.Final</hibernate.version>
+		<property name="spring.jpa.hibernate.hbm2ddl.auto" value="update"/>
 	</properties>
 	
 	<dependencies>

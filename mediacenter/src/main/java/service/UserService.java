@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import repository.UserRepository;
 import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
+import service.mapper.LocationMapper;
 import service.mapper.UserMapper;
 import service.util.CompareUtil;
 import util.RestPreconditions;
@@ -32,7 +33,7 @@ public class UserService {
 	private WorkoutJDBCRepository workoutJDBCRepo;
 	
 	private UserMapper userMapper = new UserMapper();
-	//private LocationMapper locationMapper = new LocationMapper();
+	private LocationMapper locationMapper = new LocationMapper();
 	
 	
 	/**
@@ -88,7 +89,9 @@ public class UserService {
 			ru.setName(user.getName());
 		}
 		
-		//TODO: compare locations
+		if(!CompareUtil.compare(ru.getLocation().getAddress(), user.getAddress())){
+			ru.setLocation(locationMapper.toRLocation(user.getAddress()));
+		}
 		
 		if(!CompareUtil.compare(ru.getPhone(), user.getPhone())){
 			ru.setPhone(user.getPhone());
@@ -107,7 +110,6 @@ public class UserService {
 		//TODO: check if current logged in user matches the provided id, or if
 		// the user role is admin
 		RestPreconditions.checkNotNull(userId);
-		
 		workoutRepo.deleteWorkoutByOwnerId(userId);
 		userRepo.delete(userId);
 	}
@@ -123,12 +125,6 @@ public class UserService {
 		RUser found = userRepo.findUserByUsername(username);
 		return userMapper.toUser(found);
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
