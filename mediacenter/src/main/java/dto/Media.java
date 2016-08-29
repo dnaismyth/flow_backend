@@ -1,22 +1,29 @@
 package dto;
 
+/**
+ * Media object that will hold the image posted within a workout
+ * @author DN
+ *
+ */
 public class Media {
 
 	/**
 	 * Owner of the media item
 	 */
-	private User owner;
+	private Long owner_id;
+	
+	private String fileName;
 	
 	private String caption;
 	
 	public Media(){}
 	
-	public User getOwner(){
-		return owner;
+	public Long getOwnerId(){
+		return owner_id;
 	}
 	
-	public void setOwner(User owner){
-		this.owner = owner;
+	public void setOwnerId(Long owner_id){
+		this.owner_id = owner_id;
 	}
 	
 	public String getCaption(){
@@ -25,6 +32,14 @@ public class Media {
 	
 	public void setCaption(String caption){
 		this.caption = caption;
+	}
+	
+	public String getFileName(){
+		return fileName;
+	}
+	
+	public void setFileName(String fileName){
+		this.fileName = fileName;
 	}
 	
 	
