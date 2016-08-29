@@ -63,4 +63,30 @@ public class FollowService {
 		return true;
 	}
 	
+	public boolean unfollowUser(Long followerId, Long followingId) throws ResourceNotFoundException, BadRequestException{
+		RUser follower = userRepo.findOne(followerId);
+		RUser following = userRepo.findOne(followingId);
+		if(follower == null){
+			String message = String.format("Cannot find follower with provided id: %s", followerId);
+			throw new ResourceNotFoundException(message);
+		}
+		
+		if(following == null){
+			String message = String.format("Cannot find following with provided id: %s", followingId);
+			throw new ResourceNotFoundException(message);
+		}
+		
+		// Check if the relationship already exists
+		RFollow rf = followRepo.findRelationshipByFollowerAndFollowingId(
+				followerId, followingId);
+		if (rf == null) {
+			throw new BadRequestException(
+					"You cannot unfollow a user you have not yet followed.");
+		}
+		
+		followRepo.delete(rf);
+		return true;
+	}
+	
+	
 }

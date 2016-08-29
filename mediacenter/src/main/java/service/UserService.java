@@ -13,6 +13,7 @@ import service.util.CompareUtil;
 import util.RestPreconditions;
 import dto.User;
 import entities.RUser;
+import exception.BadRequestException;
 import exception.ResourceNotFoundException;
 
 /**
@@ -31,6 +32,9 @@ public class UserService {
 	
 	@Autowired
 	private WorkoutJDBCRepository workoutJDBCRepo;
+	
+	@Autowired
+	private FollowService followService;
 	
 	private UserMapper userMapper = new UserMapper();
 	private LocationMapper locationMapper = new LocationMapper();
@@ -124,6 +128,34 @@ public class UserService {
 		RestPreconditions.checkNotNull(username);
 		RUser found = userRepo.findUserByUsername(username);
 		return userMapper.toUser(found);
+	}
+	
+	/**
+	 * Follow another user
+	 * @param follower
+	 * @param following
+	 * @return
+	 * @throws ResourceNotFoundException
+	 * @throws BadRequestException
+	 */
+	public boolean followAnotherUser(User follower, User following) throws ResourceNotFoundException, BadRequestException{
+		RestPreconditions.checkNotNull(follower);
+		RestPreconditions.checkNotNull(following);
+		return followService.followUser(follower.getId(), following.getId());
+	}
+	
+	/**
+	 * Unfollow another user
+	 * @param follower
+	 * @param following
+	 * @return
+	 * @throws ResourceNotFoundException
+	 * @throws BadRequestException
+	 */
+	public boolean unfollowAnotherUser(User follower, User following) throws ResourceNotFoundException, BadRequestException{
+		RestPreconditions.checkNotNull(follower);
+		RestPreconditions.checkNotNull(following);
+		return followService.unfollowUser(follower.getId(), following.getId());
 	}
 	
 	

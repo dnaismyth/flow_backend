@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import dto.User;
 import dto.UserRole;
+import entities.RFollow;
 import exception.BadRequestException;
 import exception.ResourceNotFoundException;
 
@@ -50,9 +51,21 @@ public class FollowServiceTest extends TestBaseClass {
 		userService.delete(following.getId());
 	}
 	
+	// Check that a User can be followed
 	@Test
 	public void testFollowUser() throws ResourceNotFoundException, BadRequestException{
 		boolean followed = followService.followUser(follower.getId(), following.getId());
 		Assert.assertTrue(followed);
+	}
+	
+	// Check that once a user is followed that they can unfollow them
+	@Test
+	public void testUnfollowUser() throws ResourceNotFoundException, BadRequestException{
+		boolean followed = followService.followUser(follower.getId(), following.getId());
+		Assert.assertTrue(followed);
+		boolean unfollow = followService.unfollowUser(follower.getId(), following.getId());
+		Assert.assertTrue(unfollow);
+		RFollow found = followRepo.findRelationshipByFollowerAndFollowingId(follower.getId(), following.getId());
+		Assert.assertNull(found);
 	}
 }

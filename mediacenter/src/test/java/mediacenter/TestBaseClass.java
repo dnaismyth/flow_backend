@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import repository.FollowRepository;
 import repository.UserRepository;
 import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
@@ -24,6 +25,9 @@ public class TestBaseClass {
 	
 	@Autowired
 	protected FollowService followService;
+	
+	@Autowired
+	protected FollowRepository followRepo;
 	
 	@Autowired
 	protected UserRepository userRepo;
