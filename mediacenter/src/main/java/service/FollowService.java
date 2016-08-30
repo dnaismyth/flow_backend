@@ -12,6 +12,7 @@ import exception.BadRequestException;
 import exception.ResourceNotFoundException;
 import repository.FollowRepository;
 import repository.UserRepository;
+import service.mapper.UserMapper;
 
 @Service
 @Transactional
@@ -22,6 +23,11 @@ public class FollowService {
 	
 	@Autowired
 	private FollowRepository followRepo;
+	
+	@Autowired
+	private NotificationService notifyService;
+	
+	private UserMapper userMapper = new UserMapper();
 
 	/**
 	 * Allow a user to follow another user
@@ -58,6 +64,9 @@ public class FollowService {
 		rf.setUserRelation(relation);
 		rf.setRelationship(Relationship.FOLLOW);
 		followRepo.save(rf);
+		
+		// Send a notification to the targeted user that they have been followed
+		notifyService.createFollowNotification(userMapper.toUser(follower), userMapper.toUser(following));
 		
 		return true;
 	}
