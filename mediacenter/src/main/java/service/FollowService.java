@@ -51,13 +51,12 @@ public class FollowService {
 		}
 		// If the relationship does not exist, create a new relationship
 		RUserRelationPK relation = new RUserRelationPK();
-		relation.setFollowerId(followerId);
-		relation.setFollowingId(followingId);
-		relation.setRelationship(Relationship.FOLLOW);
+		relation.setUserId(followerId);
+		relation.setTargetId(followingId);
 		
 		rf = new RFollow();
 		rf.setUserRelation(relation);
-		//rf.setUserId(followerId);
+		rf.setRelationship(Relationship.FOLLOW);
 		followRepo.save(rf);
 		
 		return true;

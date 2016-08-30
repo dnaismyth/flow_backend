@@ -17,36 +17,25 @@ import dto.Relationship;
 public class RUserRelationPK {
 
 	@Column(nullable = false)
-	private Long follower_id;
+	private Long user_id;
 	
 	@Column(nullable = false)
-	private Long following_id;
+	private Long target_id;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Relationship relationship;
-	
-	public void setFollowerId(Long follower_id){
-		this.follower_id = follower_id;
+	public void setUserId(Long user_id){
+		this.user_id = user_id;
 	}
 	
-	public Long getFollowerId(){
-		return follower_id;
+	public Long getUserId(){
+		return user_id;
 	}
 	
-	public void setFollowingId(Long following_id){
-		this.following_id = following_id;
+	public void setTargetId(Long target_id){
+		this.target_id = target_id;
 	}
 	
 	public Long getFollowingId(){
-		return following_id;
+		return target_id;
 	}
 	
-	public void setRelationship(Relationship relationship){
-		this.relationship = relationship;
-	}
-	
-	public Relationship getRelationship(){
-		return relationship;
-	}
 }

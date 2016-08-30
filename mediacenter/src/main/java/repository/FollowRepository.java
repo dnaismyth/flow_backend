@@ -13,6 +13,6 @@ import entities.RFollow;
 @Transactional
 public interface FollowRepository extends JpaRepository<RFollow, Long> {
 
-	@Query("SELECT rf FROM RFollow rf WHERE rf.userRelation.follower_id= :followerId AND rf.userRelation.following_id= :followingId")
+	@Query("SELECT rf FROM RFollow rf WHERE rf.userRelation.user_id= :followerId AND rf.userRelation.target_id= :followingId")
 	public RFollow findRelationshipByFollowerAndFollowingId(@Param("followerId") Long followerId, @Param("followingId") Long followingId);
 }
