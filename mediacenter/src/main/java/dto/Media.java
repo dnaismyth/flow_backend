@@ -10,6 +10,9 @@ public class Media {
 	/**
 	 * Owner of the media item
 	 */
+	
+	private Long id;
+	
 	private Long owner_id;
 	
 	private String fileName;
@@ -40,6 +43,14 @@ public class Media {
 	
 	public void setFileName(String fileName){
 		this.fileName = fileName;
+	}
+	
+	public Long getId(){
+		return id;
+	}
+	
+	public void setId(Long id){
+		this.id = id;
 	}
 	
 	
