@@ -1,10 +1,14 @@
 package mediacenter;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.data.domain.PageRequest;
 
+import dto.BaseUser;
 import dto.User;
 import dto.UserRole;
 import entities.RFollow;
@@ -56,6 +60,12 @@ public class FollowServiceTest extends TestBaseClass {
 	public void testFollowUser() throws ResourceNotFoundException, BadRequestException{
 		boolean followed = followService.followUser(follower.getId(), following.getId());
 		Assert.assertTrue(followed);
+	}
+	
+	@Test
+	public void searchUserByUsername(){
+		List<BaseUser> output = userService.searchUserByName("follower", new PageRequest(0,5));
+		Assert.assertNotNull(output);
 	}
 	
 	// Check that once a user is followed that they can unfollow them

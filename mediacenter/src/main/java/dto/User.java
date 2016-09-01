@@ -2,14 +2,7 @@ package dto;
 
 import java.util.Date;
 
-public class User {
-
-	private Long id;
-	
-	/**
-	 * Unique username
-	 */
-	private String username;
+public class User extends BaseUser {
 	
 	private String password;
 	
@@ -17,16 +10,6 @@ public class User {
 	 * Unique email
 	 */
 	private String email;
-	
-	/**
-	 * User avatar image
-	 */
-	private String avatar;
-	
-	/**
-	 * Alternate name of a user (does not have to be unique)
-	 */
-	private String name;
 	
 	/**
 	 * User bio
@@ -53,21 +36,6 @@ public class User {
 	
 	public User(){}
 	
-	public Long getId(){
-		return id;
-	}
-	
-	public void setId(Long id){
-		this.id = id;
-	}
-	
-	public String getUsername(){
-		return username;
-	}
-	
-	public void setUsername(String username){
-		this.username = username;
-	}
 	
 	public String getEmail(){
 		return email;
@@ -77,21 +45,6 @@ public class User {
 		this.email = email;
 	}
 	
-	public String getAvatar(){
-		return avatar;
-	}
-	
-	public void setAvatar(String avatar){
-		this.avatar = avatar;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public void setName(String name){
-		this.name = name;
-	}
 	
 	public String getBio(){
 		return bio;

@@ -1,9 +1,14 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import repository.UserJDBCRepository;
 import repository.UserRepository;
 import repository.WorkoutJDBCRepository;
 import repository.WorkoutRepository;
@@ -11,6 +16,7 @@ import service.mapper.LocationMapper;
 import service.mapper.UserMapper;
 import service.util.CompareUtil;
 import util.RestPreconditions;
+import dto.BaseUser;
 import dto.User;
 import entities.RUser;
 import exception.BadRequestException;
@@ -35,6 +41,9 @@ public class UserService {
 	
 	@Autowired
 	private FollowService followService;
+	
+	@Autowired
+	private UserJDBCRepository userJDBCRepo;
 	
 	private UserMapper userMapper = new UserMapper();
 	private LocationMapper locationMapper = new LocationMapper();
@@ -156,6 +165,16 @@ public class UserService {
 		RestPreconditions.checkNotNull(follower);
 		RestPreconditions.checkNotNull(following);
 		return followService.unfollowUser(follower.getId(), following.getId());
+	}
+	
+	/**
+	 * Search a user by their name
+	 * @param name
+	 * @param pageable
+	 * @return
+	 */
+	public List<BaseUser> searchUserByName(String name, Pageable pageable){
+		return userJDBCRepo.searchUserByName(name);
 	}
 	
 	
