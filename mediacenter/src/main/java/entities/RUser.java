@@ -1,12 +1,19 @@
 package entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import dto.TextLength;
 import dto.UserRole;
 
 
@@ -19,14 +26,23 @@ public class RUser extends BaseEntity {
 
 	private static final long serialVersionUID = -2773181923604283810L;
 	
-	@Column(nullable = false)
-	private String userName;
+	@Column(name="username", nullable = false, unique=true)
+	private String username;
 	
 	@Column(nullable = false)
 	private String name;
 	
 	@Column(nullable = false)
 	private String password;
+	
+	@Column
+	private boolean activated = false;
+	
+	@Column(length=TextLength.ACTIVATION_KEY)
+	private String activationKey;
+	
+	@Column(name = "resetpasswordkey", length=TextLength.ACTIVATION_KEY)
+	private String resetPasswordKey;
 	
 	@Embedded
 	private RLocation location;
@@ -51,6 +67,13 @@ public class RUser extends BaseEntity {
 		return name;
 	}
 	
+	@ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "authority"))
+	private Set<Authority> authorities;
+	
 	public void setName(String name){
 		this.name = name;
 	}
@@ -72,11 +95,11 @@ public class RUser extends BaseEntity {
 	}
 	
 	public String getUsername(){
-		return userName;
+		return username;
 	}
 	
-	public void setUsername(String userName){
-		this.userName = userName;
+	public void setUsername(String username){
+		this.username = username;
 	}
 	
 	public String getEmail(){
@@ -119,10 +142,38 @@ public class RUser extends BaseEntity {
 		this.avatar = avatar;
 	}
 	
-	//TODO: encode password
-//	private String encode(String str) {
-//        
-//    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetPasswordKey() {
+        return resetPasswordKey;
+    }
+
+    public void setResetPasswordKey(String resetPasswordKey) {
+        this.resetPasswordKey = resetPasswordKey;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+}
 	
 	
 
