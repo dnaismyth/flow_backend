@@ -2,6 +2,7 @@ package com.movement.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import com.movement.util.RestPreconditions;
 @Service
 @Transactional
 public class UserService {
+	protected static final Logger logger = Logger.getLogger(UserService.class); 
 
 	@Autowired
 	private UserRepository userRepo;

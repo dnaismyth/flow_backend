@@ -13,12 +13,12 @@ public class UserMapper {
 			u = new User();
 			u.setBio(user.getBio());
 			u.setEmail(user.getEmail());
-			//u.setId(user.getId());
+			u.setId(user.getId());
 			u.setPhone(user.getPhone());
 			u.setName(user.getName());
 			u.setUsername(user.getUsername());
 			u.setPassword(user.getPassword());
-			//u.setCreatedDate(user.getCreatedDate());
+			u.setCreatedDate(user.getCreatedDate());
 			//u.setUserRole(user.getRoleType());
 		}
 		return u;
@@ -30,9 +30,9 @@ public class UserMapper {
 		if(user != null){
 			ru = new RUser();
 			ru.setBio(user.getBio());
-			//ru.setCreatedDate(user.getCreatedDate());
+			ru.setCreatedDate(user.getCreatedDate());
 			ru.setEmail(user.getEmail());
-			//ru.setId(user.getId());
+			ru.setId(user.getId());
 			ru.setPhone(user.getPhone());
 			ru.setPassword(user.getPassword());
 			ru.setName(user.getName());

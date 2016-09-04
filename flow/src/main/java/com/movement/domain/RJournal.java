@@ -21,6 +21,9 @@ public class RJournal extends BaseEntity {
 	@Column(name="entry", nullable=false)
 	private String entry;
 	
+	@Column(name="title", nullable=false)
+	private String title;
+	
 	public void setEntry(String entry){
 		this.entry = entry;
 	}
@@ -35,6 +38,14 @@ public class RJournal extends BaseEntity {
 	
 	public void setOwner(RUser owner){
 		this.owner = owner;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
 	}
 	
 }

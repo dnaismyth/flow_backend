@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import java.util.Date;
 import java.util.Set;
 
 @Table(name="flow_user")
@@ -12,6 +13,7 @@ import java.util.Set;
 public class RUser {
 
     @Id
+	@GeneratedValue
     private Long id;
     
     @Column(updatable = false, nullable = false)
@@ -24,6 +26,13 @@ public class RUser {
     @Size(min = 0, max = 500)
     private String password;
 
+    /**
+	 * Date of creation
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_date", nullable = false)
+	private Date createdDate;
+	
     @Email
     @Size(min = 0, max = 50)
     private String email;
@@ -159,6 +168,23 @@ public class RUser {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+    
+	public Date getCreatedDate(){
+		return createdDate;
+	}
+	
+	public void setCreatedDate(Date createdDate){
+		this.createdDate = createdDate;
+	}
+	@PrePersist
+    protected void onCreate() {
+		createdDate = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+    	createdDate = new Date();
     }
 
     @Override
