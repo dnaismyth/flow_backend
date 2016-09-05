@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movement.domain.Authority;
 import com.movement.domain.RUser;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
@@ -18,6 +19,7 @@ import com.movement.repository.UserJDBCRepository;
 import com.movement.repository.UserRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
+import com.movement.security.Authorities;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.util.CompareUtil;
 import com.movement.util.RestPreconditions;
@@ -79,6 +81,7 @@ public class UserService {
 		RestPreconditions.checkNotNull(user);
 		
 		RUser ru = userMapper.toEntityUser(user);
+		ru.setActivated(true);
 		RUser saved = userRepo.save(ru);
 		return userMapper.toUser(saved);
 	}

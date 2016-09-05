@@ -19,7 +19,7 @@ public class UserMapper {
 			u.setUsername(user.getUsername());
 			u.setPassword(user.getPassword());
 			u.setCreatedDate(user.getCreatedDate());
-			//u.setUserRole(user.getRoleType());
+			u.setUserRole(user.getUserRole());
 		}
 		return u;
 		
@@ -37,8 +37,8 @@ public class UserMapper {
 			ru.setPassword(user.getPassword());
 			ru.setName(user.getName());
 			ru.setUsername(user.getUsername());
-			//ru.setCreatedDate(user.getCreatedDate());
-			//ru.setUserRole(user.getUserRole());
+			ru.setCreatedDate(user.getCreatedDate());
+			ru.setUserRole(user.getUserRole());
 		}
 		return ru;
 	}

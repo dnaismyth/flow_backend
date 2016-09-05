@@ -1,10 +1,14 @@
 package com.movement.domain;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.security.core.GrantedAuthority;
+
+import com.movement.dto.UserRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,6 +29,9 @@ public class RUser {
 
     @Size(min = 0, max = 500)
     private String password;
+    
+    @Column(name="role")
+    private UserRole userRole;
 
     /**
 	 * Date of creation
@@ -65,6 +72,7 @@ public class RUser {
             joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "authority"))
     private Set<Authority> authorities;
+    
 
     public String getUsername() {
         return username;
@@ -156,6 +164,14 @@ public class RUser {
 
     public Set<Authority> getAuthorities() {
         return authorities;
+    }
+    
+    public UserRole getUserRole(){
+    	return userRole;
+    }
+    
+    public void setUserRole(UserRole userRole){
+    	this.userRole = userRole;
     }
     
     public Long getId(){
