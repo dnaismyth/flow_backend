@@ -25,14 +25,13 @@ public class UserServiceTest extends TestBaseClass {
 			user1.setUsername(userName1);
 			user1.setPassword("test12");
 			user1.setName("User 1");
-			user1.setUserRole(UserRole.USER);
 			user1 = userService.create(user1);
 		}
 	}
 	
 	@After
 	public void tearDown(){
-		userService.delete(user1.getId());
+		//userService.delete(user1.getId());
 	}
 	
 	// Test that a user is being stored in the db

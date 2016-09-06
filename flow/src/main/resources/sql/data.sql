@@ -4,6 +4,6 @@ INSERT INTO flow_user (id, username, name, email, password, activated, created_d
 INSERT INTO authority (name) VALUES ('ROLE_USER');
 INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
 
-INSERT INTO user_authority (username,authority) VALUES (0, 'ROLE_USER');
-INSERT INTO user_authority (username,authority) VALUES (1, 'ROLE_USER');
-INSERT INTO user_authority (username,authority) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO user_authority (username,authority) VALUES (0, 'ROLE_USER', 'admin');
+INSERT INTO user_authority (username,authority) VALUES (1, 'ROLE_USER', 'user');
+INSERT INTO user_authority (username,authority) VALUES (0, 'ROLE_ADMIN', 'admin');

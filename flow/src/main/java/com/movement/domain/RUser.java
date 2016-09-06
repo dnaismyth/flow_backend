@@ -18,12 +18,12 @@ import org.apache.commons.codec.binary.Base64;
 @Table(name="flow_user")
 @Entity
 public class RUser {
-
-    @Id
+	
+	@Id
 	@GeneratedValue
     private Long id;
-    
-    @Column(updatable = false, nullable = false)
+
+    @Column(updatable = false, nullable = false, unique=true)
     @Size(min = 0, max = 50)
     private String username;
     
@@ -45,6 +45,7 @@ public class RUser {
 	
     @Email
     @Size(min = 0, max = 50)
+    @Column(unique = true)
     private String email;
 
     private boolean activated;
@@ -72,7 +73,7 @@ public class RUser {
     @ManyToMany
     @JoinTable(
             name = "user_authority",
-            joinColumns = @JoinColumn(name = "username"),
+            joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority"))
     private Set<Authority> authorities;
     

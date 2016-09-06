@@ -16,6 +16,8 @@ import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.ResourceNotFoundException;
+import com.movement.repository.AuthorityJDBCRepository;
+import com.movement.repository.AuthorityRepository;
 import com.movement.repository.UserJDBCRepository;
 import com.movement.repository.UserRepository;
 import com.movement.repository.WorkoutJDBCRepository;
@@ -49,6 +51,10 @@ public class UserService {
 	
 	@Autowired
 	private UserJDBCRepository userJDBCRepo;
+	
+	@Autowired
+	private AuthorityJDBCRepository authorityJDCBRepo;
+	
 	
 	@Autowired
 	private PasswordEncoder passwordEncode;
@@ -85,9 +91,13 @@ public class UserService {
 		RestPreconditions.checkNotNull(user);
 		
 		RUser ru = userMapper.toEntityUser(user);
+		// Set the user as activated once they have signed up and encode password
 		ru.setActivated(true);
 		ru.setPassword(passwordEncode.encode(ru.getPassword()));
+		
+		
 		RUser saved = userRepo.save(ru);
+		setUserAuthority(saved.getId(), "ROLE_USER");
 		return userMapper.toUser(saved);
 	}
 	
@@ -187,6 +197,16 @@ public class UserService {
 		return userJDBCRepo.searchUserByName(name);
 	}
 	
+	/**
+	 * Set the authority of the user upon singing up (USER, ADMIN, GUEST)
+	 * 
+	 * @param userId
+	 * @param authority
+	 */
+	private boolean setUserAuthority(Long userId, String authority) {
+		return authorityJDCBRepo.insertUserRole(userId, authority);
+		
+	}
 	
 	
 	

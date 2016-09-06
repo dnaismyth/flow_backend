@@ -12,12 +12,13 @@
 --);
 
 CREATE TABLE user_authority (
-    username VARCHAR(50) NOT NULL,
+    user_id bigint NOT NULL,
     authority VARCHAR(50) NOT NULL,
-    FOREIGN KEY (username) REFERENCES flow_user (username),
+    FOREIGN KEY (user_id) REFERENCES flow_user (id),
     FOREIGN KEY (authority) REFERENCES authority (name)
     --UNIQUE INDEX user_authority_idx_1 (username, authority)
 );
+
 
 CREATE TABLE oauth_access_token (
   token_id VARCHAR(256) DEFAULT NULL,

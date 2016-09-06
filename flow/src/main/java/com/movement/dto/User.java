@@ -1,6 +1,9 @@
 package com.movement.dto;
 
 import java.util.Date;
+import java.util.Set;
+
+import com.movement.security.Authorities;
 
 public class User extends BaseUser {
 	
@@ -31,7 +34,7 @@ public class User extends BaseUser {
 	/**
 	 * Admin, Guest, User
 	 */
-	private UserRole roleType;
+	private Set<Authorities> authority;
 		
 	
 	public User(){}
@@ -86,14 +89,13 @@ public class User extends BaseUser {
 		return createdDate;
 	}
 	
-	public UserRole getUserRole(){
-		return roleType;
+	public Set<Authorities> getAuthorities(){
+		return authority;
 	}
 	
-	public void setUserRole(UserRole roleType){
-		this.roleType = roleType;
+	public void setAuthorities(Set<Authorities> authority){
+		this.authority = authority;
 	}
-	
 	
 
 }
