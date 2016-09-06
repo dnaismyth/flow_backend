@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,9 @@ public class UserService {
 	@Autowired
 	private UserJDBCRepository userJDBCRepo;
 	
+	@Autowired
+	private PasswordEncoder passwordEncode;
+	
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
 	
@@ -82,6 +86,7 @@ public class UserService {
 		
 		RUser ru = userMapper.toEntityUser(user);
 		ru.setActivated(true);
+		ru.setPassword(passwordEncode.encode(ru.getPassword()));
 		RUser saved = userRepo.save(ru);
 		return userMapper.toUser(saved);
 	}
