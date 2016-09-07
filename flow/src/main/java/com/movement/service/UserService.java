@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import com.movement.domain.Authority;
 import com.movement.domain.RUser;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
+import com.movement.dto.UserRole;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.AuthorityJDBCRepository;
@@ -94,10 +97,9 @@ public class UserService {
 		// Set the user as activated once they have signed up and encode password
 		ru.setActivated(true);
 		ru.setPassword(passwordEncode.encode(ru.getPassword()));
-		
+		ru.setUserRole(UserRole.USER);
 		
 		RUser saved = userRepo.save(ru);
-		setUserAuthority(saved.getId(), "ROLE_USER");
 		return userMapper.toUser(saved);
 	}
 	
@@ -198,15 +200,15 @@ public class UserService {
 	}
 	
 	/**
-	 * Set the authority of the user upon singing up (USER, ADMIN, GUEST)
-	 * 
-	 * @param userId
-	 * @param authority
+	 * Return the current logged in user
+	 * @return
 	 */
-	private boolean setUserAuthority(Long userId, String authority) {
-		return authorityJDCBRepo.insertUserRole(userId, authority);
-		
+	public User getCurrentUser(){
+		UserDetails details = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		RUser ru = userRepo.findByUsernameCaseInsensitive(details.getUsername());
+		return userMapper.toUser(ru);
 	}
+	
 	
 	
 	

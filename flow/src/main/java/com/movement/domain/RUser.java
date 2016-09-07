@@ -45,7 +45,6 @@ public class RUser {
 	
     @Email
     @Size(min = 0, max = 50)
-    @Column(unique = true)
     private String email;
 
     private boolean activated;

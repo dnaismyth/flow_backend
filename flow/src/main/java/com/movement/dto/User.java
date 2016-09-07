@@ -34,7 +34,7 @@ public class User extends BaseUser {
 	/**
 	 * Admin, Guest, User
 	 */
-	private Set<Authorities> authority;
+	private UserRole userRole;
 		
 	
 	public User(){}
@@ -89,12 +89,12 @@ public class User extends BaseUser {
 		return createdDate;
 	}
 	
-	public Set<Authorities> getAuthorities(){
-		return authority;
+	public UserRole getUserRole(){
+		return userRole;
 	}
 	
-	public void setAuthorities(Set<Authorities> authority){
-		this.authority = authority;
+	public void setUserRole(UserRole userRole){
+		this.userRole = userRole;
 	}
 	
 

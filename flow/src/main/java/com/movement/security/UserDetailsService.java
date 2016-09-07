@@ -1,9 +1,8 @@
-package com.movement.service;
+package com.movement.security;
 
 import com.movement.domain.Authority;
 import com.movement.domain.RUser;
 import com.movement.repository.UserRepository;
-import com.movement.security.UserNotActivatedException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +56,6 @@ public class UserDetailsService implements org.springframework.security.core.use
         return new org.springframework.security.core.userdetails.User(userFromDatabase.getUsername(), userFromDatabase.getPassword(), grantedAuthorities);
 
     }
+    
 
 }
