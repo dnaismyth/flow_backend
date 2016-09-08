@@ -37,7 +37,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	private Workout testWorkout;
 	
 	private User user, user2;
-	private String userName1 = "testWorkoutService@mediacenter.com";
+	private String userName1 = "user";
 	private String userName2 = "testWorkoutService2@mediacenter.com";
 	
 	private UserMapper userMapper = new UserMapper();
@@ -75,8 +75,8 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	@After
 	public void tearDown(){
-		userService.delete(user.getId());
-		userService.delete(user2.getId());
+		//userService.delete(user.getId());
+		//userService.delete(user2.getId());
 	}
 	
 	// Test that a workout can be created

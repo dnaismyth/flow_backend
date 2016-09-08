@@ -1,13 +1,18 @@
 package com.movement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.movement.domain.RWorkout;
 import com.movement.dto.User;
+import com.movement.dto.Workout;
 import com.movement.service.UserService;
 
 /**
@@ -18,14 +23,28 @@ import com.movement.service.UserService;
  */
 @RestController
 @RequestMapping("/me")
-public class UserSelfController {
-	
-	@Autowired
-	private UserService userService;
-	
+public class UserSelfController extends BaseUserController {
+
+	/**
+	 * Returns the current logged in user information.
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
     public User getMyProfile(){
-    	return userService.getCurrentUser();
+    	return getLoggedInUser();
     }
+	
+	/**
+	 * Returns all of the users workouts.
+	 * @return
+	 */
+	@RequestMapping(value="/workouts", method = RequestMethod.GET)
+	@ResponseBody
+	public Page<Workout> getMyWorkouts(@RequestParam int page, int size){
+		User current = getLoggedInUser();
+		return workoutService.findAllWorkoutsByUser(current.getId(), new PageRequest(page, size));
+	}
+	
+	
 }

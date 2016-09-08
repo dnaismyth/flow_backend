@@ -1,7 +1,14 @@
 package com.movement.service.mapper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.movement.domain.RActivity;
 import com.movement.domain.RWorkout;
@@ -70,5 +77,14 @@ public class WorkoutMapper {
 		return rw;
 	}
 	
+	public Page<Workout> toWorkoutDTOPage(Page<RWorkout> rw){
+		List<Workout> workout = new ArrayList<Workout>();
+		Iterator<RWorkout> iterator = rw.iterator();
+		while(iterator.hasNext()){
+			workout.add(toWorkout(iterator.next()));
+		}
+		
+		return new PageImpl<Workout>(workout);
+	}
 	
 }

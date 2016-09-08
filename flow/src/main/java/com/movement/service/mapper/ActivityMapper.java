@@ -2,6 +2,7 @@ package com.movement.service.mapper;
 
 import com.movement.domain.RActivity;
 import com.movement.dto.Activity;
+import com.movement.dto.WorkoutType;
 
 public class ActivityMapper {
 	
@@ -16,7 +17,7 @@ public class ActivityMapper {
 		if(ra != null){
 			a = new Activity();
 			a.setWeight(ra.getWeight());
-			a.setWorkoutType(ra.getWorkoutType());
+			a.setWorkoutType(WorkoutType.valueOf(ra.getWorkoutType().toString()));
 		}
 		
 		return a;
@@ -34,7 +35,7 @@ public class ActivityMapper {
 		if(a != null){
 			ra = new RActivity();
 			ra.setWeight(a.getWeight());
-			ra.setWorkoutType(a.getWorkoutType());
+			ra.setWorkoutType(WorkoutType.valueOf(a.getWorkoutType().toString()));
 		}
 
 		return ra;

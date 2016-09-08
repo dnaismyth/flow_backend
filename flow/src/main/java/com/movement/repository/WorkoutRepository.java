@@ -1,5 +1,8 @@
 package com.movement.repository;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +20,7 @@ public interface WorkoutRepository extends CrudRepository<RWorkout, Long> {
 	@Modifying
 	@Query("delete from RWorkout rw where rw.owner.id=?l")
 	public void deleteWorkoutByOwnerId(Long ownerId);
+	
+	@Query("SELECT rw from RWorkout rw where rw.owner.id=?1")
+	public Page<RWorkout> getAllUserWorkouts(Long ownerId, Pageable pageable);
 }

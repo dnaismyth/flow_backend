@@ -1,6 +1,8 @@
 package com.movement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,5 +126,19 @@ public class WorkoutService {
 			throw new ResourceNotFoundException(message);
 		}
 		return workoutMapper.toWorkout(rw);
+	}
+	
+	//TODO: map Page<RWorkout> to Page<Workout>, testing for now
+	/**
+	 * Return all of the user workouts (this needs to be updated so entity not being exposed)
+	 * @param userId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Workout> findAllWorkoutsByUser(Long userId, Pageable pageable){
+		RestPreconditions.checkNotNull(userId);
+		Page<RWorkout> rw = workoutRepo.getAllUserWorkouts(userId, pageable);
+		// Map to Page<Workout>
+		return workoutMapper.toWorkoutDTOPage(rw);
 	}
 }
