@@ -141,4 +141,8 @@ public class WorkoutService {
 		// Map to Page<Workout>
 		return workoutMapper.toWorkoutDTOPage(rw);
 	}
+	
+//	public Workout attachImageToWorkout(User user, Media media){
+//		
+//	}
 }

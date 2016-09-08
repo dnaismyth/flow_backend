@@ -22,6 +22,7 @@ public class MediaMapper {
 			m.setCaption(rm.getCaption());
 			m.setFileName(rm.getFileName());
 			m.setOwnerId(rm.getOwnerId());
+			m.setThumbnail(rm.getThumbnail());
 		}
 		
 		return m;
@@ -39,6 +40,7 @@ public class MediaMapper {
 			rm.setCaption(rm.getCaption());
 			rm.setFileName(rm.getFileName());
 			rm.setOwnerId(rm.getOwnerId());
+			rm.setThumbnail(m.getThumbnail());
 		}
 		return rm;
 	}

@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,7 +39,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	private Workout testWorkout;
 	
 	private User user, user2;
-	private String userName1 = "user";
+	private String userName1 = "testworkoutService1@mediacenter.com";
 	private String userName2 = "testWorkoutService2@mediacenter.com";
 	
 	private UserMapper userMapper = new UserMapper();
@@ -75,8 +77,8 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	@After
 	public void tearDown(){
-		//userService.delete(user.getId());
-		//userService.delete(user2.getId());
+		userService.delete(user.getId());
+		userService.delete(user2.getId());
 	}
 	
 	// Test that a workout can be created
@@ -124,8 +126,18 @@ public class WorkoutServiceTest extends TestBaseClass {
 		//RLocation location = locationMapper.toRLocation("Vancouver");
 		//Assert.assertTrue(location.getAddress().equals("Vancouver"));
 	}
-		
-	public Workout createWorkout(List<Activity> activities, User owner, String location){
+	
+	@Test
+	public void testFindWorkoutsByOwnerId(){
+		Activity a = new Activity();
+		a.setWorkoutType(WorkoutType.RUN);
+		activities.add(a);
+		Workout w = createWorkout(activities, user, null);
+		Page<Workout> output = workoutService.findAllWorkoutsByUser(user.getId(), new PageRequest(0,5));
+		Assert.assertEquals(1, output.getNumberOfElements());
+	}
+	
+	private Workout createWorkout(List<Activity> activities, User owner, String location){
 		Workout workout = new Workout();
 		workout.setActivities(activities);
 		workout.setLocation(location);

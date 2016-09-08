@@ -18,11 +18,17 @@ public class RMedia extends BaseEntity {
 	private Long owner_id;
 	
 	/**
-	 * Name of the file
+	 * Name of the larger image file (shown on main feed)
 	 */
 	@Column(name="filename", nullable = false)
 	private String fileName;
 	
+	
+	/**
+	 * Name of the thumnail file (shown on user profile page)
+	 */
+	@Column(name="thumbnail_file", nullable = false)
+	private String thumbnailFile;
 	/**
 	 * The caption that will be shown alongside the media/image when it is shown
 	 */
@@ -54,5 +60,13 @@ public class RMedia extends BaseEntity {
 	
 	public void setFileName(String fileName){
 		this.fileName = fileName;
+	}
+	
+	public String getThumbnail(){
+		return thumbnailFile;
+	}
+	
+	public void setThumbnail(String thumbnailFile){
+		this.thumbnailFile = thumbnailFile;
 	}
 }

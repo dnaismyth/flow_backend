@@ -17,6 +17,8 @@ public class Media {
 	
 	private String fileName;
 	
+	private String thumbnailFile;
+	
 	private String caption;
 	
 	public Media(){}
@@ -51,6 +53,14 @@ public class Media {
 	
 	public void setId(Long id){
 		this.id = id;
+	}
+	
+	public void setThumbnail(String thumbnailFile){
+		this.thumbnailFile = thumbnailFile;
+	}
+	
+	public String getThumbnail(){
+		return thumbnailFile;
 	}
 	
 	
