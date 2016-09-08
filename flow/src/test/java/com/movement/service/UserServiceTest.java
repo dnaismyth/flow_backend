@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.movement.domain.RUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
+import com.movement.dto.Workout;
 import com.movement.exception.ResourceNotFoundException;
 
 
@@ -47,4 +48,5 @@ public class UserServiceTest extends TestBaseClass {
 		User found = userService.findUserByUsername(userName1);
 		Assert.assertEquals(found.getId(), user1.getId());
 	}
+
 }

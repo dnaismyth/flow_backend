@@ -19,13 +19,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.movement.domain.RLocation;
+import com.movement.domain.RWorkoutFavourite;
 import com.movement.dto.Activity;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutType;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.UserRepository;
+import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.service.WorkoutService;
 import com.movement.service.mapper.UserMapper;
@@ -35,6 +38,9 @@ public class WorkoutServiceTest extends TestBaseClass {
 
 	@Autowired
 	private WorkoutJDBCRepository workoutJDBCRepo;
+	
+	@Autowired
+	private WorkoutFavouriteRepository workoutFavRepo;
 	
 	private Workout testWorkout;
 	
@@ -135,6 +141,18 @@ public class WorkoutServiceTest extends TestBaseClass {
 		Workout w = createWorkout(activities, user, null);
 		Page<Workout> output = workoutService.findAllWorkoutsByUser(user.getId(), new PageRequest(0,5));
 		Assert.assertEquals(1, output.getNumberOfElements());
+	}
+	
+	// Check that a user can add a workout to their favourites
+	@Test
+	public void testAddWorkoutToFavourites() throws BadRequestException{
+		Activity a = new Activity();
+		a.setWorkoutType(WorkoutType.RUN);
+		activities.add(a);
+		Workout w = createWorkout(activities, user, null);
+		userService.addWorkoutToFavourites(user2, w.getId());
+		RWorkoutFavourite fav = workoutFavRepo.findByUserIdAndWorkoutId(w.getId(), user2.getId());
+		Assert.assertNotNull(fav);	
 	}
 	
 	private Workout createWorkout(List<Activity> activities, User owner, String location){

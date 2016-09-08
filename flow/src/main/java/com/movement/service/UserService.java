@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.domain.Authority;
 import com.movement.domain.RUser;
+import com.movement.domain.RWorkout;
+import com.movement.domain.RWorkoutFavourite;
+import com.movement.domain.RWorkoutFavouritePK;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -23,6 +26,7 @@ import com.movement.repository.AuthorityJDBCRepository;
 import com.movement.repository.AuthorityRepository;
 import com.movement.repository.UserJDBCRepository;
 import com.movement.repository.UserRepository;
+import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
 import com.movement.security.Authorities;
@@ -57,6 +61,9 @@ public class UserService {
 	
 	@Autowired
 	private AuthorityJDBCRepository authorityJDCBRepo;
+	
+	@Autowired
+	private WorkoutFavouriteRepository workoutFavRepo;
 	
 	
 	@Autowired
@@ -207,6 +214,36 @@ public class UserService {
 		UserDetails details = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		RUser ru = userRepo.findByUsernameCaseInsensitive(details.getUsername());
 		return userMapper.toUser(ru);
+	}
+	
+	/**
+	 * To add a workout to user favourites
+	 * @param user
+	 * @param workoutId
+	 * @return
+	 * @throws BadRequestException
+	 */
+	public boolean addWorkoutToFavourites(User user, Long workoutId) throws BadRequestException{
+		RestPreconditions.checkNotNull(user);
+		RestPreconditions.checkNotNull(workoutId);
+		
+		RWorkout rw = workoutRepo.findOne(workoutId);
+		if(rw.getOwner().getId().equals(user.getId())){
+			throw new BadRequestException("Cannot favourite your own workout");
+		}
+		
+		if(workoutFavRepo.findByUserIdAndWorkoutId(workoutId, user.getId()) != null){
+			throw new BadRequestException("You have already favourited this workout.");
+		}
+		
+		RWorkoutFavouritePK pk = new RWorkoutFavouritePK();
+		pk.setUserId(user.getId());
+		pk.setWorkoutId(workoutId);
+		RWorkoutFavourite wf = new RWorkoutFavourite();
+		wf.setWorkoutFavouritePK(pk);
+		workoutFavRepo.save(wf);
+		return true;
+		
 	}
 	
 	
