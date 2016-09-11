@@ -6,4 +6,7 @@ A social media web application for users to upload their workouts.  A workout wi
 
 ## Motivation
 
-The purpose of this project is to take the ideas in which I am learning in a work environment and apply them to further become more familiar with the spring mvc framework.  
+The purpose of this project is to take the ideas in which I am learning in a work environment and apply them to further become more familiar with the spring mvc framework and developing REST controllers.
+
+The client frontend consuming this REST api can be found at:
+https://github.com/dnaismyth/flow_frontend
