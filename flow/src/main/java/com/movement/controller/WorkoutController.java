@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.movement.controller.dto.WorkoutResponse;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
+import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
@@ -58,8 +59,8 @@ public class WorkoutController extends BaseController {
 	public WorkoutResponse updateWorkout(@RequestBody Workout updated) throws IllegalArgumentException, ResourceNotFoundException, NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		// Check that the owner of the workout is the same as the currently logged in user
-		if(updated.getOwner().getId().equals(user.getId())){
+		// Check that only the current logged in user or an admin can update a workout
+		if(!(updated.getOwner().getId().equals(user.getId()) && user.getUserRole() != UserRole.ADMIN)){
 			throw new NoPermissionException("Only the owner can update this workout.");
 		}
 		Workout w = workoutService.updateWorkout(updated.getId(), updated);

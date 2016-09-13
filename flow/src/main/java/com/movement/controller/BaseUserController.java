@@ -13,7 +13,7 @@ import com.movement.service.WorkoutService;
  */
 public class BaseUserController extends BaseController {
 
-
+	
 	
 }
 
