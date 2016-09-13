@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.movement.controller.dto.SimpleResponse;
 import com.movement.controller.dto.WorkoutResponse;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
@@ -79,6 +81,44 @@ public class WorkoutController extends BaseController {
 		checkUserPermission(user);
 		workoutService.deleteWorkout(user, id);
 		return new WorkoutResponse(Operation.DELETE, id);
+	}
+	
+	/**
+	 * Favourite a workout
+	 * @param id (workout id)
+	 * @return
+	 * @throws NoPermissionException
+	 * @throws BadRequestException
+	 */
+	@RequestMapping(value="/{id}/like", method = RequestMethod.POST)
+	public SimpleResponse likeWorkout(@PathVariable Long id) throws NoPermissionException, BadRequestException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		boolean added = workoutFavService.addFavourite(id, user);
+		if(added){
+			return new SimpleResponse(Operation.ADD);
+		}
+		else
+			return new SimpleResponse(Operation.NO_CHANGE);
+		
+	}
+	
+	/**
+	 * Remove a workout from favourites
+	 * @param id (workout id)
+	 * @return
+	 * @throws NoPermissionException
+	 */
+	@RequestMapping(value="/{id}/like", method = RequestMethod.DELETE)
+	public SimpleResponse unlikeWorkout(@PathVariable Long id) throws NoPermissionException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		boolean removed = workoutFavService.deleteFavorite(id, user);
+		if(removed){
+			return new SimpleResponse(Operation.DELETE);
+		}
+		else
+			return new SimpleResponse(Operation.NO_CHANGE);
 	}
 }
 

@@ -14,4 +14,5 @@ public interface WorkoutFavouriteRepository extends JpaRepository<RWorkoutFavour
 
 	@Query("SELECT wf FROM RWorkoutFavourite wf WHERE wf.workoutFavouritePK.workout_id = :workoutId AND wf.workoutFavouritePK.user_id = :userId")
 	public RWorkoutFavourite findByUserIdAndWorkoutId(@Param("workoutId") Long workoutId, @Param("userId") Long userId);
+	
 }

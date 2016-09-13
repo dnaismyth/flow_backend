@@ -6,6 +6,7 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
 import com.movement.service.UserService;
+import com.movement.service.WorkoutFavouriteService;
 import com.movement.service.WorkoutService;
 
 /**
@@ -14,6 +15,9 @@ import com.movement.service.WorkoutService;
  *
  */
 public class BaseController {
+	
+	@Autowired
+	protected WorkoutFavouriteService workoutFavService;
 	
 	@Autowired 
 	protected WorkoutService workoutService;

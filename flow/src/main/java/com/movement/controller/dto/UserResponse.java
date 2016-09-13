@@ -4,6 +4,11 @@ import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 
+/**
+ * User Response for User controllers
+ * @author DN
+ *
+ */
 public class UserResponse {
 	private User user;
 	private Operation op;

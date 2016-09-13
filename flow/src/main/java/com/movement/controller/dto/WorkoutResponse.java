@@ -3,6 +3,11 @@ package com.movement.controller.dto;
 import com.movement.dto.Operation;
 import com.movement.dto.Workout;
 
+/**
+ * Workout Response for WorkoutController
+ * @author DN
+ *
+ */
 public class WorkoutResponse {
 	
 	private Workout workout;
