@@ -4,23 +4,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 
 @SpringBootApplication
-public class GetMovingMainApplication {
-	
+public class GetMovingMainApplication extends WebMvcAutoConfiguration {
+	protected static final Logger logger = Logger.getLogger(GetMovingMainApplication.class); 
+
     public static void main(String[] args) {
         SpringApplication.run(GetMovingMainApplication.class, args);
+        logger.info("\n\t--------------------------------------------------------------------\n"
+        		+ "\t--------------------> Starting Main Application <-----------------\n"
+        		+ "\t--------------------------------------------------------------------");
     }
     
 	@Bean
@@ -63,5 +75,5 @@ public class GetMovingMainApplication {
 
 	    return txManager;
 	  }
-
+	 
 }

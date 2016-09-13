@@ -46,5 +46,16 @@ public class UserSelfController extends BaseUserController {
 		return workoutService.findAllWorkoutsByUser(current.getId(), new PageRequest(page, size));
 	}
 	
+	/**
+	 * Test Function to say hello to the current user
+	 * @return
+	 */
+	@RequestMapping(value="/hello", method = RequestMethod.GET)
+	@ResponseBody
+	public String sayHello(){
+		//User current = getLoggedInUser();
+		return "HELLO WORLD";
+	}
+	
 	
 }

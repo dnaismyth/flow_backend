@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.movement.dto.User;
+import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.UserRepository;
 import com.movement.service.UserService;
 
@@ -32,11 +33,12 @@ public class SignupController {
 	@Autowired
 	private UserService userService;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    @ResponseBody
-//    public String sayHello() {
-//        return "Hello User!";
-//    }
+	@RequestMapping(value="/hello", method = RequestMethod.GET)
+    @ResponseBody
+    public User sayHello() throws ResourceNotFoundException {
+        User user = userService.findUserByUsername("dayna");
+        return user;
+    }
     
     /**
      * Create a user login
@@ -47,12 +49,6 @@ public class SignupController {
     public User createLogin(@RequestBody User user){
     	User u = userService.create(user);
     	return u;
-    }
-    
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public UserDetails checkAuthenticated(){
-    	return userDetailsService.loadUserByUsername("dayna");
     }
 
 }

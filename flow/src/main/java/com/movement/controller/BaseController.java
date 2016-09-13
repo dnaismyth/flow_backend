@@ -3,6 +3,8 @@ package com.movement.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.movement.dto.User;
+import com.movement.dto.UserRole;
+import com.movement.exception.NoPermissionException;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutService;
 
@@ -21,5 +23,16 @@ public class BaseController {
 	
 	protected User getLoggedInUser(){
 		return userService.getCurrentUser();
+	}
+	
+	/**
+	 * Check that the user is not a guest
+	 * @param user
+	 * @throws NoPermissionException 
+	 */
+	public void checkUserPermission(User user) throws NoPermissionException{
+		if(user.getUserRole() == UserRole.GUEST){
+			throw new NoPermissionException("You must be logged in to view this page.");
+		}
 	}
 }
