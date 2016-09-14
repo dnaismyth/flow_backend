@@ -25,7 +25,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 
 @SpringBootApplication
-public class GetMovingMainApplication extends WebMvcAutoConfiguration {
+public class GetMovingMainApplication {
 	protected static final Logger logger = Logger.getLogger(GetMovingMainApplication.class); 
 
     public static void main(String[] args) {
