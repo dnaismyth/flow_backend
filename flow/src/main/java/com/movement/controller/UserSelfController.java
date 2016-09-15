@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.movement.controller.dto.UserResponse;
-import com.movement.controller.dto.WorkoutResponse;
+import com.movement.controller.dto.RestResponse;
 import com.movement.domain.RWorkout;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
@@ -55,7 +54,7 @@ public class UserSelfController extends BaseUserController {
 	 * @throws NoPermissionException
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
-	public UserResponse updateMyProfile(@RequestBody User updated) throws NoPermissionException{
+	public RestResponse<User> updateMyProfile(@RequestBody User updated) throws NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		// Check that only the current user can update their own profile
@@ -63,7 +62,7 @@ public class UserSelfController extends BaseUserController {
 			throw new NoPermissionException("Only the owner can update their own profile.");
 		}
 		User u = userService.updateUser(updated);
-		return new UserResponse(u, Operation.UPDATE);
+		return new RestResponse<User>(Operation.UPDATE, u);
 	}
 	
 	/**
@@ -74,11 +73,11 @@ public class UserSelfController extends BaseUserController {
 	 * @throws ResourceNotFoundException
 	 */
 	@RequestMapping(method = RequestMethod.DELETE)
-	public UserResponse deleteProfile() throws NoPermissionException{
+	public RestResponse<User> deleteProfile() throws NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		userService.delete(user.getId());
-		return new UserResponse(Operation.DELETE, user.getId());
+		return new RestResponse<User>(Operation.DELETE, user.getId());
 	}
 	
 	/**

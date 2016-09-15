@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.movement.controller.dto.RestResponse;
 import com.movement.controller.dto.SimpleResponse;
-import com.movement.controller.dto.WorkoutResponse;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -41,11 +41,11 @@ public class WorkoutController extends BaseController {
 	 * @throws NoPermissionException
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public WorkoutResponse getWorkout(@PathVariable Long id) throws ResourceNotFoundException, NoPermissionException{
+	public RestResponse<Workout> getWorkout(@PathVariable Long id) throws ResourceNotFoundException, NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		Workout workout = workoutService.findWorkoutById(id);
-		return new WorkoutResponse(workout);
+		return new RestResponse<Workout>(workout);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class WorkoutController extends BaseController {
 	 * @throws NoPermissionException
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
-	public WorkoutResponse updateWorkout(@RequestBody Workout updated) throws IllegalArgumentException, ResourceNotFoundException, NoPermissionException{
+	public RestResponse<Workout> updateWorkout(@RequestBody Workout updated) throws IllegalArgumentException, ResourceNotFoundException, NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		// Check that only the current logged in user or an admin can update a workout
@@ -66,7 +66,7 @@ public class WorkoutController extends BaseController {
 			throw new NoPermissionException("Only the owner can update this workout.");
 		}
 		Workout w = workoutService.updateWorkout(updated.getId(), updated);
-		return new WorkoutResponse(w, Operation.UPDATE);
+		return new RestResponse<Workout>(Operation.UPDATE, w);
 	}
 	
 	/**
@@ -76,11 +76,11 @@ public class WorkoutController extends BaseController {
 	 * @throws ResourceNotFoundException
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public WorkoutResponse deleteWorkout(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException{
+	public RestResponse<Workout> deleteWorkout(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		workoutService.deleteWorkout(user, id);
-		return new WorkoutResponse(Operation.DELETE, id);
+		return new RestResponse<Workout>(Operation.DELETE, id);
 	}
 	
 	/**
