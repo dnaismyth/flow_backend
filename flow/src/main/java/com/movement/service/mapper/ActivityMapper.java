@@ -1,5 +1,8 @@
 package com.movement.service.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.movement.domain.RActivity;
 import com.movement.dto.Activity;
 import com.movement.dto.WorkoutType;
@@ -39,5 +42,18 @@ public class ActivityMapper {
 		}
 
 		return ra;
+	}
+	
+	/**
+	 * List<Activity> to List<RActivity>
+	 * @param activities
+	 * @return
+	 */
+	public List<RActivity> toEntityActivities(List<Activity> activities){
+		List<RActivity> rActivities = new ArrayList<RActivity>();
+		for(Activity a : activities){
+			rActivities.add(toEntityActivity(a));
+		}
+		return rActivities;
 	}
 }

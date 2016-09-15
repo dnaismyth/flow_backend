@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -115,6 +117,7 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
+	@CacheEvict
 	public User updateUser(User user){
 		RestPreconditions.checkNotNull(user);
 		RUser ru = userRepo.findOne(user.getId());
@@ -131,9 +134,9 @@ public class UserService {
 			ru.setName(user.getName());
 		}
 		
-		if(!CompareUtil.compare(ru.getLocation().getAddress(), user.getAddress())){
-			//ru.setLocation(locationMapper.toRLocation(user.getAddress()));
-		}
+//		if(!CompareUtil.compare(ru.getLocation().getAddress(), user.getAddress())){
+//			//ru.setLocation(locationMapper.toRLocation(user.getAddress()));
+//		}
 		
 		if(!CompareUtil.compare(ru.getPhone(), user.getPhone())){
 			ru.setPhone(user.getPhone());
@@ -162,6 +165,7 @@ public class UserService {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
+	@Cacheable
 	public User findUserByUsername(String username) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(username);
 		RUser found = userRepo.findByUsernameCaseInsensitive(username);

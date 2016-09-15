@@ -1,12 +1,18 @@
 package com.movement.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movement.domain.RActivity;
 import com.movement.domain.RWorkout;
+import com.movement.dto.Activity;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
@@ -58,6 +64,7 @@ public class WorkoutService {
 	 * @param workoutId
 	 * @throws ResourceNotFoundException 
 	 */
+	@CacheEvict
 	public Workout updateWorkout(Long workoutId, Workout updated) throws IllegalArgumentException, ResourceNotFoundException  {
 		RestPreconditions.checkNotNull(workoutId);
 		RWorkout rw = workoutRepo.findOne(workoutId);
@@ -67,15 +74,13 @@ public class WorkoutService {
 			String message = String.format("Cannot find workout with id: %s", workoutId);
 			throw new ResourceNotFoundException(message);
 		}
-		
-		// Compare updated input workout to the one currently stored in the db,
-		// if they are different then we should update and save differences. 
+
 		if(!CompareUtil.compare(rw.getActivities(), updated.getActivities())){
-			//TODO: update acitivty mapper for lists
+			rw.setActivities(activityMapper.toEntityActivities(updated.getActivities()));
 		}
 		
+		//TODO: fix mapper
 		if(!CompareUtil.compare(rw.getLocation(), updated.getLocation())){
-			//TODO: create location mapper
 			//rw.setLocation(updated.getLocation());
 		}
 		
@@ -141,6 +146,7 @@ public class WorkoutService {
 		// Map to Page<Workout>
 		return workoutMapper.toWorkoutDTOPage(rw);
 	}
+	
 	
 //	public Workout attachImageToWorkout(User user, Media media){
 //		

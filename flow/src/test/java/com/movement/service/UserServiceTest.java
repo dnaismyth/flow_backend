@@ -32,7 +32,8 @@ public class UserServiceTest extends TestBaseClass {
 	
 	@After
 	public void tearDown(){
-		//userService.delete(user1.getId());
+		if(user1.getId() != null)
+			userService.delete(user1.getId());
 	}
 	
 	// Test that a user is being stored in the db
@@ -47,6 +48,18 @@ public class UserServiceTest extends TestBaseClass {
 	public void testFindByUsername() throws ResourceNotFoundException{
 		User found = userService.findUserByUsername(userName1);
 		Assert.assertEquals(found.getId(), user1.getId());
+	}
+	
+	// Check that simple updates are being made
+	@Test
+	public void testUpdateUser() throws ResourceNotFoundException{
+		String oldName = user1.getName();
+		String oldBio = user1.getBio();
+		user1.setName("Testing update");
+		user1.setBio("My new bio");
+		User updated = userService.updateUser(user1);
+		Assert.assertNotEquals(updated.getName(), oldName );
+		Assert.assertNotEquals(updated.getBio(), oldBio);
 	}
 
 }

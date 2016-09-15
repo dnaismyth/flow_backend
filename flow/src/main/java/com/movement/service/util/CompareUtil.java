@@ -22,7 +22,10 @@ public abstract class CompareUtil {
 	
 	public static boolean compare(String s1, String s2){
 		
-		if(!s1.equals(s2)){
+		if(s1 == null){
+			return false;
+		}
+		else if(!s1.equals(s2)){
 			return false;
 		}
 		return true;
