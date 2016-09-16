@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,12 @@ public class WorkoutService {
 	@Autowired
 	private WorkoutJDBCRepository workoutJDBCRepo;
 	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private FeedService feedService;
+	
 	private WorkoutMapper workoutMapper = new WorkoutMapper();
 	private UserMapper userMapper = new UserMapper();
 	private ActivityMapper activityMapper = new ActivityMapper();
@@ -55,8 +62,8 @@ public class WorkoutService {
 		RWorkout rw = workoutMapper.toEntityWorkout(workout);
 		rw.setOwner(userMapper.toEntityUser(owner));
 		RWorkout saved = workoutRepo.save(rw);
+		sendWorkoutToFollowerFeeds(owner.getId(), saved);
 		return workoutMapper.toWorkout(saved);
-		
 	}
 	
 	/**
@@ -140,6 +147,7 @@ public class WorkoutService {
 	 * @param pageable
 	 * @return
 	 */
+	@Cacheable
 	public Page<Workout> findAllWorkoutsByUser(Long userId, Pageable pageable){
 		RestPreconditions.checkNotNull(userId);
 		Page<RWorkout> rw = workoutRepo.getAllUserWorkouts(userId, pageable);
@@ -147,6 +155,15 @@ public class WorkoutService {
 		return workoutMapper.toWorkoutDTOPage(rw);
 	}
 	
+	/**
+	 * Send the workout to feeds of those who are following the
+	 * owner of the newly created workout
+	 * @param workoutOwnerId
+	 */
+	private void sendWorkoutToFollowerFeeds(Long workoutOwnerId, RWorkout rw){
+		List<Long> followerIds = userService.findFollowersByUserId(workoutOwnerId);
+		feedService.addWorkoutToFeed(followerIds, rw);
+	}
 	
 //	public Workout attachImageToWorkout(User user, Media media){
 //		

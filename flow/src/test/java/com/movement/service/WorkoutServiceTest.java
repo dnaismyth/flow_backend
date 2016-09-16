@@ -55,10 +55,13 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	private List<Long>userIds;
 	
+	private List<Workout> workouts;
+	
 	@Before
 	public void setUp() throws ResourceNotFoundException{
 		activities = new ArrayList<Activity>();
 		userIds = new ArrayList<Long>();
+		workouts = new ArrayList<Workout>();
 		user = userService.findUserByUsername(userName1);
 		if(user == null){
 			user = new User();
@@ -82,7 +85,10 @@ public class WorkoutServiceTest extends TestBaseClass {
 	}
 	
 	@After
-	public void tearDown(){
+	public void tearDown() throws ResourceNotFoundException, NoPermissionException{
+		for(Workout w : workouts){
+			workoutService.deleteWorkout(w.getOwner(), w.getId());
+		}
 		userService.delete(user.getId());
 		userService.delete(user2.getId());
 	}
@@ -98,6 +104,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		testWorkout.setOwner(user);
 		testWorkout.setActivities(activities);
 		Workout created = workoutService.createWorkout(user, testWorkout);
+		workouts.add(created);
 		Assert.assertNotNull(created);
 		
 	}
@@ -110,9 +117,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		Workout w = createWorkout(activities, user2, null);
 		Assert.assertNotNull(w);
 		workoutService.deleteWorkout(user2, w.getId());
-		workoutService.findWorkoutById(w.getId());
-		
-		
+		workoutService.findWorkoutById(w.getId());	
 	}
 	
 	// Check that a workout can be updated
@@ -122,8 +127,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		activity.setWorkoutType(WorkoutType.DEADLIFT);
 		activities.add(activity);
 		Workout w = createWorkout(activities, user2, null);
-		
-		
+		workouts.add(w);	
 	}
 	
 	// Test that a workout location is being mapped as expected
@@ -139,6 +143,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		a.setWorkoutType(WorkoutType.RUN);
 		activities.add(a);
 		Workout w = createWorkout(activities, user, null);
+		workouts.add(w);
 		Page<Workout> output = workoutService.findAllWorkoutsByUser(user.getId(), new PageRequest(0,5));
 		Assert.assertEquals(1, output.getNumberOfElements());
 	}
@@ -150,6 +155,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		a.setWorkoutType(WorkoutType.RUN);
 		activities.add(a);
 		Workout w = createWorkout(activities, user, null);
+		workouts.add(w);
 		userService.addWorkoutToFavourites(user2, w.getId());
 		RWorkoutFavourite fav = workoutFavRepo.findByUserIdAndWorkoutId(w.getId(), user2.getId());
 		Assert.assertNotNull(fav);	

@@ -9,6 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -43,7 +44,7 @@ public class RWorkout extends BaseEntity {
 	 */
 	@Embedded
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="workout_activities")
+	@CollectionTable(name="workout_activity", joinColumns=@JoinColumn(name = "workout_id", referencedColumnName = "id"))
 	@Cascade(value=CascadeType.ALL)
 	private List<RActivity> activities = new ArrayList<RActivity>();
 	

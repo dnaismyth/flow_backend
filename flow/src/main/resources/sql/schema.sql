@@ -193,21 +193,26 @@ WITH (
 ALTER TABLE workout
   OWNER TO postgres;
 
--- Table: workout_activities
+-- Table: workout_activity
 
--- DROP TABLE workout_activities;
+-- DROP TABLE workout_activity;
 
-CREATE TABLE workout_activities
+CREATE TABLE workout_activity
 (
-  rworkout_id bigint NOT NULL,
+  workout_id bigint NOT NULL,
   weight_amount character varying(255),
-  workout_type character varying(255)
+  workout_type character varying(255),
+  CONSTRAINT fk_e23078cyj88gjfkbmn4hp3juv FOREIGN KEY (workout_id)
+      REFERENCES workout (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE workout_activities
+ALTER TABLE workout_activity
   OWNER TO postgres;
+
+
   
 -- Table: workout_favourite
 

@@ -46,11 +46,11 @@ public class RFeed {
 		this.userId = userId;
 	}
 	
-	public Collection<RWorkout> getWorkout(){
+	public Collection<RWorkout> getWorkouts(){
 		return workout;
 	}
 	
-	public void setWorkout(Collection<RWorkout> workout){
+	public void setWorkouts(Collection<RWorkout> workout){
 		this.workout = workout;
 	}
 	

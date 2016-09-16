@@ -22,10 +22,14 @@ import com.movement.domain.RWorkoutFavouritePK;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
+import com.movement.dto.Workout;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.AuthorityJDBCRepository;
 import com.movement.repository.AuthorityRepository;
+import com.movement.repository.FeedRepository;
+import com.movement.repository.FollowJDBCRepository;
+import com.movement.repository.FollowRepository;
 import com.movement.repository.UserJDBCRepository;
 import com.movement.repository.UserRepository;
 import com.movement.repository.WorkoutFavouriteRepository;
@@ -67,9 +71,17 @@ public class UserService {
 	@Autowired
 	private WorkoutFavouriteRepository workoutFavRepo;
 	
+	@Autowired
+	private FollowRepository followRepo;
+		
+	@Autowired
+	private FollowJDBCRepository followJDBCRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncode;
+	
+	@Autowired
+	private FeedService feedService;
 	
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
@@ -250,7 +262,14 @@ public class UserService {
 		
 	}
 	
-	
-	
+	/**
+	 * Return a user's followers
+	 * @param userId
+	 * @return
+	 */
+	public List<Long> findFollowersByUserId(Long userId){
+		RestPreconditions.checkNotNull(userId);
+		return followJDBCRepo.findFollowersByUserId(userId);
+	}	
 	
 }
