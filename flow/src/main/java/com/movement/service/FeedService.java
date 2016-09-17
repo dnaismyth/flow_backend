@@ -40,7 +40,7 @@ public class FeedService {
 		RestPreconditions.checkNotNull(rw);
 		for(Long id: followerIds){
 			RFeed feed = feedRepo.findFeedByUserId(id);
-			feed.addWorkoutToCollection(rw);	
+			feed.getWorkouts().add(rw);
 			feedRepo.save(feed);
 		}
 	}
@@ -62,8 +62,14 @@ public class FeedService {
 	 * @return
 	 */
 	public void createEmptyFeed(RUser user){
-		RFeed feed = new RFeed(user);
-		feedRepo.save(feed);
+		// Check that the user does not already have a created feed
+		RFeed feed = feedRepo.findFeedByUserId(user.getId());
+		
+		if(feed == null){
+			//If they do not already have a feed, create a new one and save it
+			feed = new RFeed(user);
+			feedRepo.save(feed);
+		}	
 	}
 	
 //	public Page<Workout> getUsersFeed(Long userId){
