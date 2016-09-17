@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.movement.domain.RActivity;
 import com.movement.domain.RWorkout;
 import com.movement.dto.Activity;
+import com.movement.dto.ShowType;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
@@ -59,6 +60,13 @@ public class WorkoutService {
 	 */
 	public Workout createWorkout(User owner, Workout workout) throws IllegalArgumentException {
 		RestPreconditions.checkNotNull(owner);
+		
+		// If the user has not selected a specific privacy level, by default
+		// the workout will be set to 'PUBLIC'
+		if(workout.getShowType() == null){
+			workout.setShowType(ShowType.PUBLIC);
+		}
+		
 		RWorkout rw = workoutMapper.toEntityWorkout(workout);
 		rw.setOwner(userMapper.toEntityUser(owner));
 		RWorkout saved = workoutRepo.save(rw);
@@ -140,7 +148,6 @@ public class WorkoutService {
 		return workoutMapper.toWorkout(rw);
 	}
 	
-	//TODO: map Page<RWorkout> to Page<Workout>, testing for now
 	/**
 	 * Return all of the user workouts (this needs to be updated so entity not being exposed)
 	 * @param userId
@@ -151,7 +158,6 @@ public class WorkoutService {
 	public Page<Workout> findAllWorkoutsByUser(Long userId, Pageable pageable){
 		RestPreconditions.checkNotNull(userId);
 		Page<RWorkout> rw = workoutRepo.getAllUserWorkouts(userId, pageable);
-		// Map to Page<Workout>
 		return workoutMapper.toWorkoutDTOPage(rw);
 	}
 	

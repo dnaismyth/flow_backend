@@ -15,7 +15,7 @@ public class Media {
 	
 	private Long owner_id;
 	
-	private String fileName;
+	private String feedFile;
 	
 	private String thumbnailFile;
 	
@@ -39,12 +39,12 @@ public class Media {
 		this.caption = caption;
 	}
 	
-	public String getFileName(){
-		return fileName;
+	public String getFeedFile(){
+		return feedFile;
 	}
 	
-	public void setFileName(String fileName){
-		this.fileName = fileName;
+	public void setFeedFile(String feedFile){
+		this.feedFile = feedFile;
 	}
 	
 	public Long getId(){

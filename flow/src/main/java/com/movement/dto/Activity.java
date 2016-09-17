@@ -25,14 +25,6 @@ public class Activity {
 	 */
 	public WorkoutType workoutType;
 	
-	/**
-	 * Activity within the workout
-	 */
-	public Workout workout;
-	
-	public Long id;
-	
-	public Date createdDate;
 
 	public Activity(){}
 	
@@ -53,28 +45,5 @@ public class Activity {
 		return workoutType;
 	}
 	
-	public Workout getWorkout(){
-		return workout;
-	}
-	
-	public void setWorkout(Workout workout){
-		this.workout = workout;
-	}
-	
-	public Long getId(){
-		return id;
-	}
-	
-	public void setId(Long id){
-		this.id = id;
-	}
-	
-	public Date getCreatedDate(){
-		return createdDate;
-	}
-	
-	public void setCreatedDate(Date createdDate){
-		this.createdDate = createdDate;
-	}
 
 }

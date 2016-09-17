@@ -32,7 +32,7 @@ public class FollowServiceTest extends TestBaseClass {
 			follower.setUsername(userName1);
 			follower.setEmail(userName1);
 			follower.setPassword("test12");
-			//follower.setUserRole(UserRole.USER);
+			follower.setUserRole(UserRole.USER);
 			follower = userService.create(follower);
 		}
 		
@@ -43,7 +43,7 @@ public class FollowServiceTest extends TestBaseClass {
 			following.setUsername(userName2);
 			following.setEmail(userName2);
 			following.setPassword("test12");
-			//following.setUserRole(UserRole.USER);
+			following.setUserRole(UserRole.USER);
 			following = userService.create(following);
 		}
 		

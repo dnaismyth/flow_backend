@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.movement.domain.RFeed;
 import com.movement.domain.RWorkout;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
+import com.movement.repository.FeedJDBCRepository;
 import com.movement.repository.FeedRepository;
+import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.service.mapper.WorkoutMapper;
 import com.movement.util.RestPreconditions;
 
@@ -19,6 +23,9 @@ public class FeedService {
 	
 	@Autowired
 	private FeedRepository feedRepo;
+	
+	@Autowired
+	private WorkoutJDBCRepository workoutJDBCRepo;
 		
 	/**
 	 * Add workout to followers feed
@@ -33,5 +40,20 @@ public class FeedService {
 			feed.getWorkouts().add(rw);
 		}
 	}
+	
+	/**
+	 * Find workouts to be displayed in a user's feed
+	 * @param userId
+	 * @return
+	 */
+	public Page<Workout> findWorkoutsInUserFeed(Long userId, Pageable pageable){
+		RestPreconditions.checkNotNull(userId);
+		List<Workout> workouts =  workoutJDBCRepo.queryWorkoutsForUserFeed(userId);
+		return new PageImpl<Workout>(workouts, pageable, workouts.size());
+	}
+	
+//	public Page<Workout> getUsersFeed(Long userId){
+//		//TODO: find feeds for each user
+//	}
 	
 }

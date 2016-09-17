@@ -24,6 +24,14 @@ public class BaseUser {
 	 */
 	private String name;
 	
+	public BaseUser(){}
+	
+	public BaseUser(Long id, String username, String avatar){
+		this.id = id;
+		this.username = username;
+		this.avatar = avatar;
+	}
+	
 	public Long getId(){
 		return id;
 	}

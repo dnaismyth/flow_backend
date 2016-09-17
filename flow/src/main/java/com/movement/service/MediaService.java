@@ -75,8 +75,12 @@ public class MediaService {
 			rm.setCaption(m.getCaption());
 		}
 		
-		if(!CompareUtil.compare(m.getFileName(), rm.getFileName())){
-			rm.setFileName(m.getFileName());
+		if(!CompareUtil.compare(m.getThumbnail(), rm.getThumbnail())){
+			rm.setThumbnail(m.getThumbnail());
+		}
+		
+		if(!CompareUtil.compare(m.getFeedFile(), rm.getFeedFile())){
+			rm.setFeedFile(rm.getFeedFile());
 		}
 		
 		if(!CompareUtil.compare(m.getOwnerId(), rm.getOwnerId())){

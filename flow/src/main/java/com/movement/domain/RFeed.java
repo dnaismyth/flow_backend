@@ -1,5 +1,6 @@
 package com.movement.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class RFeed {
 	 */
 	@Column
 	@OneToMany
-	private Collection<RWorkout> workout;
+	private Collection<RWorkout> workout = new ArrayList<RWorkout>();
 	
 	public Long getId(){
 		return id;

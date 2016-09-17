@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.movement.domain.RLocation;
 import com.movement.domain.RWorkoutFavourite;
 import com.movement.dto.Activity;
+import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutType;
@@ -87,7 +88,8 @@ public class WorkoutServiceTest extends TestBaseClass {
 	@After
 	public void tearDown() throws ResourceNotFoundException, NoPermissionException{
 		for(Workout w : workouts){
-			workoutService.deleteWorkout(w.getOwner(), w.getId());
+			//BaseUser owner = new BaseUser(w.getOwner().getId(), w.getOwner().getUsername(), w.getOwner().getAvatar());
+			//workoutService.deleteWorkout(owner, w.getId());
 		}
 		userService.delete(user.getId());
 		userService.delete(user2.getId());
@@ -160,13 +162,5 @@ public class WorkoutServiceTest extends TestBaseClass {
 		RWorkoutFavourite fav = workoutFavRepo.findByUserIdAndWorkoutId(w.getId(), user2.getId());
 		Assert.assertNotNull(fav);	
 	}
-	
-	private Workout createWorkout(List<Activity> activities, User owner, String location){
-		Workout workout = new Workout();
-		workout.setActivities(activities);
-		workout.setLocation(location);
-		return workoutService.createWorkout(owner, workout);
-	}
-	
 	
 }

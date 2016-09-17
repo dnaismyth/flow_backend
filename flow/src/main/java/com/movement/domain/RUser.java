@@ -33,6 +33,7 @@ public class RUser {
     @Size(min = 0, max = 500)
     private String password;
     
+    @Enumerated(EnumType.STRING)
     @Column(name="role")
     private UserRole userRole;
 

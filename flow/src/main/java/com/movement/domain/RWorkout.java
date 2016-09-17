@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +20,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.movement.dto.ShowType;
 import com.movement.dto.TextLength;
+import com.movement.dto.UserRole;
 
 
 @Entity
@@ -50,6 +54,10 @@ public class RWorkout extends BaseEntity {
 	
 	@Embedded
 	private RLocation location;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="showtype")
+	private ShowType showType;
 	
 	public List<RActivity> getActivities(){
 		return activities;
@@ -89,5 +97,13 @@ public class RWorkout extends BaseEntity {
 	
 	public void setDescription(String description){
 		this.description = description;
+	}
+	
+	public ShowType getShowType(){
+		return showType;
+	}
+	
+	public void setShowType(ShowType showType){
+		this.showType = showType;
 	}
 }

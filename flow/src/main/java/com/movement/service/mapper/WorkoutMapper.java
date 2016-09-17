@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.movement.domain.RActivity;
+import com.movement.domain.RMedia;
 import com.movement.domain.RWorkout;
 import com.movement.dto.Activity;
 import com.movement.dto.Workout;
@@ -20,6 +21,7 @@ public class WorkoutMapper {
 
 	private UserMapper userMapper = new UserMapper();
 	private ActivityMapper activityMapper = new ActivityMapper();
+	private MediaMapper mediaMapper = new MediaMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
 	/**
 	 * RWorkout to Workout
@@ -35,7 +37,7 @@ public class WorkoutMapper {
 			w.setId(rw.getId());
 			w.setOwner(userMapper.toUser(rw.getOwner()));
 			w.setDescription(rw.getDescription());
-			//TODO: set media, create media mapper
+			w.setShowType(rw.getShowType());
 			// and location mapper
 			if(rw.getActivities().size() > 0 && rw.getActivities()!= null){
 				for(RActivity a : rw.getActivities()){
@@ -45,6 +47,8 @@ public class WorkoutMapper {
 			w.setActivities(activities);
 			if(rw.getLocation() != null)
 				w.setLocation(rw.getLocation().getAddress());
+			
+			w.setMedia(mediaMapper.toMedia(rw.getMedia()));
 		}
 		return w;
 	}
@@ -63,12 +67,14 @@ public class WorkoutMapper {
 			rw.setCreatedDate(workout.getCreatedDate());
 			rw.setId(workout.getId());
 			rw.setDescription(workout.getDescription());
+			rw.setShowType(workout.getShowType());
 			if(workout.getActivities().size() > 0 && workout.getActivities()!= null){
 				for(Activity a : workout.getActivities()){
 					activities.add(activityMapper.toEntityActivity(a));
 				}
 			}
 			rw.setActivities(activities);
+			rw.setMedia(mediaMapper.toRMedia(workout.getMedia()));
 			//TODO: create location mapper, set media and create media mapper
 			//if(workout.getLocation()!=null)
 				//rw.setLocation(locationMapper.toRLocation(workout.getLocation()));

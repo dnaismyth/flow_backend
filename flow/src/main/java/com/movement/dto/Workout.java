@@ -11,7 +11,7 @@ public class Workout {
 
 	private Long id;
 	
-	private User owner;
+	private BaseUser owner;
 	
 	private Date createdDate;
 	
@@ -21,11 +21,24 @@ public class Workout {
 	private String description;
 	
 	/**
-	 * Image associated with the workout
+	 * Image associated with workout
 	 */
 	private Media media;
 	
+	/**
+	 * Privacy level of workout
+	 */
+	private ShowType showType;
 	
+	public Workout(){}
+	
+	public Workout(Long id, Date createdDate, String description, ShowType showType){
+		this.id = id;
+		this.createdDate = createdDate;
+		this.description = description;
+		this.showType = showType;
+	}
+
 	/**
 	 * Stores the activites that were completed during the workout
 	 */
@@ -49,11 +62,11 @@ public class Workout {
 		this.address = address;
 	}
 	
-	public User getOwner(){
+	public BaseUser getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(User owner){
+	public void setOwner(BaseUser owner){
 		this.owner = owner;
 	}
 	
@@ -73,14 +86,6 @@ public class Workout {
 		return createdDate;
 	}
 	
-	public Media getMedia(){
-		return media;
-	}
-	
-	public void setMedia(Media media){
-		this.media = media;
-	}
-	
 	public String getDescription(){
 		return description;
 	}
@@ -89,4 +94,27 @@ public class Workout {
 		this.description = description;
 	}
 	
+	public ShowType getShowType(){
+		return showType;
+	}
+	
+	public void setShowType(ShowType showType){
+		this.showType = showType;
+	}
+	
+	public Media getMedia(){
+		return media;
+	}
+	
+	public void setMedia(Media media){
+		this.media = media;
+	}
+	
+	public String getAddress(){
+		return address;
+	}
+	
+	public void setAddress(String address){
+		this.address = address;
+	}
 }
