@@ -172,9 +172,8 @@ public class UserService {
 		//TODO: check if current logged in user matches the provided id, or if
 		// the user role is admin
 		RestPreconditions.checkNotNull(userId);
-		//workoutJDBCRepo.deleteWorkoutAndReferencesByOwner(userId);
+		workoutJDBCRepo.deleteWorkoutAndReferencesByOwner(userId);
 		feedRepo.deleteFeedByUserId(userId);
-		workoutRepo.deleteWorkoutByOwnerId(userId);
 		userRepo.delete(userId);
 	}
 	

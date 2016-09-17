@@ -79,7 +79,9 @@ public class FeedServiceTest extends TestBaseClass {
 	}
 	
 	@Test
-	public void testFindWorkoutsForUserFeed(){
+	public void testFindWorkoutsForUserFeed() throws ResourceNotFoundException, BadRequestException{
+		followService.followUser(user1.getId(), user2.getId());
+		Workout w = createWorkout(activities, user2, null);
 		Page<Workout> output = feedService.findWorkoutsInUserFeed(user1.getId(), new PageRequest(0,5));
 		Assert.assertNotNull(output);
 	}
