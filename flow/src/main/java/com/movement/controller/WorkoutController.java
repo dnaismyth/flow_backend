@@ -79,7 +79,7 @@ public class WorkoutController extends BaseController {
 	public RestResponse<Workout> deleteWorkout(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		workoutService.deleteWorkout(user, id);
+		workoutService.deleteWorkout(user.getId(), id);
 		return new RestResponse<Workout>(Operation.DELETE, id);
 	}
 	

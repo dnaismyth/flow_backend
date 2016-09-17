@@ -1,5 +1,7 @@
 package com.movement.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.movement.domain.RFeed;
+import com.movement.domain.RUser;
 import com.movement.domain.RWorkout;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
@@ -37,7 +40,8 @@ public class FeedService {
 		RestPreconditions.checkNotNull(rw);
 		for(Long id: followerIds){
 			RFeed feed = feedRepo.findFeedByUserId(id);
-			feed.getWorkouts().add(rw);
+			feed.addWorkoutToCollection(rw);	
+			feedRepo.save(feed);
 		}
 	}
 	
@@ -50,6 +54,16 @@ public class FeedService {
 		RestPreconditions.checkNotNull(userId);
 		List<Workout> workouts =  workoutJDBCRepo.queryWorkoutsForUserFeed(userId);
 		return new PageImpl<Workout>(workouts, pageable, workouts.size());
+	}
+	
+	/**
+	 * Create an empty feed for a user when they sign up
+	 * @param user
+	 * @return
+	 */
+	public void createEmptyFeed(RUser user){
+		RFeed feed = new RFeed(user);
+		feedRepo.save(feed);
 	}
 	
 //	public Page<Workout> getUsersFeed(Long userId){

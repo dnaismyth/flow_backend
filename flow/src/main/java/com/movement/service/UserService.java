@@ -83,6 +83,9 @@ public class UserService {
 	@Autowired
 	private FeedService feedService;
 	
+	@Autowired
+	private FeedRepository feedRepo;
+	
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
 	
@@ -121,6 +124,8 @@ public class UserService {
 		ru.setUserRole(UserRole.USER);
 		
 		RUser saved = userRepo.save(ru);
+		// Initially create an empty feed for the user
+		feedService.createEmptyFeed(saved);
 		return userMapper.toUser(saved);
 	}
 	
@@ -167,6 +172,8 @@ public class UserService {
 		//TODO: check if current logged in user matches the provided id, or if
 		// the user role is admin
 		RestPreconditions.checkNotNull(userId);
+		//workoutJDBCRepo.deleteWorkoutAndReferencesByOwner(userId);
+		feedRepo.deleteFeedByUserId(userId);
 		workoutRepo.deleteWorkoutByOwnerId(userId);
 		userRepo.delete(userId);
 	}

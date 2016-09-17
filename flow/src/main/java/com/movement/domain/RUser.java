@@ -9,6 +9,7 @@ import com.movement.dto.UserRole;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -17,8 +18,13 @@ import org.apache.commons.codec.binary.Base64;
 
 @Table(name="flow_user")
 @Entity
-public class RUser {
+public class RUser implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6743767243633530713L;
+
 	@Id
 	@GeneratedValue
     private Long id;

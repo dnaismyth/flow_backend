@@ -114,9 +114,9 @@ public class WorkoutService {
 	 * @throws ResourceNotFoundException 
 	 * @throws NoPermissionException 
 	 */
-	public boolean deleteWorkout(User user, Long workoutId) throws ResourceNotFoundException, NoPermissionException{
+	public boolean deleteWorkout(Long userId, Long workoutId) throws ResourceNotFoundException, NoPermissionException{
 		RestPreconditions.checkNotNull(workoutId);
-		RestPreconditions.checkNotNull(user);
+		RestPreconditions.checkNotNull(userId);
 		RWorkout found = workoutRepo.findOne(workoutId);
 		if(found == null){
 			String message = String.format("Cannot find workout with provided id: " + workoutId);

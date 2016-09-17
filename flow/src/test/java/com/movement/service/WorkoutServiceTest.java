@@ -118,7 +118,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 		activities.add(activity);
 		Workout w = createWorkout(activities, user2, null);
 		Assert.assertNotNull(w);
-		workoutService.deleteWorkout(user2, w.getId());
+		workoutService.deleteWorkout(user2.getId(), w.getId());
 		workoutService.findWorkoutById(w.getId());	
 	}
 	

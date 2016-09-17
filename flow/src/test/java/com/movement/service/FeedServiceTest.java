@@ -16,6 +16,7 @@ import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutType;
 import com.movement.exception.BadRequestException;
+import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
 public class FeedServiceTest extends TestBaseClass {
@@ -29,6 +30,7 @@ public class FeedServiceTest extends TestBaseClass {
 	private User user1, user2;
 	
 	private List<Activity> activities;
+	private List<Workout> workouts;
 	
 	@Before
 	public void setUp() throws ResourceNotFoundException{
@@ -57,10 +59,15 @@ public class FeedServiceTest extends TestBaseClass {
 		a.setWeight("100");
 		a.setWorkoutType(WorkoutType.BARBELL_ROW);
 		activities.add(a);
+		
+		workouts = new ArrayList<Workout>();
 	}
 	
 	@After
-	public void tearDown(){
+	public void tearDown() throws ResourceNotFoundException, NoPermissionException{
+		for(Workout w : workouts){
+			workoutService.deleteWorkout(w.getOwner().getId(), w.getId());
+		}
 		userService.delete(user1.getId());
 		userService.delete(user2.getId());
 	}
