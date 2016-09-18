@@ -2,7 +2,10 @@ package com.movement.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.movement.dto.TextLength;
 
 @Entity
 @Table(name="comment")
@@ -25,6 +28,9 @@ public class RComment extends BaseEntity {
 	@Column(name="workout_id")
 	private Long workoutId;
 	
+	@Column(name="text", length = TextLength.COMMENT_TEXT)
+	private String commentText;
+	
 	public void setUserId(Long userId){
 		this.userId = userId;
 	}
@@ -39,6 +45,14 @@ public class RComment extends BaseEntity {
 	
 	public Long getWorkoutId(){
 		return workoutId;
+	}
+	
+	public void setCommentText(String commentText){
+		this.commentText = commentText;
+	}
+	
+	public String getCommentText(){
+		return commentText;
 	}
 	
 }

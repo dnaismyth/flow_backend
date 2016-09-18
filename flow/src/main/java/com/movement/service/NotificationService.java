@@ -42,5 +42,17 @@ public class NotificationService {
 		notifyRepo.save(notifyMapper.toRNotification(notify));
 	}
 	
+	/**
+	 * Send the owner of the workout being commented on a notification
+	 * @param ownerId
+	 */
+	@Async
+	@Transactional
+	public void createCommentNotification(Long ownerId){
+		RestPreconditions.checkNotNull(ownerId);
+		Notification notify = new Notification(ownerId, NotificationType.COMMENT);
+		notifyRepo.save(notifyMapper.toRNotification(notify));
+	}
+	
 	//TODO: create like and comment notifications when services are added
 }

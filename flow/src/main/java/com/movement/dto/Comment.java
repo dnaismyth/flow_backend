@@ -12,6 +12,10 @@ public class Comment {
 	
 	private Long workoutId;
 	
+	private String commentText;
+	
+	//TODO: add commentText validation for length
+	
 	public void setCommentId(Long commentId){
 		this.commentId = commentId;
 	}
@@ -42,5 +46,13 @@ public class Comment {
 	
 	public void setWorkoutId(Long workoutId){
 		this.workoutId = workoutId;
+	}
+	
+	public void setCommentText(String commentText){
+		this.commentText = commentText;
+	}
+	
+	public String getCommentText(){
+		return commentText;
 	}
 }
