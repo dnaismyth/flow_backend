@@ -276,6 +276,11 @@ public class UserService {
 	public List<Long> findFollowersByUserId(Long userId){
 		RestPreconditions.checkNotNull(userId);
 		return followJDBCRepo.findFollowersByUserId(userId);
-	}	
+	}
+	
+	public List<BaseUser> findTrendingUsersByWorkoutLikes(User user){
+		
+		return userJDBCRepo.findTrendingUsers();
+	}
 	
 }
