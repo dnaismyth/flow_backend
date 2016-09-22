@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.data.domain.PageRequest;
 
 import com.movement.domain.RUser;
 import com.movement.dto.User;
@@ -60,6 +61,11 @@ public class UserServiceTest extends TestBaseClass {
 		User updated = userService.updateUser(user1);
 		Assert.assertNotEquals(updated.getName(), oldName );
 		Assert.assertNotEquals(updated.getBio(), oldBio);
+	}
+	
+	@Test
+	public void testFindTrendingUsers(){
+		userService.findTrendingUsersByWorkoutLikes(user1);
 	}
 
 }

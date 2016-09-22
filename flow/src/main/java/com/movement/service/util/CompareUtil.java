@@ -5,7 +5,9 @@ import java.util.List;
 public abstract class CompareUtil {
 
 	public static boolean compare(Object obj1, Object obj2){
-		
+		if(obj1 == null){
+			return false;
+		}
 		if(!obj1.equals(obj2)){
 			return false;
 		}

@@ -231,3 +231,26 @@ WITH (
 );
 ALTER TABLE workout_favourite
   OWNER TO postgres;
+  
+  -- Table: event
+
+-- DROP TABLE event;
+
+CREATE TABLE event
+(
+  id bigint NOT NULL,
+  created_date timestamp without time zone NOT NULL,
+  owner_id bigint NOT NULL,
+  address character varying(255) NOT NULL,
+  description character varying(1024),
+  start_date timestamp without time zone NOT NULL,
+  showtype character varying(255),
+  title character varying(60) NOT NULL,
+  CONSTRAINT event_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE event
+  OWNER TO postgres;
+

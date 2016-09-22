@@ -29,6 +29,9 @@ public class TestBaseClass {
 	protected UserService userService;
 	
 	@Autowired
+	protected EventService eventService;
+	
+	@Autowired
 	protected FollowService followService;
 	
 	@Autowired
