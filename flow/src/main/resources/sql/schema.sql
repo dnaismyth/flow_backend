@@ -177,12 +177,18 @@ CREATE TABLE workout
   id bigint NOT NULL,
   created_date timestamp without time zone NOT NULL,
   description character varying(1024),
+  distance character varying(255) NOT NULL,
+  duration character varying(255) NOT NULL,
   address character varying(255),
-  latitude double precision,
-  longitude double precision,
+  latitude real,
+  longitude real,
+  showtype character varying(255),
   media_id bigint,
   owner_id bigint,
-  owner_username character varying(50),
+  CONSTRAINT workout_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_971og4ah2n1xg7uaettfmgntq FOREIGN KEY (media_id)
+      REFERENCES media (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_hua5pddsoep3q1a5q0v4f3cas FOREIGN KEY (owner_id)
       REFERENCES flow_user (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -192,26 +198,6 @@ WITH (
 );
 ALTER TABLE workout
   OWNER TO postgres;
-
--- Table: workout_activity
-
--- DROP TABLE workout_activity;
-
-CREATE TABLE workout_activity
-(
-  workout_id bigint NOT NULL,
-  weight_amount character varying(255),
-  workout_type character varying(255),
-  CONSTRAINT fk_e23078cyj88gjfkbmn4hp3juv FOREIGN KEY (workout_id)
-      REFERENCES workout (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE workout_activity
-  OWNER TO postgres;
-
 
   
 -- Table: workout_favourite
@@ -252,5 +238,23 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE event
+  OWNER TO postgres;
+  
+-- Table: event_interest
+
+-- DROP TABLE event_interest;
+
+CREATE TABLE event_interest
+(
+  id bigint NOT NULL,
+  created_date timestamp without time zone NOT NULL,
+  event_id bigint NOT NULL,
+  user_id bigint NOT NULL,
+  CONSTRAINT event_interest_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE event_interest
   OWNER TO postgres;
 
