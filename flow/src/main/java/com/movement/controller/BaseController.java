@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
+import com.movement.service.EventService;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutFavouriteService;
 import com.movement.service.WorkoutService;
@@ -24,6 +25,9 @@ public class BaseController {
 	
 	@Autowired
 	protected UserService userService;
+	
+	@Autowired
+	protected EventService eventService;
 	
 	protected User getLoggedInUser(){
 		return userService.getCurrentUser();
