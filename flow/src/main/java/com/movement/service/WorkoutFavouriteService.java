@@ -10,6 +10,12 @@ import com.movement.exception.BadRequestException;
 import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.util.RestPreconditions;
 
+/**
+ * Service class created for the purpose of allowing a user to
+ * add or remove a workout from their favourites.
+ * @author DN
+ *
+ */
 @Service
 public class WorkoutFavouriteService {
 
