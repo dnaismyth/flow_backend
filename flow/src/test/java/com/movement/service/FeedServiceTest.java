@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import com.movement.dto.Activity;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutType;
@@ -29,7 +28,6 @@ public class FeedServiceTest extends TestBaseClass {
 	
 	private User user1, user2;
 	
-	private List<Activity> activities;
 	private List<Workout> workouts;
 	
 	@Before
@@ -54,12 +52,6 @@ public class FeedServiceTest extends TestBaseClass {
 			user2 = userService.create(user2);
 		}
 		
-		activities = new ArrayList<Activity>();
-		Activity a = new Activity();
-		a.setWeight("100");
-		a.setWorkoutType(WorkoutType.BARBELL_ROW);
-		activities.add(a);
-		
 		workouts = new ArrayList<Workout>();
 	}
 	
@@ -75,13 +67,13 @@ public class FeedServiceTest extends TestBaseClass {
 	@Test
 	public void testAddToFeed() throws ResourceNotFoundException, BadRequestException{
 		followService.followUser(user1.getId(), user2.getId());
-		Workout w = createWorkout(activities, user2, null);
+		Workout w = createWorkout("20km", "1hour", user2, null);
 	}
 	
 	@Test
 	public void testFindWorkoutsForUserFeed() throws ResourceNotFoundException, BadRequestException{
 		followService.followUser(user1.getId(), user2.getId());
-		Workout w = createWorkout(activities, user2, null);
+		Workout w = createWorkout("20km", "1 hour", user2, null);
 		Page<Workout> output = feedService.findWorkoutsInUserFeed(user1.getId(), new PageRequest(0,5));
 		Assert.assertNotNull(output);
 	}

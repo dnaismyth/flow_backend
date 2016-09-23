@@ -38,20 +38,27 @@ public class Workout {
 		this.description = description;
 		this.showType = showType;
 	}
-
-	/**
-	 * Stores the activites that were completed during the workout
-	 */
-	private List<Activity> activities;
 	
 	private String address;
 	
-	public List<Activity> getActivities(){
-		return activities;
+	private String distance;
+	
+	private String duration;
+	
+	public String getDistance(){
+		return distance;
 	}
 	
-	public void setActivities(List<Activity> activities){
-		this.activities = activities;
+	public void setDistance(String distance){
+		this.distance = distance;
+	}
+	
+	public String getDuration(){
+		return duration;
+	}
+	
+	public void setDuration(String duration){
+		this.duration = duration;
 	}
 	
 	public String getLocation(){

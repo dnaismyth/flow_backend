@@ -62,6 +62,8 @@ public class WorkoutJDBCRepository extends BaseJDBCRepository{
 		    		  rs.getString("description"),
 		    		  showType);
 		      
+		      w.setDistance(rs.getString("distance"));
+		      w.setDuration(rs.getString("duration"));
 		      w.setOwner(baseUser);
 		      w.setAddress(rs.getString("address"));
 		      return w;

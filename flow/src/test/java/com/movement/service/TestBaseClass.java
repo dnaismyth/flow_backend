@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.movement.GetMovingMainApplication;
-import com.movement.dto.Activity;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.repository.FollowRepository;
@@ -47,9 +46,10 @@ public class TestBaseClass {
 	protected WorkoutRepository workoutRepo;
 	
 	// Helper method to create test workouts
-	protected Workout createWorkout(List<Activity> activities, User owner, String location){
+	protected Workout createWorkout(String distance, String duration, User owner, String location){
 		Workout workout = new Workout();
-		workout.setActivities(activities);
+		workout.setDuration(duration);
+		workout.setDistance(distance);
 		workout.setLocation(location);
 		return workoutService.createWorkout(owner, workout);
 	}

@@ -43,14 +43,11 @@ public class RWorkout extends BaseEntity {
 	@OneToOne
 	private RMedia media;
 	
-	/**
-	 * Stores the activites that were completed during the workout
-	 */
-	@Embedded
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="workout_activity", joinColumns=@JoinColumn(name = "workout_id", referencedColumnName = "id"))
-	@Cascade(value=CascadeType.ALL)
-	private List<RActivity> activities = new ArrayList<RActivity>();
+	@Column(name="distance", nullable = false)
+	private String distance;
+	
+	@Column(name = "duration", nullable = false)
+	private String duration;
 	
 	@Embedded
 	private RLocation location;
@@ -59,12 +56,20 @@ public class RWorkout extends BaseEntity {
 	@Column(name="showtype")
 	private ShowType showType;
 	
-	public List<RActivity> getActivities(){
-		return activities;
+	public String getDistance(){
+		return distance;
 	}
 	
-	public void setActivities(List<RActivity> activities){
-		this.activities = activities;
+	public void setDistance(String distance){
+		this.distance = distance;
+	}
+	
+	public String getDuration(){
+		return duration;
+	}
+	
+	public void setDuration(String duration){
+		this.duration = duration;
 	}
 	
 	public RUser getOwner(){

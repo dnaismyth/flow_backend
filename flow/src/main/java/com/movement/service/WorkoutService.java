@@ -11,9 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.movement.domain.RActivity;
 import com.movement.domain.RWorkout;
-import com.movement.dto.Activity;
 import com.movement.dto.ShowType;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -22,7 +20,6 @@ import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
-import com.movement.service.mapper.ActivityMapper;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.mapper.WorkoutMapper;
 import com.movement.service.util.CompareUtil;
@@ -51,7 +48,6 @@ public class WorkoutService {
 	
 	private WorkoutMapper workoutMapper = new WorkoutMapper();
 	private UserMapper userMapper = new UserMapper();
-	private ActivityMapper activityMapper = new ActivityMapper();
 	
 	/**
 	 * Create a workout object
@@ -90,8 +86,12 @@ public class WorkoutService {
 			throw new ResourceNotFoundException(message);
 		}
 
-		if(!CompareUtil.compare(rw.getActivities(), updated.getActivities())){
-			rw.setActivities(activityMapper.toEntityActivities(updated.getActivities()));
+		if(!CompareUtil.compare(rw.getDistance(), updated.getDistance())){
+			rw.setDistance(updated.getDistance());
+		}
+		
+		if(!CompareUtil.compare(rw.getDuration(), updated.getDuration())){
+			rw.setDuration(updated.getDuration());
 		}
 		
 		//TODO: fix mapper
@@ -126,8 +126,6 @@ public class WorkoutService {
 //		if(!found.getOwner().getId().equals(user.getId()) && user.getUserRole()!= UserRole.ADMIN){
 //			throw new NoPermissionException("User does not have access to modify this content.");
 //		}
-		
-		workoutJDBCRepo.deleteWorkoutQueryReferences(workoutId);
 		workoutRepo.delete(workoutId);
 		return true;
 	}

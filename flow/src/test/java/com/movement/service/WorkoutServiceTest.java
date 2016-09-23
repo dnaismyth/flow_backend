@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.movement.domain.RLocation;
 import com.movement.domain.RWorkoutFavourite;
-import com.movement.dto.Activity;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
@@ -52,7 +51,6 @@ public class WorkoutServiceTest extends TestBaseClass {
 	private UserMapper userMapper = new UserMapper();
 	//private LocationMapper locationMapper = new LocationMapper();
 	
-	private List<Activity> activities;
 	
 	private List<Long>userIds;
 	
@@ -60,7 +58,6 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	@Before
 	public void setUp() throws ResourceNotFoundException{
-		activities = new ArrayList<Activity>();
 		userIds = new ArrayList<Long>();
 		workouts = new ArrayList<Workout>();
 		user = userService.findUserByUsername(userName1);
@@ -88,8 +85,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	@After
 	public void tearDown() throws ResourceNotFoundException, NoPermissionException{
 		for(Workout w : workouts){
-			//BaseUser owner = new BaseUser(w.getOwner().getId(), w.getOwner().getUsername(), w.getOwner().getAvatar());
-			//workoutService.deleteWorkout(owner, w.getId());
+			workoutService.deleteWorkout(w.getOwner().getId(), w.getId());
 		}
 		userService.delete(user.getId());
 		userService.delete(user2.getId());
@@ -98,13 +94,11 @@ public class WorkoutServiceTest extends TestBaseClass {
 	// Test that a workout can be created
 	@Test
 	public void testCreate(){
-		Activity activity = new Activity();
-		activity.setWorkoutType(WorkoutType.RUN);
-		activities.add(activity);
 		userIds.add(user.getId());
 		testWorkout = new Workout();
 		testWorkout.setOwner(user);
-		testWorkout.setActivities(activities);
+		testWorkout.setDistance("10km");
+		testWorkout.setDuration("1 hour");
 		Workout created = workoutService.createWorkout(user, testWorkout);
 		workouts.add(created);
 		Assert.assertNotNull(created);
@@ -113,10 +107,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	@Test(expected=ResourceNotFoundException.class)
 	public void testDeleteWorkout() throws ResourceNotFoundException, NoPermissionException{
-		Activity activity = new Activity();
-		activity.setWorkoutType(WorkoutType.DEADLIFT);
-		activities.add(activity);
-		Workout w = createWorkout(activities, user2, null);
+		Workout w = createWorkout("10km", "1 hour", user2, null);
 		Assert.assertNotNull(w);
 		workoutService.deleteWorkout(user2.getId(), w.getId());
 		workoutService.findWorkoutById(w.getId());	
@@ -125,10 +116,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	// Check that a workout can be updated
 	@Test
 	public void testUpdateWorkout(){
-		Activity activity = new Activity();
-		activity.setWorkoutType(WorkoutType.DEADLIFT);
-		activities.add(activity);
-		Workout w = createWorkout(activities, user2, null);
+		Workout w = createWorkout("10km", "1hour", user2, null);
 		workouts.add(w);	
 	}
 	
@@ -141,10 +129,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	
 	@Test
 	public void testFindWorkoutsByOwnerId(){
-		Activity a = new Activity();
-		a.setWorkoutType(WorkoutType.RUN);
-		activities.add(a);
-		Workout w = createWorkout(activities, user, null);
+		Workout w = createWorkout("20km", "2hours", user, null);
 		workouts.add(w);
 		Page<Workout> output = workoutService.findAllWorkoutsByUser(user.getId(), new PageRequest(0,5));
 		Assert.assertEquals(1, output.getNumberOfElements());
@@ -153,10 +138,7 @@ public class WorkoutServiceTest extends TestBaseClass {
 	// Check that a user can add a workout to their favourites
 	@Test
 	public void testAddWorkoutToFavourites() throws BadRequestException{
-		Activity a = new Activity();
-		a.setWorkoutType(WorkoutType.RUN);
-		activities.add(a);
-		Workout w = createWorkout(activities, user, null);
+		Workout w = createWorkout("15km", "1 hour", user, null);
 		workouts.add(w);
 		userService.addWorkoutToFavourites(user2, w.getId());
 		RWorkoutFavourite fav = workoutFavRepo.findByUserIdAndWorkoutId(w.getId(), user2.getId());
