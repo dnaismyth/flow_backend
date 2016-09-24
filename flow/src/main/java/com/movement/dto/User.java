@@ -27,7 +27,7 @@ public class User extends BaseUser {
 	/**
 	 * User Location
 	 */
-	private String address;
+	private Location location;
 	
 	private Date createdDate;
 	
@@ -65,12 +65,12 @@ public class User extends BaseUser {
 		return phone;
 	}
 	
-	public String getAddress(){
-		return address;
+	public Location getLocation(){
+		return location;
 	}
 	
-	public void setLoation(String address){
-		this.address = address;
+	public void setLocation(Location location){
+		this.location = location;
 	}
 	
 	public void setPassword(String password){

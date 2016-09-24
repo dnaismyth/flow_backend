@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.domain.Authority;
+import com.movement.domain.RLocation;
 import com.movement.domain.RUser;
 import com.movement.domain.RWorkout;
 import com.movement.domain.RWorkoutFavourite;
@@ -36,6 +37,7 @@ import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
 import com.movement.security.Authorities;
+import com.movement.service.mapper.LocationMapper;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.util.CompareUtil;
 import com.movement.util.RestPreconditions;
@@ -87,7 +89,7 @@ public class UserService {
 	private FeedRepository feedRepo;
 	
 	private UserMapper userMapper = new UserMapper();
-	//private LocationMapper locationMapper = new LocationMapper();
+	private LocationMapper locationMapper = new LocationMapper();
 	
 	
 	/**
@@ -151,9 +153,10 @@ public class UserService {
 			ru.setName(user.getName());
 		}
 		
-//		if(!CompareUtil.compare(ru.getLocation().getAddress(), user.getAddress())){
-//			//ru.setLocation(locationMapper.toRLocation(user.getAddress()));
-//		}
+		RLocation rl = locationMapper.toRLocation(user.getLocation());
+		if(!CompareUtil.compare(ru.getLocation().getAddress(), rl)){
+			ru.setLocation(rl);
+		}
 		
 		if(!CompareUtil.compare(ru.getPhone(), user.getPhone())){
 			ru.setPhone(user.getPhone());

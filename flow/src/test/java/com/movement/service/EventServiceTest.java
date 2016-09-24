@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.amazonaws.util.DateUtils;
 import com.movement.dto.Event;
+import com.movement.dto.Location;
 import com.movement.dto.User;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
@@ -87,7 +88,11 @@ public class EventServiceTest extends TestBaseClass {
 	
 	private Event createEvent(User owner, String title, Date eventDate, String address) throws ResourceNotFoundException{
 		Event e = new Event();
-		e.setAddress(address);
+		Location l = new Location();
+		l.setAddress("Vancouver");
+		l.setLatitude(49.2462f);
+		l.setLongitude(	-123.1162f);
+		e.setLocation(l);
 		e.setTitle(title);
 		e.setEventDate(eventDate);
 		return eventService.createEvent(e, owner.getId());

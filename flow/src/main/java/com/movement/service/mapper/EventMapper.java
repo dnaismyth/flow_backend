@@ -5,6 +5,7 @@ import com.movement.dto.Event;
 
 public class EventMapper {
 
+	private LocationMapper locationMapper = new LocationMapper();
 	/**
 	 * To event DTO
 	 * @param r
@@ -15,7 +16,7 @@ public class EventMapper {
 		Event e = null;
 		if(r != null){
 			e = new Event();
-			e.setAddress(r.getAddress());
+			e.setLocation(locationMapper.toLocation(r.getLocation()));
 			e.setCreatedDate(r.getCreatedDate());
 			e.setDescription(r.getDescription());
 			e.setEventDate(r.getEventDate());
@@ -37,7 +38,7 @@ public class EventMapper {
 		REvent r = null;
 		if(e != null){
 			r = new REvent();
-			r.setAddress(e.getAddress());
+			r.setLocation(locationMapper.toRLocation(e.getLocation()));
 			r.setCreatedDate(e.getCreatedDate());
 			r.setDescription(e.getDescription());
 			r.setEventDate(e.getEventDate());

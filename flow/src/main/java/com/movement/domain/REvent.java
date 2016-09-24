@@ -3,6 +3,7 @@ package com.movement.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,8 +36,8 @@ public class REvent extends BaseEntity {
 	/**
 	 * Address of the event
 	 */
-	@Column(name="address", nullable=false)
-	private String address;
+	@Embedded
+	private RLocation location;
 	
 	/**
 	 * Date in which the event is planned for
@@ -78,12 +79,12 @@ public class REvent extends BaseEntity {
 		this.description = description;
 	}
 	
-	public String getAddress(){
-		return address;
+	public RLocation getLocation(){
+		return location;
 	}
 	
-	public void setAddress(String address){
-		this.address = address;
+	public void setLocation(RLocation location){
+		this.location = location;
 	}
 	
 	public ShowType getShowType(){

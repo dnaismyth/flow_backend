@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.hibernate.annotations.Type;
+
+import com.vividsolutions.jts.geom.Point;
+
 /**
  * Location information used for Workout Event location and User location
  */
@@ -19,6 +23,10 @@ public class RLocation {
 	
 	@Column
 	private String address;
+	
+//	@Type(type="org.hibernate.spatial.GeometryType")
+//	@Column(columnDefinition="Geometry")
+//	private Point point;
 	
 	public void setLatitude(float latitude){
 		this.latitude = latitude;
@@ -35,12 +43,21 @@ public class RLocation {
 	public float getLongitude(){
 		return longitude;
 	}
-	public void setAddress(String address){
-		this.address = address;
-	}
+	
+//	public Point getPoint(){
+//		return point;
+//	}
+//	
+//	public void setPoint(Point point){
+//		this.point = point;
+//	}
 	
 	public String getAddress(){
 		return address;
+	}
+	
+	public void setAddress(String address){
+		this.address = address;
 	}
 	
 }

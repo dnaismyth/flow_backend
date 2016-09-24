@@ -6,7 +6,14 @@ import com.movement.dto.User;
  * Map user objects and entities
  */
 public class UserMapper {
+	
+	private LocationMapper locationMapper = new LocationMapper();
 
+	/**
+	 * TO DTO Object
+	 * @param user
+	 * @return
+	 */
 	public User toUser(RUser user){
 		User u = null;
 		if(user != null){
@@ -20,11 +27,17 @@ public class UserMapper {
 			u.setPassword(user.getPassword());
 			u.setCreatedDate(user.getCreatedDate());
 			u.setUserRole(user.getUserRole());
+			u.setLocation(locationMapper.toLocation(user.getLocation()));
 		}
 		return u;
 		
 	}
 	
+	/**
+	 * TO Entity User
+	 * @param user
+	 * @return
+	 */
 	public RUser toEntityUser(User user){
 		RUser ru = null;
 		if(user != null){
@@ -39,6 +52,7 @@ public class UserMapper {
 			ru.setUsername(user.getUsername());
 			ru.setCreatedDate(user.getCreatedDate());
 			ru.setUserRole(user.getUserRole());
+			ru.setLocation(locationMapper.toRLocation(user.getLocation()));
 		}
 		return ru;
 	}

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.movement.domain.REvent;
+import com.movement.domain.RLocation;
 import com.movement.dto.Event;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -11,6 +12,7 @@ import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.EventRepository;
 import com.movement.service.mapper.EventMapper;
+import com.movement.service.mapper.LocationMapper;
 import com.movement.service.util.CompareUtil;
 import com.movement.util.RestPreconditions;
 
@@ -24,7 +26,7 @@ public class EventService {
 	private EventRepository eventRepo;
 	
 	private EventMapper eventMapper = new EventMapper();
-	
+	private LocationMapper locationMapper = new LocationMapper();
 	
 	/**
 	 * Find an event by it's id
@@ -76,8 +78,9 @@ public class EventService {
 			throw new ResourceNotFoundException("Cannot find an event with the provided event id");
 		}
 		
-		if(!CompareUtil.compare(r.getAddress(), event.getAddress())){
-			r.setAddress(event.getAddress());
+		RLocation rl = locationMapper.toRLocation(event.getLocation());
+		if(!CompareUtil.compare(r.getLocation(), rl)){
+			r.setLocation(rl);
 		}
 		
 		if(!CompareUtil.compare(r.getDescription(), event.getDescription())){

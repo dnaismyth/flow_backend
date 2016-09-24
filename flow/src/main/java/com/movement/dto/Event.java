@@ -11,7 +11,7 @@ public class Event {
 	private ShowType showType;
 	private String description;
 	private String title;
-	private String address;
+	private Location location;
 	
 	public Long getId(){
 		return id;
@@ -69,11 +69,11 @@ public class Event {
 		this.showType = showType;
 	}
 	
-	public String getAddress(){
-		return address;
+	public Location getLocation(){
+		return location;
 	}
 	
-	public void setAddress(String address){
-		this.address = address;
+	public void setLocation(Location location){
+		this.location = location;
 	}
 }
