@@ -62,6 +62,8 @@ public class UserController extends BaseController {
 			response.setPage(results);
 		}
 		
+		//TODO: if there is no name param, return users in which they are following
+		
 		return response;	
 	}
 

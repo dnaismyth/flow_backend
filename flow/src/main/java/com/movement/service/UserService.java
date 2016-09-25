@@ -229,8 +229,11 @@ public class UserService {
 	 * @return
 	 */
 	public Page<BaseUser> searchUserByName(String name, Pageable pageable){
-		List<BaseUser> results = userJDBCRepo.searchUserByName(name);
-		return new PageImpl<BaseUser>(results);
+		RestPreconditions.checkNotNull(name);
+		RestPreconditions.checkNotNull(pageable);
+		String searchName = "%" + name + "%";
+		List<BaseUser> results = userJDBCRepo.searchUserByName(searchName);
+		return new PageImpl<BaseUser>(results, pageable, results.size());
 	}
 	
 	/**

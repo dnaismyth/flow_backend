@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import com.movement.domain.RFollow;
@@ -64,7 +65,7 @@ public class FollowServiceTest extends TestBaseClass {
 	
 	@Test
 	public void searchUserByUsername(){
-		List<BaseUser> output = userService.searchUserByName("follower", new PageRequest(0,5));
+		Page<BaseUser> output = userService.searchUserByName("follower", new PageRequest(0,5));
 		Assert.assertNotNull(output);
 	}
 	
