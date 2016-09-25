@@ -54,5 +54,30 @@ public class NotificationService {
 		notifyRepo.save(notifyMapper.toRNotification(notify));
 	}
 	
-	//TODO: create like and comment notifications when services are added
+	/**
+	 * Send notification to owner of the event that someone is interested in
+	 * attending their event
+	 * @param ownerId
+	 */
+	@Async
+	@Transactional
+	public void createEventInterestNotification(Long ownerId){
+		RestPreconditions.checkNotNull(ownerId);
+		Notification notify = new Notification(ownerId, NotificationType.EVENT_INTEREST);
+		notifyRepo.save(notifyMapper.toRNotification(notify));
+	}
+	
+	/**
+	 * Send notification to workout owner that someone has "liked" their
+	 * workout
+	 * @param ownerId
+	 */
+	@Async
+	@Transactional
+	public void createWorkoutFavouriteNotification(Long ownerId){
+		RestPreconditions.checkNotNull(ownerId);
+		Notification notify = new Notification(ownerId, NotificationType.LIKE);
+		notifyRepo.save(notifyMapper.toRNotification(notify));
+	}
+
 }

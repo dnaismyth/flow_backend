@@ -15,7 +15,9 @@ public abstract class CompareUtil {
 	}
 	
 	public static <T> boolean compare(List<T> obj1, List<T> obj2){
-		
+		if(obj1 == null){
+			return false;
+		}
 		if(!obj1.equals(obj2)){
 			return false;
 		}

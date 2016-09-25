@@ -3,6 +3,7 @@ package com.movement.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.movement.domain.REvent;
 import com.movement.domain.REventInterest;
 import com.movement.domain.REventInterestPK;
 import com.movement.domain.RWorkoutFavourite;
@@ -11,6 +12,7 @@ import com.movement.dto.User;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.EventInterestRepository;
+import com.movement.repository.EventRepository;
 import com.movement.util.RestPreconditions;
 
 /**
@@ -24,6 +26,13 @@ public class EventInterestService {
 
 	@Autowired
 	private EventInterestRepository eventInterestRepo;
+	
+	@Autowired
+	private EventRepository eventRepo;
+	
+	@Autowired
+	private NotificationService notifyService;
+	
 	/**
 	 * Add an event to the provided user.id's interests
 	 * This event will be something that they may consider attending.
@@ -47,7 +56,11 @@ public class EventInterestService {
 		ei = new REventInterest();
 		ei.setEventInterestPK(pk);
 		eventInterestRepo.save(ei);
-		//TODO: Send event owner a notification
+		
+		// Send notification to the owner of the event
+		REvent event = eventRepo.findOne(eventId);
+		notifyService.createEventInterestNotification(event.getOwnerId());
+		
 		return true;		
 	}
 	

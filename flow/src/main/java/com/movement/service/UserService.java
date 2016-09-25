@@ -153,10 +153,10 @@ public class UserService {
 			ru.setName(user.getName());
 		}
 		
-		RLocation rl = locationMapper.toRLocation(user.getLocation());
-		if(!CompareUtil.compare(ru.getLocation().getAddress(), rl)){
-			ru.setLocation(rl);
-		}
+//		RLocation rl = locationMapper.toRLocation(user.getLocation());
+//		if(!CompareUtil.compare(ru.getLocation().getAddress(), rl)){
+//			ru.setLocation(rl);
+//		}
 		
 		if(!CompareUtil.compare(ru.getPhone(), user.getPhone())){
 			ru.setPhone(user.getPhone());
