@@ -86,15 +86,4 @@ public class EventServiceTest extends TestBaseClass {
 		Assert.assertEquals(description, updated.getDescription());
 	}
 	
-	private Event createEvent(User owner, String title, Date eventDate, String address) throws ResourceNotFoundException{
-		Event e = new Event();
-		Location l = new Location();
-		l.setAddress("Vancouver");
-		l.setLatitude(49.2462f);
-		l.setLongitude(	-123.1162f);
-		e.setLocation(l);
-		e.setTitle(title);
-		e.setEventDate(eventDate);
-		return eventService.createEvent(e, owner.getId());
-	}
 }

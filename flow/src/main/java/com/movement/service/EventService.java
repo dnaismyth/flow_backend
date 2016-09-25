@@ -10,6 +10,7 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
+import com.movement.repository.EventJDBCRepository;
 import com.movement.repository.EventRepository;
 import com.movement.service.mapper.EventMapper;
 import com.movement.service.mapper.LocationMapper;
@@ -24,6 +25,9 @@ public class EventService {
 	
 	@Autowired
 	private EventRepository eventRepo;
+	
+	@Autowired
+	private EventJDBCRepository eventJDBCRepo;
 	
 	private EventMapper eventMapper = new EventMapper();
 	private LocationMapper locationMapper = new LocationMapper();
@@ -121,6 +125,7 @@ public class EventService {
 			throw new NoPermissionException("You do not have permission to delete this event.");
 		}
 		
+		eventJDBCRepo.deleteEventReferencesByEventId(eventId);
 		eventRepo.delete(r);
 		return true;
 	}
