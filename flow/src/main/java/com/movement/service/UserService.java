@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -227,8 +228,9 @@ public class UserService {
 	 * @param pageable
 	 * @return
 	 */
-	public List<BaseUser> searchUserByName(String name, Pageable pageable){
-		return userJDBCRepo.searchUserByName(name);
+	public Page<BaseUser> searchUserByName(String name, Pageable pageable){
+		List<BaseUser> results = userJDBCRepo.searchUserByName(name);
+		return new PageImpl<BaseUser>(results);
 	}
 	
 	/**

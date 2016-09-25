@@ -29,7 +29,7 @@ import com.movement.service.UserService;
  */
 @RestController
 @RequestMapping("/me")
-public class UserSelfController extends BaseUserController {
+public class UserSelfController extends BaseController {
 
 	/**
 	 * Returns the current logged in user information.
