@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -15,6 +17,9 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.movement.dto.ShowType;
+import com.movement.dto.Status;
 
 /**
  * Table to store quest information
@@ -73,6 +78,13 @@ public class RQuest implements Serializable {
 	 */
 	@Embedded
 	private RObjective objective;
+	
+	/**
+	 * The current status of the quest (upcoming, active, expired)
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name="status")
+	private Status questStatus;
 	
 	
 	@PrePersist
@@ -148,6 +160,14 @@ public class RQuest implements Serializable {
 	
 	public void setExperience(int experience){
 		this.experience = experience;
+	}
+	
+	public Status getStatus(){
+		return questStatus;
+	}
+	
+	public void setStatus(Status questStatus){
+		this.questStatus = questStatus;
 	}
     
     

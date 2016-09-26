@@ -18,6 +18,7 @@ public class Quest {
 	private String description;
 	private int experience;
 	private Objective objective;
+	private Status questStatus;
 	
 	public Long getId(){
 		return id;
@@ -81,5 +82,13 @@ public class Quest {
 	
 	public void setObjective(Objective objective){
 		this.objective = objective;
+	}
+	
+	public Status getStatus(){
+		return questStatus;
+	}
+	
+	public void setStatus(Status questStatus){
+		this.questStatus = questStatus;
 	}
 }

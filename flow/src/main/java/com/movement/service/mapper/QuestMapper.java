@@ -29,6 +29,7 @@ public class QuestMapper {
 			q.setId(rq.getId());
 			q.setTitle(rq.getTitle());
 			q.setObjective(objectiveMapper.toObjective(rq.getObjective()));
+			q.setStatus(rq.getStatus());
 		}
 		
 		return q;
@@ -51,6 +52,7 @@ public class QuestMapper {
 			rq.setStartTime(q.getStartTime());
 			rq.setTitle(q.getTitle());
 			rq.setObjective(objectiveMapper.toRObjective(q.getObjective()));
+			rq.setStatus(q.getStatus());
 		}
 	
 		return rq;

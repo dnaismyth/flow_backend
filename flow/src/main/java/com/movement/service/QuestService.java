@@ -104,6 +104,10 @@ public class QuestService {
 			r.setStartTime(quest.getStartTime());
 		}
 		
+		if(!CompareUtil.compare(r.getStatus(), quest.getStatus())){
+			r.setStatus(quest.getStatus());
+		}
+		
 		RQuest saved = questRepo.save(r);
 		return questMapper.toQuest(saved);
 	}

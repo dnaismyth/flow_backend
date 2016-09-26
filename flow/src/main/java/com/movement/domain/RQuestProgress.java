@@ -24,7 +24,8 @@ public class RQuestProgress extends BaseEntity {
 	private RUserQuestPK userQuestPK;
 	
 	/**
-	 * User's current quest progression in percentage
+	 * User's current quest progression in percentage,
+	 * initial value will be set to 0
 	 */
 	@Column(name="percent_complete")
 	private float percentComplete = 0;
