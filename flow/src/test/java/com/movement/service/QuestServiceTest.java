@@ -48,6 +48,7 @@ public class QuestServiceTest extends TestBaseClass {
 		userService.delete(admin.getId());
 	}
 	
+	// Check that a quest can be created
 	@Test
 	public void testCreateQuest() throws NoPermissionException{
 		quest = new Quest();
@@ -55,5 +56,40 @@ public class QuestServiceTest extends TestBaseClass {
 		quest.setExperience(100);
 		Quest created = questService.createQuest(quest, admin);
 		Assert.assertNotNull(created);
+	}
+	
+	// Check that a quest can be updated
+	@Test
+	public void testUpdateQuest() throws NoPermissionException{
+		String title = "Updating quest title.";
+		quest = new Quest();
+		quest.setDescription("Testing update quest");
+		quest.setExperience(20);
+		Quest created = questService.createQuest(quest, admin);
+		created.setTitle(title);
+		created.setExperience(50);
+		Quest updated = questService.updateQuest(created, admin);
+		Assert.assertEquals(title, updated.getTitle());
+		Assert.assertEquals(50, updated.getExperience());	
+	}
+	
+	// Test that a quest can be found by it's id
+	@Test
+	public void testGetQuestById() throws NoPermissionException{
+		quest = new Quest();
+		quest.setTitle("Testing find by id");
+		Quest created = questService.createQuest(quest, admin);
+		Quest found = questService.getQuest(created.getId());
+		Assert.assertNotNull(found);
+	}
+	
+	// Test that a quest can be deleted by an admin
+	@Test
+	public void testDeleteQuest() throws NoPermissionException{
+		quest = new Quest();
+		quest.setTitle("Testing delete quest");
+		Quest toDelete = questService.createQuest(quest, admin);
+		boolean deleted = questService.deleteQuest(toDelete.getId(), admin);
+		Assert.assertTrue(deleted);
 	}
 }

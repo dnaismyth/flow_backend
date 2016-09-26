@@ -124,7 +124,11 @@ public class UserService {
 		// Set the user as activated once they have signed up and encode password
 		ru.setActivated(true);
 		ru.setPassword(passwordEncode.encode(ru.getPassword()));
-		ru.setUserRole(UserRole.USER);
+		
+		// By Default set the role to USER
+		if(ru.getUserRole() == null){
+			ru.setUserRole(UserRole.USER);
+		}
 		
 		RUser saved = userRepo.save(ru);
 		// Initially create an empty feed for the user
