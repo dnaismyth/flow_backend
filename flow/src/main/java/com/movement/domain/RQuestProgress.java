@@ -27,7 +27,7 @@ public class RQuestProgress extends BaseEntity {
 	 * User's current quest progression in percentage
 	 */
 	@Column(name="percent_complete")
-	private float percentComplete;
+	private float percentComplete = 0;
 	
 	/**
 	 * flag to store whether the user has completed the quest

@@ -295,4 +295,5 @@ public class UserService {
 		return userJDBCRepo.findTrendingUsers();
 	}
 	
+	
 }

@@ -5,10 +5,14 @@ import org.springframework.stereotype.Service;
 
 import com.movement.domain.RObjective;
 import com.movement.domain.RQuest;
+import com.movement.domain.RQuestProgress;
+import com.movement.domain.RUserQuestPK;
 import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
+import com.movement.repository.QuestProgressRepository;
 import com.movement.repository.QuestRepository;
 import com.movement.service.mapper.ObjectiveMapper;
 import com.movement.service.mapper.QuestMapper;
@@ -20,6 +24,9 @@ public class QuestService {
 	
 	@Autowired
 	private QuestRepository questRepo;
+	
+	@Autowired
+	private QuestProgressRepository questProgressRepo;
 	
 	private QuestMapper questMapper = new QuestMapper();
 	private ObjectiveMapper objMapper = new ObjectiveMapper();
@@ -120,6 +127,31 @@ public class QuestService {
 		return true;
 	}
 	
+	/**
+	 * Allow for a user to start a quest
+	 * @param questId
+	 * @param user
+	 * @return
+	 * @throws BadRequestException 
+	 */
+	public boolean startNewQuest(Long questId, User user) throws BadRequestException{
+		RestPreconditions.checkNotNull(questId);
+		RestPreconditions.checkNotNull(user);
+		
+		// Check that the user has not already started this quest
+		RQuestProgress qp = questProgressRepo.findByUserIdAndQuestId(user.getId(), questId);
+		if(qp != null){
+			throw new BadRequestException("You have already started this quest.");
+		}
+		
+		RUserQuestPK pk = new RUserQuestPK();
+		pk.setQuestId(questId);
+		pk.setUserId(user.getId());
+		qp = new RQuestProgress();
+		qp.setUserQuestPK(pk);
+		questProgressRepo.save(qp);
+		return true;
+	}
 	
 	
 	
