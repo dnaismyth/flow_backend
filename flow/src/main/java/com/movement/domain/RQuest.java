@@ -66,7 +66,7 @@ public class RQuest implements Serializable {
 	 * Experience gained from completing the quest
 	 */
 	@Column
-	private Integer experience;
+	private int experience;
 	
 	/**
 	 * Quest objectives (eg: run 10k)
@@ -140,6 +140,14 @@ public class RQuest implements Serializable {
 	
 	public void setObjective(RObjective objective){
 		this.objective = objective;
+	}
+	
+	public int getExperience(){
+		return experience;
+	}
+	
+	public void setExperience(int experience){
+		this.experience = experience;
 	}
     
     

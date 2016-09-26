@@ -2,6 +2,8 @@ package com.movement.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Table to store the user's current quest progress
@@ -9,6 +11,8 @@ import javax.persistence.Embedded;
  * @author DN
  *
  */
+@Entity
+@Table(name = "quest_progress")
 public class RQuestProgress extends BaseEntity {
 
 	/**
