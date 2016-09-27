@@ -26,7 +26,7 @@ import com.movement.util.RestPreconditions;
  *
  */
 @RestController
-@RequestMapping("/signup")
+@RequestMapping("/register")
 public class SignupController {
 
 	@Autowired
@@ -57,6 +57,10 @@ public class SignupController {
     	User u = buildUser(req);
     	return new RestResponse<User>(Operation.CREATE, u);
     }
+    
+//    @RequestMapping(value = "/{provider}", method = RequestMethod.GET)
+//    public 
+    
     
     // Build user from provided signup request
     private User buildUser(SignupRequest req){

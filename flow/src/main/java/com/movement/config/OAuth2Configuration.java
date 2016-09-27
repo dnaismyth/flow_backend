@@ -60,6 +60,7 @@ public class OAuth2Configuration {
                     .and()
                     .authorizeRequests()
                     .antMatchers("/hello/").permitAll()
+                    .antMatchers("/api/**").authenticated()
                     .antMatchers("/secure/**").authenticated();
 
         }

@@ -11,6 +11,6 @@ import com.movement.domain.RWorkoutFavourite;
 @Repository
 public interface QuestProgressRepository extends JpaRepository <RQuestProgress, Long>{
 
-	@Query("SELECT uq FROM RQuestProgress qu WHERE qu.userQuestPK.user_id = :userId AND qu.userQuestPK.quest_id = :questId")
+	@Query("SELECT qu FROM RQuestProgress qu WHERE qu.userQuestPK.userId = :userId AND qu.userQuestPK.questId = :questId")
 	public RQuestProgress findByUserIdAndQuestId(@Param("userId") Long userId, @Param("questId") Long questId);
 }

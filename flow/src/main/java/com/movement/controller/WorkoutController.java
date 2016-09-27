@@ -17,7 +17,7 @@ import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
 @RestController
-@RequestMapping("/workout")
+@RequestMapping("/api/workout")
 public class WorkoutController extends BaseController {
 	
 	/**
