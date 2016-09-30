@@ -41,7 +41,7 @@ public class SignupController {
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
     @ResponseBody
     public User sayHello() throws ResourceNotFoundException {
-        User user = userService.findUserByUsername("dayna");
+        User user = userService.getUser(194l);
         return user;
     }
     
@@ -55,7 +55,8 @@ public class SignupController {
     public RestResponse<User> createLogin(@RequestBody SignupRequest req){
     	RestPreconditions.checkNotNull(req);
     	User u = buildUser(req);
-    	return new RestResponse<User>(Operation.CREATE, u);
+    	User created = userService.create(u);
+    	return new RestResponse<User>(Operation.CREATE, created);
     }
     
 //    @RequestMapping(value = "/{provider}", method = RequestMethod.GET)

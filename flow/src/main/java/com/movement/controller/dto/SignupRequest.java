@@ -13,6 +13,8 @@ public class SignupRequest {
 	private String email;
 	private String name;
 	
+	public SignupRequest(){}
+	
 	public SignupRequest(String username, String name, String password, String email){
 		this.username = username;
 		this.password = password;

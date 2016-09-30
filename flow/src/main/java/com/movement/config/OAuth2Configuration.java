@@ -11,6 +11,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
@@ -42,7 +44,8 @@ public class OAuth2Configuration {
         @Override
         public void configure(HttpSecurity http) throws Exception {
 
-            http
+            http                    
+            		.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
                     .exceptionHandling()
                     .authenticationEntryPoint(customAuthenticationEntryPoint)
                     .and()
@@ -59,10 +62,9 @@ public class OAuth2Configuration {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
                     .antMatchers("/hello/").permitAll()
-                    .antMatchers("/api/**").authenticated()
                     .antMatchers("/secure/**").authenticated();
-
         }
 
     }

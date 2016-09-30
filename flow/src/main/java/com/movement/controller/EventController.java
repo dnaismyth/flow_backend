@@ -15,7 +15,7 @@ import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping("/event")
 public class EventController extends BaseController {
 
 	/**

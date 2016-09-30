@@ -31,7 +31,7 @@ import com.movement.util.RestPreconditions;
  */
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController extends BaseController {
 	
 	private static final String PARAM_PAGE = "page";
