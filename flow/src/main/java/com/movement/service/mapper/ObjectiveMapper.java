@@ -22,8 +22,7 @@ public class ObjectiveMapper {
 			o.setMeasureUnit(ro.getMeasureUnit());
 			o.setObjectiveType(ro.getObjectiveType());
 			o.setTargetValue(ro.getTargetValue());
-		}
-		
+		}	
 		return o;
 	}
 	

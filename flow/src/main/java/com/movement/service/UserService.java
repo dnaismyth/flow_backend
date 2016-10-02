@@ -26,6 +26,7 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
 import com.movement.exception.BadRequestException;
+import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.AuthorityJDBCRepository;
 import com.movement.repository.AuthorityRepository;
@@ -175,11 +176,13 @@ public class UserService {
 	/**
 	 * Delete a user
 	 * @param userId
+	 * @throws NoPermissionException 
 	 */
-	public void delete(Long userId){
-		//TODO: check if current logged in user matches the provided id, or if
-		// the user role is admin
+	public void delete(User user, Long userId) throws NoPermissionException{
 		RestPreconditions.checkNotNull(userId);
+		if(!user.getId().equals(userId) && user.getUserRole()!= UserRole.ADMIN){
+			throw new NoPermissionException("You do not have permission to delete this user.");
+		}
 		workoutJDBCRepo.deleteWorkoutAndReferencesByOwner(userId);
 		feedRepo.deleteFeedByUserId(userId);
 		userRepo.delete(userId);

@@ -76,7 +76,7 @@ public class UserSelfController extends BaseController {
 	public RestResponse<User> deleteProfile() throws NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		userService.delete(user.getId());
+		userService.delete(user, user.getId());
 		return new RestResponse<User>(Operation.DELETE, user.getId());
 	}
 	

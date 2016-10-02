@@ -87,8 +87,8 @@ public class WorkoutServiceTest extends TestBaseClass {
 		for(Workout w : workouts){
 			workoutService.deleteWorkout(w.getOwner().getId(), w.getId());
 		}
-		userService.delete(user.getId());
-		userService.delete(user2.getId());
+		userService.delete(user, user.getId());
+		userService.delete(user2, user2.getId());
 	}
 	
 	// Test that a workout can be created

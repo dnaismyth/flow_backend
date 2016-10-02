@@ -10,6 +10,7 @@ import com.movement.domain.RUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
+import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
 
@@ -32,9 +33,9 @@ public class UserServiceTest extends TestBaseClass {
 	}
 	
 	@After
-	public void tearDown(){
+	public void tearDown() throws NoPermissionException{
 		if(user1.getId() != null)
-			userService.delete(user1.getId());
+			userService.delete(user1, user1.getId());
 	}
 	
 	// Test that a user is being stored in the db

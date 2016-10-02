@@ -52,7 +52,7 @@ public class EventInterestServiceTest extends TestBaseClass {
 			eventService.deleteEvent(l, user1.getId());
 		}
 		
-		userService.delete(user1.getId());
+		userService.delete(user1, user1.getId());
 	}
 	
 	//Check that an event can be added to a user's interests

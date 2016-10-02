@@ -60,8 +60,8 @@ public class FeedServiceTest extends TestBaseClass {
 		for(Workout w : workouts){
 			workoutService.deleteWorkout(w.getOwner().getId(), w.getId());
 		}
-		userService.delete(user1.getId());
-		userService.delete(user2.getId());
+		userService.delete(user1, user1.getId());
+		userService.delete(user2, user2.getId());
 	}
 	
 	@Test

@@ -14,6 +14,7 @@ import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.BadRequestException;
+import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
 public class FollowServiceTest extends TestBaseClass {
@@ -51,9 +52,9 @@ public class FollowServiceTest extends TestBaseClass {
 	}
 	
 	@After
-	public void tearDown(){
-		userService.delete(follower.getId());
-		userService.delete(following.getId());
+	public void tearDown() throws NoPermissionException{
+		userService.delete(follower, follower.getId());
+		userService.delete(following, following.getId());
 	}
 	
 	// Check that a User can be followed

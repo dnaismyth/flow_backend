@@ -45,7 +45,7 @@ public class EventServiceTest extends TestBaseClass {
 		for(Long l : eventIds){
 			eventService.deleteEvent(l, user1.getId());
 		}
-		userService.delete(user1.getId());
+		userService.delete(user1, user1.getId());
 	}
 	
 	@Test

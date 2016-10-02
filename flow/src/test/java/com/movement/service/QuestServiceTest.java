@@ -41,11 +41,11 @@ public class QuestServiceTest extends TestBaseClass {
 	
 	
 	@After
-	public void tearDown(){
+	public void tearDown() throws NoPermissionException{
 		if(quest.getId() != null)
 			questRepo.delete(quest.getId());
 		
-		userService.delete(admin.getId());
+		userService.delete(admin, admin.getId());
 	}
 	
 	// Check that a quest can be created

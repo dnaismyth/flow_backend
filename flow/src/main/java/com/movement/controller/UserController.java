@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.RestResponse;
 import com.movement.dto.BaseUser;
+import com.movement.dto.Operation;
 import com.movement.dto.User;
+import com.movement.dto.Workout;
+import com.movement.exception.NoPermissionException;
+import com.movement.exception.ResourceNotFoundException;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutService;
 import com.movement.util.RestPreconditions;
@@ -31,12 +35,27 @@ import com.movement.util.RestPreconditions;
  */
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController extends BaseController {
 	
 	private static final String PARAM_PAGE = "page";
 	private static final String PARAM_SIZE = "size";
 	private static final String PARAM_NAME = "name";
+	
+	/**
+	 * Find one user by id
+	 * @param id
+	 * @return
+	 * @throws NoPermissionException
+	 * @throws ResourceNotFoundException
+	 */
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	public RestResponse<User> getUser(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		User found = userService.getUser(id);
+		return new RestResponse<User>(found);
+	}
 
 	/**
 	 * Search controller to find a user by their username
