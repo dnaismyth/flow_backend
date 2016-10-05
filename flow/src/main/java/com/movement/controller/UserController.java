@@ -38,10 +38,6 @@ import com.movement.util.RestPreconditions;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 	
-	private static final String PARAM_PAGE = "page";
-	private static final String PARAM_SIZE = "size";
-	private static final String PARAM_NAME = "name";
-	
 	/**
 	 * Find one user by id
 	 * @param id

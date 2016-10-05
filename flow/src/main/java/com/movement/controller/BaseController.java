@@ -6,6 +6,7 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
 import com.movement.service.EventService;
+import com.movement.service.FeedService;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutFavouriteService;
 import com.movement.service.WorkoutService;
@@ -16,6 +17,10 @@ import com.movement.service.WorkoutService;
  *
  */
 public class BaseController {
+	
+	protected static final String PARAM_PAGE = "page";
+	protected static final String PARAM_SIZE = "size";
+	protected static final String PARAM_NAME = "name";
 	
 	@Autowired
 	protected WorkoutFavouriteService workoutFavService;
@@ -28,6 +33,9 @@ public class BaseController {
 	
 	@Autowired
 	protected EventService eventService;
+	
+	@Autowired
+	protected FeedService feedService;
 	
 	protected User getLoggedInUser(){
 		return userService.getCurrentUser();
