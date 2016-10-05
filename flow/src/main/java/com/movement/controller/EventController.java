@@ -11,6 +11,7 @@ import com.movement.controller.dto.SimpleResponse;
 import com.movement.dto.Event;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
@@ -72,13 +73,32 @@ public class EventController extends BaseController {
 	 * @throws ResourceNotFoundException
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	public SimpleResponse deletEvent(@PathVariable("id") Long id) throws NoPermissionException, ResourceNotFoundException{
+	public SimpleResponse deleteEvent(@PathVariable("id") Long id) throws NoPermissionException, ResourceNotFoundException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
 		boolean deleted = eventService.deleteEvent(id, user.getId());
 		if(deleted){
 			return new SimpleResponse(Operation.DELETE);
 		}else{
+			return new SimpleResponse(Operation.NO_CHANGE);
+		}
+	}
+	
+	/**
+	 * Allow for a user to add an event to their interests
+	 * @param id
+	 * @return
+	 * @throws NoPermissionException
+	 * @throws BadRequestException
+	 */
+	@RequestMapping(value="/{id}/interests", method = RequestMethod.POST)
+	public SimpleResponse addEventToInterests(@PathVariable("id") Long id) throws NoPermissionException, BadRequestException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		boolean added = eventInterestService.addEventToInterests(id, user);
+		if(added){
+			return new SimpleResponse(Operation.ADD);
+		} else {
 			return new SimpleResponse(Operation.NO_CHANGE);
 		}
 	}

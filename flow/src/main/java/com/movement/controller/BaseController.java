@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
+import com.movement.service.EventInterestService;
 import com.movement.service.EventService;
 import com.movement.service.FeedService;
 import com.movement.service.UserService;
@@ -36,6 +37,9 @@ public class BaseController {
 	
 	@Autowired
 	protected FeedService feedService;
+	
+	@Autowired
+	protected EventInterestService eventInterestService;
 	
 	protected User getLoggedInUser(){
 		return userService.getCurrentUser();
