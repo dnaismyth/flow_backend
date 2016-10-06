@@ -27,10 +27,11 @@ public class WorkoutController extends BaseController {
 	 * @throws NoPermissionException 
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public Workout createWorkout(@RequestBody Workout workout) throws NoPermissionException{
+	public RestResponse<Workout> createWorkout(@RequestBody Workout workout) throws NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		return workoutService.createWorkout(user, workout);
+		Workout created = workoutService.createWorkout(user, workout);
+		return new RestResponse<Workout>(Operation.CREATE, created);
 	}
 	
 	/**

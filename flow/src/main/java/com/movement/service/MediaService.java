@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.movement.domain.RMedia;
 import com.movement.dto.Media;
 import com.movement.dto.User;
+import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.MediaRepository;
@@ -67,7 +68,7 @@ public class MediaService {
 			throw new ResourceNotFoundException(message);
 		}
 		
-		if(!m.getOwnerId().equals(owner.getId())){
+		if(!m.getOwnerId().equals(owner.getId()) && owner.getUserRole() != UserRole.ADMIN){
 			throw new NoPermissionException("User does not have access to alter this media");
 		}
 		
@@ -95,10 +96,16 @@ public class MediaService {
 	 * Delete media item
 	 * @param id
 	 * @return
+	 * @throws NoPermissionException 
 	 */
-	public boolean deleteMedia(Long id){
+	public boolean deleteMedia(User user, Long id) throws NoPermissionException{
 		RestPreconditions.checkNotNull(id);
-		mediaRepo.delete(id);
+		RMedia toDelete = mediaRepo.findOne(id);
+		if(!toDelete.getOwnerId().equals(user.getId()) && user.getUserRole() != UserRole.ADMIN){
+			throw new NoPermissionException("You must be the owner or admin to modify this media.");
+		}
+		
+		mediaRepo.delete(toDelete);
 		return true;
 	}
 	
