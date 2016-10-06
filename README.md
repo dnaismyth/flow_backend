@@ -15,4 +15,4 @@ https://github.com/dnaismyth/flow_frontend
 ## Prototypes
 
 I will be creating and updating prototypes to give me a better idea of what I will need to develop in the backend in order to meet the requirements I would like to include.  These can be found at the following location:
-https://projects.invisionapp.com/d/main#/projects/8851800
+https://invis.io/698UM8HTW
