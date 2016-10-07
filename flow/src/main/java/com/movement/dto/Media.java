@@ -1,23 +1,27 @@
 package com.movement.dto;
 
+import java.io.Serializable;
+
 /**
  * Media object that will hold the image posted within a workout
  * @author DN
  *
  */
-public class Media {
+public class Media implements Serializable{
 
 	/**
-	 * Owner of the media item
+	 * 
 	 */
+	private static final long serialVersionUID = 6521312504580294803L;
 	
 	private Long id;
 	
+	/**
+	 * Owner of the media item
+	 */
 	private Long owner_id;
 	
-	private String feedFile;
-	
-	private String thumbnailFile;
+	private String fileName;
 	
 	private String caption;
 	
@@ -39,12 +43,12 @@ public class Media {
 		this.caption = caption;
 	}
 	
-	public String getFeedFile(){
-		return feedFile;
+	public String getFileName(){
+		return fileName;
 	}
 	
-	public void setFeedFile(String feedFile){
-		this.feedFile = feedFile;
+	public void setFileName(String fileName){
+		this.fileName = fileName;
 	}
 	
 	public Long getId(){
@@ -55,13 +59,6 @@ public class Media {
 		this.id = id;
 	}
 	
-	public void setThumbnail(String thumbnailFile){
-		this.thumbnailFile = thumbnailFile;
-	}
-	
-	public String getThumbnail(){
-		return thumbnailFile;
-	}
 	
 	
 	

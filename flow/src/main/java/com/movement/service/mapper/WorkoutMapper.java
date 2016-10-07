@@ -62,7 +62,7 @@ public class WorkoutMapper {
 			rw.setDistance(workout.getDistance());
 			rw.setDuration(workout.getDuration());
 			rw.setMedia(mediaMapper.toRMedia(workout.getMedia()));
-			//TODO: create location mapper, set media and create media mapper
+			//TODO: create location mapper
 			//if(workout.getLocation()!=null)
 				//rw.setLocation(locationMapper.toRLocation(workout.getLocation()));
 		}

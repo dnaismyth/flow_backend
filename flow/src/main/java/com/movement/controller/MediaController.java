@@ -31,7 +31,7 @@ public class MediaController extends BaseController{
 	public RestResponse<Media> getUser(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		Media media = mediaService.findMedia(id);
+		Media media = mediaService.getMedia(id);
 		return new RestResponse<Media>(media);
 	}
 	

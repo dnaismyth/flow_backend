@@ -30,6 +30,12 @@ public class Workout {
 	 */
 	private ShowType showType;
 	
+	private String address;
+	
+	private String distance;
+	
+	private String duration;
+	
 	public Workout(){}
 	
 	public Workout(Long id, Date createdDate, String description, ShowType showType){
@@ -38,12 +44,6 @@ public class Workout {
 		this.description = description;
 		this.showType = showType;
 	}
-	
-	private String address;
-	
-	private String distance;
-	
-	private String duration;
 	
 	public String getDistance(){
 		return distance;

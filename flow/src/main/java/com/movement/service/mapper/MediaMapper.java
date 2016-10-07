@@ -20,9 +20,8 @@ public class MediaMapper {
 		if(rm != null){
 			m = new Media();
 			m.setCaption(rm.getCaption());
-			m.setFeedFile(rm.getFeedFile());
 			m.setOwnerId(rm.getOwnerId());
-			m.setThumbnail(rm.getThumbnail());
+			m.setFileName(rm.getFileName());
 		}
 		
 		return m;
@@ -38,9 +37,8 @@ public class MediaMapper {
 		if(m != null){
 			rm = new RMedia();
 			rm.setCaption(m.getCaption());
-			rm.setFeedFile(m.getFeedFile());
 			rm.setOwnerId(m.getOwnerId());
-			rm.setThumbnail(m.getThumbnail());
+			rm.setFileName(m.getFileName());
 		}
 		return rm;
 	}

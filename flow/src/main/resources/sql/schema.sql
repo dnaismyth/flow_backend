@@ -158,10 +158,13 @@ CREATE TABLE media
   id bigint NOT NULL,
   created_date timestamp without time zone NOT NULL,
   caption character varying(255) NOT NULL,
-  filename character varying(255) NOT NULL,
+  file_name character varying(255) NOT NULL,
   owner_id bigint NOT NULL,
   workout_id bigint,
-  thumbnail_file character varying(255) NOT NULL
+  CONSTRAINT media_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_ioys0ar1fjjf8ke579pfobe73 FOREIGN KEY (workout_id)
+      REFERENCES workout (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE

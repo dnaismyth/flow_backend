@@ -2,6 +2,7 @@ package com.movement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.domain.RMedia;
 import com.movement.dto.Media;
@@ -29,7 +30,8 @@ public class MediaService {
 	 * @param id
 	 * @return
 	 */
-	public Media findMedia(Long id){
+	@Transactional
+	public Media getMedia(Long id){
 		RestPreconditions.checkNotNull(id);
 		return mediaMapper.toMedia(mediaRepo.findOne(id));
 	}
@@ -40,6 +42,7 @@ public class MediaService {
 	 * @param owner
 	 * @return
 	 */
+	@Transactional
 	public Media createMedia(Media m, User owner){
 		RestPreconditions.checkNotNull(m);
 		RestPreconditions.checkNotNull(owner);
@@ -58,6 +61,7 @@ public class MediaService {
 	 * @throws NoPermissionException
 	 * @throws ResourceNotFoundException
 	 */
+	@Transactional
 	public Media updateMedia(Media m, User owner) throws NoPermissionException, ResourceNotFoundException{
 		RestPreconditions.checkNotNull(m);
 		RestPreconditions.checkNotNull(owner);
@@ -76,12 +80,8 @@ public class MediaService {
 			rm.setCaption(m.getCaption());
 		}
 		
-		if(!CompareUtil.compare(m.getThumbnail(), rm.getThumbnail())){
-			rm.setThumbnail(m.getThumbnail());
-		}
-		
-		if(!CompareUtil.compare(m.getFeedFile(), rm.getFeedFile())){
-			rm.setFeedFile(rm.getFeedFile());
+		if(!CompareUtil.compare(m.getFileName(), rm.getFileName())){
+			rm.setFileName(m.getFileName());
 		}
 		
 		if(!CompareUtil.compare(m.getOwnerId(), rm.getOwnerId())){
@@ -98,6 +98,7 @@ public class MediaService {
 	 * @return
 	 * @throws NoPermissionException 
 	 */
+	@Transactional
 	public boolean deleteMedia(User user, Long id) throws NoPermissionException{
 		RestPreconditions.checkNotNull(id);
 		RMedia toDelete = mediaRepo.findOne(id);

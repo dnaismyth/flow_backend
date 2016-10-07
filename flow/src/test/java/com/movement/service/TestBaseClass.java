@@ -49,6 +49,9 @@ public class TestBaseClass {
 	@Autowired
 	protected WorkoutRepository workoutRepo;
 	
+	@Autowired
+	protected MediaService mediaService;
+	
 	// Helper method to create test workouts
 	protected Workout createWorkout(String distance, String duration, User owner, String location){
 		Workout workout = new Workout();
