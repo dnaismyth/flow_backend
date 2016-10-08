@@ -293,8 +293,11 @@ public class UserService {
 		return followJDBCRepo.findFollowersByUserId(userId);
 	}
 	
-	public List<BaseUser> findTrendingUsersByWorkoutLikes(User user){
-		
+	/**
+	 * Returns a list of users who have the most amount of workout "likes"
+	 * @return
+	 */
+	public List<BaseUser> findTrendingUsersByWorkoutLikes(){
 		return userJDBCRepo.findTrendingUsers();
 	}
 	

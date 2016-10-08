@@ -91,7 +91,7 @@ public class WorkoutController extends BaseController {
 	 * @throws NoPermissionException
 	 * @throws BadRequestException
 	 */
-	@RequestMapping(value="/{id}/like", method = RequestMethod.POST)
+	@RequestMapping(value="/{id}/likes", method = RequestMethod.POST)
 	public SimpleResponse likeWorkout(@PathVariable Long id) throws NoPermissionException, BadRequestException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
@@ -110,7 +110,7 @@ public class WorkoutController extends BaseController {
 	 * @return
 	 * @throws NoPermissionException
 	 */
-	@RequestMapping(value="/{id}/like", method = RequestMethod.DELETE)
+	@RequestMapping(value="/{id}/likes", method = RequestMethod.DELETE)
 	public SimpleResponse unlikeWorkout(@PathVariable Long id) throws NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);

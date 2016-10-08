@@ -1,5 +1,7 @@
 package com.movement.service;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,6 +9,7 @@ import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
 
 import com.movement.domain.RUser;
+import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
@@ -64,9 +67,11 @@ public class UserServiceTest extends TestBaseClass {
 		Assert.assertNotEquals(updated.getBio(), oldBio);
 	}
 	
+	// Check that trending users are being returned
 	@Test
 	public void testFindTrendingUsers(){
-		userService.findTrendingUsersByWorkoutLikes(user1);
+		List<BaseUser> trending = userService.findTrendingUsersByWorkoutLikes();
+		Assert.assertNotNull(trending);
 	}
 
 }

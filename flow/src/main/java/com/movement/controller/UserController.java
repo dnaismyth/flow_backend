@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.RestResponse;
+import com.movement.controller.dto.SimpleResponse;
 import com.movement.dto.BaseUser;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.service.UserService;
@@ -52,6 +54,40 @@ public class UserController extends BaseController {
 		User found = userService.getUser(id);
 		return new RestResponse<User>(found);
 	}
+	
+	/**
+	 * Allow for a user to follow others 
+	 * @param id
+	 * @return
+	 * @throws NoPermissionException
+	 * @throws ResourceNotFoundException
+	 * @throws BadRequestException
+	 */
+	@RequestMapping(value="/{id}/follows", method = RequestMethod.POST)
+	public SimpleResponse followUser(@PathVariable Long id) throws NoPermissionException, ResourceNotFoundException, BadRequestException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		boolean followed = followService.followUser(user.getId(), id);
+		if(followed){
+			return new SimpleResponse(Operation.ADD);
+		} else {
+			return new SimpleResponse(Operation.NO_CHANGE);
+		}
+	}
+	
+	/**
+	 * Find a list of trending users (based on amount of workout likes for now)
+	 * Output limit = 5
+	 * @return
+	 * @throws NoPermissionException
+	 */
+	@RequestMapping(value="/trending", method = RequestMethod.GET)
+	public ResponseList<BaseUser> getTrendingUsers() throws NoPermissionException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		List<BaseUser> trending = userService.findTrendingUsersByWorkoutLikes();
+		return new ResponseList<BaseUser>(trending);
+	}
 
 	/**
 	 * Search controller to find a user by their username
@@ -81,6 +117,8 @@ public class UserController extends BaseController {
 		
 		return response;	
 	}
+	
+	
 
 }
 

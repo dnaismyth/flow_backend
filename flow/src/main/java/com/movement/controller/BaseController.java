@@ -8,6 +8,7 @@ import com.movement.exception.NoPermissionException;
 import com.movement.service.EventInterestService;
 import com.movement.service.EventService;
 import com.movement.service.FeedService;
+import com.movement.service.FollowService;
 import com.movement.service.MediaService;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutFavouriteService;
@@ -41,6 +42,9 @@ public class BaseController {
 	
 	@Autowired
 	protected MediaService mediaService;
+	
+	@Autowired
+	protected FollowService followService;
 	
 	@Autowired
 	protected EventInterestService eventInterestService;
