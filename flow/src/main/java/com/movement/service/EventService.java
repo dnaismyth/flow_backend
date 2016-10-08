@@ -121,7 +121,7 @@ public class EventService {
 		
 		REvent r = eventRepo.findOne(eventId);
 		User user = userService.getUser(userId);
-		if(!(r.getOwnerId() == userId || user.getUserRole() == UserRole.ADMIN )){
+		if(!r.getOwnerId().equals(userId) && user.getUserRole() != UserRole.ADMIN){
 			throw new NoPermissionException("You do not have permission to delete this event.");
 		}
 		

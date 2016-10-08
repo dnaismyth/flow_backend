@@ -14,6 +14,7 @@ import com.amazonaws.util.DateUtils;
 import com.movement.dto.Event;
 import com.movement.dto.Location;
 import com.movement.dto.User;
+import com.movement.dto.UserRole;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 
@@ -33,6 +34,7 @@ public class EventServiceTest extends TestBaseClass {
 			user1.setUsername(userName1);
 			user1.setPassword("test12");
 			user1.setName("User 1");
+			user1.setUserRole(UserRole.USER);
 			user1 = userService.create(user1);
 		}
 		
