@@ -2,6 +2,8 @@ package com.movement.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Media object that will hold the image posted within a workout
  * @author DN
@@ -21,6 +23,7 @@ public class Media implements Serializable{
 	 */
 	private Long owner_id;
 	
+	@JsonProperty
 	private String fileName;
 	
 	private String caption;

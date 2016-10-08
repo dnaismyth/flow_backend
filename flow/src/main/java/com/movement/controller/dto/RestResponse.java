@@ -1,5 +1,7 @@
 package com.movement.controller.dto;
 
+import java.io.Serializable;
+
 import com.movement.dto.Operation;
 
 /**
@@ -8,8 +10,12 @@ import com.movement.dto.Operation;
  *
  * @param <T>
  */
-public class RestResponse<T> {
+public class RestResponse<T> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4558461599630366305L;
 	private T data;
 	private Operation op;
 	private Long id;

@@ -20,7 +20,7 @@ public class RMedia extends BaseEntity {
 	/**
 	 * Name of the larger image file (shown on main feed)
 	 */
-	@Column(name="file_name", nullable = false)
+	@Column(name="filename", nullable = false)
 	private String fileName;
 	
 	/**
