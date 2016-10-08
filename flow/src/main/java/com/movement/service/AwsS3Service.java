@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.movement.dto.User;
+import com.movement.util.RestPreconditions;
 import com.movement.util.S3Constants;
 
 @Service
@@ -25,12 +27,15 @@ public class AwsS3Service extends ServiceBase {
 	 * @param uploadFile
 	 * @param filename
 	 */
-	public void uploadFile(String uploadFile, String filename) {
+	public void uploadFile(User user, String uploadFile) {
+		RestPreconditions.checkNotNull(user);
+		RestPreconditions.checkNotNull(user.getId());
+		RestPreconditions.checkNotNull(uploadFile);
 			
-		String fileNameInS3 = filename;
-			
+		String fileLocation = S3Constants.S3_BUCKET_NAME + "/" + user.getId(); // store each user's images in their unique file
+		String fileNameInS3 = String.format("%s-media", user.getId());	// format filename for unique user		
 		s3client.putObject(
-			new PutObjectRequest(S3Constants.S3_BUCKET_NAME, 
+			new PutObjectRequest(fileLocation, 
 				fileNameInS3, new File(uploadFile))
 		.withCannedAcl(CannedAccessControlList.PublicRead));
 	}
