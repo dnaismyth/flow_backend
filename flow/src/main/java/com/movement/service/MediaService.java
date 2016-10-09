@@ -47,9 +47,12 @@ public class MediaService {
 		RestPreconditions.checkNotNull(m);
 		RestPreconditions.checkNotNull(owner);
 		m.setOwnerId(owner.getId());
+
 		RMedia rm = mediaMapper.toRMedia(m);
 		
-		return mediaMapper.toMedia(mediaRepo.save(rm));
+		RMedia saved = mediaRepo.save(rm);
+		RMedia updated = updateFileName(saved);	// update the filename (temp for now, find better way to do this)
+		return mediaMapper.toMedia(updated);
 		
 	}
 	
@@ -110,5 +113,20 @@ public class MediaService {
 		return true;
 	}
 	
+	/**
+	 * Update to create a unique filename based on media.id and media.owner.id
+	 * Ex output: "media.owner.id/media.id/media.jpg" --> 10/40/media
+	 * @param media
+	 * @param fileName
+	 * @return
+	 */
+	private RMedia updateFileName(RMedia media){
+		RestPreconditions.checkNotNull(media);
+		Long ownerId = media.getOwnerId();
+		Long mediaId = media.getId();
+		String fileName = ownerId + "/" + mediaId + "/media";
+		media.setFileName(fileName);
+		return mediaRepo.save(media);
+	}
 	
 }
