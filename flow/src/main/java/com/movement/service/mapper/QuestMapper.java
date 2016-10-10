@@ -1,5 +1,9 @@
 package com.movement.service.mapper;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.movement.domain.RQuest;
 import com.movement.dto.Quest;
 
@@ -56,5 +60,21 @@ public class QuestMapper {
 		}
 	
 		return rq;
+	}
+	
+	/**
+	 * Return a list of Quests mapped from RQuests
+	 * @param rqList
+	 * @return
+	 */
+	public List<Quest> toQuestList(List<RQuest> rqList){
+		List<Quest> questCol = null;
+		if(rqList != null){
+			questCol = new ArrayList<Quest>();
+			for(RQuest rq : rqList){
+				questCol.add(toQuest(rq));
+			}
+		}
+		return questCol;
 	}
 }

@@ -21,6 +21,14 @@ public class Objective {
 	 * Unit of measurement used to describe the targetValue (km, miles etc..)
 	 */
 	private MeasurementUnit measureUnit;
+	
+	public Objective(int targetValue, ObjectiveType objectiveType, MeasurementUnit measureUnit){
+		this.targetValue = targetValue;
+		this.objectiveType = objectiveType;
+		this.measureUnit = measureUnit;
+	}
+	
+	public Objective(){}
 
 	public int getTargetValue(){
 		return targetValue;

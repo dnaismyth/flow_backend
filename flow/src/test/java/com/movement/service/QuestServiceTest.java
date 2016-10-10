@@ -1,5 +1,7 @@
 package com.movement.service;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
+import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.QuestRepository;
@@ -22,8 +25,9 @@ public class QuestServiceTest extends TestBaseClass {
 	private QuestRepository questRepo;
 	
 	private Quest quest;
-	private User admin;
+	private User admin, user;
 	private String adminName = "testcreatequest@flow.com";
+	private String userName = "testquest@flow.com";
 	
 	@Before
 	public void setUp() throws ResourceNotFoundException{
@@ -37,6 +41,18 @@ public class QuestServiceTest extends TestBaseClass {
 			admin.setUserRole(UserRole.ADMIN);
 			admin = userService.create(admin);
 		}
+		
+		user = userService.findUserByUsername(userName);
+		if(user == null){
+			user = new User();
+			user.setEmail(userName);
+			user.setUsername(userName);
+			user.setName(userName);
+			user.setPassword("user");
+			user.setUserRole(UserRole.USER);
+			user = userService.create(user);
+		}
+			
 	}
 	
 	
@@ -91,5 +107,20 @@ public class QuestServiceTest extends TestBaseClass {
 		Quest toDelete = questService.createQuest(quest, admin);
 		boolean deleted = questService.deleteQuest(toDelete.getId(), admin);
 		Assert.assertTrue(deleted);
+	}
+	
+	/**
+	 * Check that a user can start a new quest
+	 * @throws BadRequestException 
+	 * @throws NoPermissionException 
+	 */
+	@Test
+	public void testStartNewQuest() throws BadRequestException, NoPermissionException{
+		quest = new Quest();
+		quest.setTitle("Testing start new quest");
+		Quest created = questService.createQuest(quest, admin);
+		questService.startNewQuest(created.getId(), user);
+		List<Quest> currentQuests = questService.getUsersCurrentQuests(user.getId());
+		Assert.assertEquals(1, currentQuests.size());
 	}
 }

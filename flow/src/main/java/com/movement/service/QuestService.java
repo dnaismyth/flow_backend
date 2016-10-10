@@ -1,5 +1,7 @@
 package com.movement.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
+import com.movement.repository.QuestJDBCRepository;
 import com.movement.repository.QuestProgressRepository;
 import com.movement.repository.QuestRepository;
 import com.movement.service.mapper.ObjectiveMapper;
@@ -24,6 +27,9 @@ public class QuestService {
 	
 	@Autowired
 	private QuestRepository questRepo;
+	
+	@Autowired
+	private QuestJDBCRepository questJDBCRepo;
 	
 	@Autowired
 	private QuestProgressRepository questProgressRepo;
@@ -156,6 +162,27 @@ public class QuestService {
 		questProgressRepo.save(qp);
 		return true;
 	}
+	
+	/**
+	 * Return a list of quests the user is currently involved in
+	 * @param userId
+	 * @return
+	 */
+	public List<Quest> getUsersCurrentQuests(Long userId){
+		RestPreconditions.checkNotNull(userId);
+		List<Quest> currentQuests = questJDBCRepo.findUsersCurrentQuests(userId);
+		return currentQuests;
+	}
+	
+//	/**
+//	 * Update user's quest progress as they complete workouts and return
+//	 * their current completion percentage
+//	 * @param user
+//	 * @return
+//	 */
+//	public float updateQuestProgress(User user){
+//		
+//	}
 	
 	
 	
