@@ -10,6 +10,7 @@ import com.movement.service.EventService;
 import com.movement.service.FeedService;
 import com.movement.service.FollowService;
 import com.movement.service.MediaService;
+import com.movement.service.QuestService;
 import com.movement.service.UserService;
 import com.movement.service.WorkoutFavouriteService;
 import com.movement.service.WorkoutService;
@@ -45,6 +46,9 @@ public class BaseController {
 	
 	@Autowired
 	protected FollowService followService;
+	
+	@Autowired
+	protected QuestService questService;
 	
 	@Autowired
 	protected EventInterestService eventInterestService;
