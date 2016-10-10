@@ -1,4 +1,6 @@
--- Extensions
+----------------
+-- Extensions --
+----------------
 
 -- Enable PostGIS (includes raster)
 CREATE EXTENSION postgis;
@@ -16,6 +18,50 @@ CREATE EXTENSION address_standardizer;
 CREATE EXTENSION address_standardizer_data_us;
 -- Enable US Tiger Geocoder
 CREATE EXTENSION postgis_tiger_geocoder;
+
+-------------
+-- Indexes --
+-------------
+
+-- Index: idx_user_name
+
+-- DROP INDEX idx_user_name;
+
+CREATE INDEX idx_user_name
+  ON flow_user
+  USING btree
+  (name COLLATE pg_catalog."default");
+
+-- Index: idx_user_username
+
+-- DROP INDEX idx_user_username;
+
+CREATE INDEX idx_user_username
+  ON flow_user
+  USING btree
+  (username COLLATE pg_catalog."default");
+  
+  -- Index: idx_owner_id_workout
+
+-- DROP INDEX idx_owner_id_workout;
+
+CREATE INDEX idx_owner_id_workout
+  ON workout
+  USING btree
+  (owner_id);
+
+  -- Index: idx_follow_target_id
+
+-- DROP INDEX idx_follow_target_id;
+
+CREATE INDEX idx_follow_target_id
+  ON follow
+  USING btree
+  (target_id);
+
+------------
+-- Tables --
+------------
 
 -- Table: flow_user
 

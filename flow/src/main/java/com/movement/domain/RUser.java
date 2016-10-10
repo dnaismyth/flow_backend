@@ -16,8 +16,11 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 
-@Table(name="flow_user")
 @Entity
+@Table(name="flow_user", indexes = { 
+		@Index(columnList = "username", name = "idx_user_username"),
+		@Index(columnList = "name", name = "idx_user_name")
+})
 public class RUser implements Serializable {
 	
 	/**

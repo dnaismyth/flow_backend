@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,7 +27,9 @@ import com.movement.dto.UserRole;
 
 
 @Entity
-@Table(name = "workout")
+@Table(name = "workout", indexes = {
+		@Index(columnList = "owner_id", name = "idx_owner_id_workout")
+})
 public class RWorkout extends BaseEntity {
 
 	/**

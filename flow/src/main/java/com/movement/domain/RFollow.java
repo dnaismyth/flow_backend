@@ -6,13 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.movement.dto.Relationship;
 
 @Entity
-@Table(name="follow")
+@Table(name="follow", indexes = {
+		@Index(columnList = "target_id", name = "idx_follow_target_id")
+})
 public class RFollow extends BaseEntity {
 
 	/**
