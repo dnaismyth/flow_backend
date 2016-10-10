@@ -16,3 +16,9 @@ https://github.com/dnaismyth/flow_frontend
 
 I will be creating and updating prototypes to give me a better idea of what I will need to develop in the backend in order to meet the requirements I would like to include.  These can be found at the following location:
 https://invis.io/698UM8HTW
+
+## Notes
+
+- Using PostgreSQL ORDBMS, the current schema can be found within: src > main > resources > sql > schema.sql
+
+- Running on port 8080
