@@ -83,6 +83,7 @@ CREATE TABLE flow_user
   phone character varying(255),
   resetpasswordkey character varying(100),
   username character varying(50) NOT NULL,
+  level integer,
   created_date timestamp without time zone NOT NULL,
   role integer,
   CONSTRAINT flow_user_pkey PRIMARY KEY (id)

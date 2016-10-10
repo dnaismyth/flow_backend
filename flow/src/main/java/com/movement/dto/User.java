@@ -35,6 +35,8 @@ public class User extends BaseUser {
 	 * Admin, Guest, User
 	 */
 	private UserRole userRole;
+	
+	private int level;
 		
 	
 	public User(){}
@@ -95,6 +97,14 @@ public class User extends BaseUser {
 	
 	public void setUserRole(UserRole userRole){
 		this.userRole = userRole;
+	}
+	
+	public int getLevel(){
+		return level;
+	}
+	
+	public void setLevel(int level){
+		this.level = level;
 	}
 	
 

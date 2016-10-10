@@ -45,6 +45,12 @@ public class RUser implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name="role")
     private UserRole userRole;
+    
+    /**
+     * Store the user's level (based on experience from completing quests, start at 0)
+     */
+    @Column
+    private int level = 0;
 
     /**
 	 * Date of creation
@@ -93,6 +99,14 @@ public class RUser implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public int getLevel(){
+    	return level;
+    }
+    
+    public void setLevel(int level){
+    	this.level = level;
     }
     
     public String getName(){
