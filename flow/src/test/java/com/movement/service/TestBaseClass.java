@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.movement.GetMovingMainApplication;
 import com.movement.dto.Event;
 import com.movement.dto.Location;
+import com.movement.dto.Media;
 import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
@@ -83,5 +84,12 @@ public class TestBaseClass {
 		quest.setTitle("Testing start new quest");
 		Quest created = questService.createQuest(quest, admin);
 		return created;
+	}
+	
+	protected Media createMedia(User user, String filename, String caption){
+		Media m = new Media();
+		m.setCaption(caption);
+		m.setFileName(filename);
+		return mediaService.createMedia(m, user);
 	}
 }

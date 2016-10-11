@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movement.domain.RMedia;
 import com.movement.domain.RWorkout;
 import com.movement.dto.ShowType;
 import com.movement.dto.User;
@@ -20,6 +21,7 @@ import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
+import com.movement.service.mapper.MediaMapper;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.mapper.WorkoutMapper;
 import com.movement.service.util.CompareUtil;
@@ -48,6 +50,7 @@ public class WorkoutService {
 	
 	private WorkoutMapper workoutMapper = new WorkoutMapper();
 	private UserMapper userMapper = new UserMapper();
+	private MediaMapper mediaMapper = new MediaMapper();
 	
 	/**
 	 * Create a workout object
@@ -97,6 +100,11 @@ public class WorkoutService {
 		//TODO: fix mapper
 		if(!CompareUtil.compare(rw.getLocation(), updated.getLocation())){
 			//rw.setLocation(updated.getLocation());
+		}
+		
+		RMedia updatedMedia = mediaMapper.toRMedia(updated.getMedia());
+		if(!CompareUtil.compare(rw.getMedia(), updatedMedia)){
+			rw.setMedia(updatedMedia);
 		}
 		
 		if(!CompareUtil.compare(rw.getCreatedDate(), updated.getCreatedDate())){

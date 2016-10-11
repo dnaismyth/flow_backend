@@ -52,7 +52,7 @@ public class FeedService {
 	 */
 	public Page<Workout> findWorkoutsInUserFeed(Long userId, Pageable pageable){
 		RestPreconditions.checkNotNull(userId);
-		List<Workout> workouts =  workoutJDBCRepo.queryWorkoutsForUserFeed(userId);
+		List<Workout> workouts =  workoutJDBCRepo.queryWorkoutsForUserFeed(userId, pageable);
 		return new PageImpl<Workout>(workouts, pageable, workouts.size());
 	}
 	

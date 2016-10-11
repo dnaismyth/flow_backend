@@ -22,6 +22,9 @@ public class MediaService {
 	@Autowired
 	private MediaRepository mediaRepo;
 	
+	@Autowired
+	private AwsS3Service awsService;
+	
 	private MediaMapper mediaMapper = new MediaMapper();
 	
 	
@@ -47,9 +50,8 @@ public class MediaService {
 		RestPreconditions.checkNotNull(m);
 		RestPreconditions.checkNotNull(owner);
 		m.setOwnerId(owner.getId());
-
+		//awsService.uploadFile(owner, m.getFileName());
 		RMedia rm = mediaMapper.toRMedia(m);
-		
 		RMedia saved = mediaRepo.save(rm);
 		RMedia updated = updateFileName(saved);	// update the filename (temp for now, find better way to do this)
 		return mediaMapper.toMedia(updated);

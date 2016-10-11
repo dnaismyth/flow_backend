@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.movement.dto.Media;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutType;
@@ -64,17 +65,17 @@ public class FeedServiceTest extends TestBaseClass {
 		userService.delete(user2, user2.getId());
 	}
 	
-	@Test
-	public void testAddToFeed() throws ResourceNotFoundException, BadRequestException{
-		followService.followUser(user1.getId(), user2.getId());
-		Workout w = createWorkout("20km", "1hour", user2, null);
-	}
 	
+	// Test that workouts are being shown in user feed
 	@Test
 	public void testFindWorkoutsForUserFeed() throws ResourceNotFoundException, BadRequestException{
-		followService.followUser(user1.getId(), user2.getId());
+		boolean followed = followService.followUser(user1.getId(), user2.getId());
+		Assert.assertTrue(followed);
+		Media m = createMedia(user2, "filename.jpg",  "testing");
 		Workout w = createWorkout("20km", "1 hour", user2, null);
+		w.setMedia(m);
+		Workout updated = workoutService.updateWorkout(w.getId(), w);
 		Page<Workout> output = feedService.findWorkoutsInUserFeed(user1.getId(), new PageRequest(0,5));
-		Assert.assertNotNull(output);
+		Assert.assertEquals(1, output.getNumberOfElements());
 	}
 }

@@ -30,6 +30,13 @@ public class Media implements Serializable{
 	
 	public Media(){}
 	
+	public Media(Long id, Long owner_id, String fileName, String caption){
+		this.id = id;
+		this.owner_id = owner_id;
+		this.fileName = fileName;
+		this.caption = caption;
+	}
+	
 	public Long getOwnerId(){
 		return owner_id;
 	}

@@ -37,8 +37,10 @@ public class UserJDBCRepository extends BaseJDBCRepository {
 		String query = readQueryFromProperties(QUERY_FIND_USERS_IN_QUEST);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("questId", questId);
-		params.put("limit", pageable.getPageSize());
-		params.put("offset", pageable.getPageSize() * (pageable.getPageNumber()-1));
+		int limit = pageable.getPageSize();
+		int offset = pageable.getOffset();
+		params.put("limit", limit);
+		params.put("offset", offset);
 		return jdbcTemplate.query(query, params, new BaseUserMapper());
 	}
 	

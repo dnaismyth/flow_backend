@@ -10,12 +10,14 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.dto.BaseUser;
+import com.movement.dto.Media;
 import com.movement.dto.ShowType;
 import com.movement.dto.Workout;
 
@@ -43,11 +45,14 @@ public class WorkoutJDBCRepository extends BaseJDBCRepository{
 		jdbcTemplate.update(query, params);
 	}
 	
-	//TODO: Implement different strategy using paging
-	public List<Workout> queryWorkoutsForUserFeed(Long userId){
+	public List<Workout> queryWorkoutsForUserFeed(Long userId, Pageable pageable){
 		String query = readQueryFromProperties(QUERY_WORKOUTS_FOR_USER_FEED);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
+		int limit = pageable.getPageSize();
+		int offset = pageable.getOffset();
+		params.put("limit", limit);
+		params.put("offset", offset);
 		return jdbcTemplate.query(query, params, new WorkoutRowMapper());
 	}
 	
@@ -56,7 +61,8 @@ public class WorkoutJDBCRepository extends BaseJDBCRepository{
 			  BaseUser baseUser = new BaseUser((Long)rs.getObject("owner_id"), rs.getString("username"), rs.getString("avatar"));
 			  
 			  ShowType showType = rs.getString("showtype") != null ? ShowType.valueOf(rs.getString("showtype")) : null;
-			   
+			  Media m = new Media((Long)rs.getObject("media_id"), (Long)rs.getObject("owner_id"), rs.getString("filename"), rs.getString("caption"));
+
 		      Workout w = new Workout((Long)rs.getObject("id"),
 		    		  rs.getDate("created_date"),
 		    		  rs.getString("description"),
@@ -66,6 +72,7 @@ public class WorkoutJDBCRepository extends BaseJDBCRepository{
 		      w.setDuration(rs.getString("duration"));
 		      w.setOwner(baseUser);
 		      w.setAddress(rs.getString("address"));
+		      w.setMedia(m);
 		      return w;
 		      
 		   }
