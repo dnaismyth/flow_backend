@@ -19,6 +19,7 @@ import com.movement.dto.BaseUser;
 public class UserJDBCRepository extends BaseJDBCRepository {
 	public static final String QUERY_SEARCH_USER_BY_NAME= "sql.user.queryUserByName";
 	public static final String QUERY_TRENDING_USERS = "sql.user.queryTrendingUsers";
+	public static final String QUERY_FIND_USERS_IN_QUEST = "sql.user.queryFindUsersEnrolledInQuest";
 	
 	public List<BaseUser> searchUserByName(String name){
 		String query = readQueryFromProperties(QUERY_SEARCH_USER_BY_NAME);
@@ -30,6 +31,15 @@ public class UserJDBCRepository extends BaseJDBCRepository {
 	public List<BaseUser> findTrendingUsers(){
 		String query = readQueryFromProperties(QUERY_TRENDING_USERS);
 		return jdbcTemplate.query(query, new BaseUserMapper());
+	}
+	
+	public List<BaseUser> findUsersInQuest(Long questId, Pageable pageable){
+		String query = readQueryFromProperties(QUERY_FIND_USERS_IN_QUEST);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("questId", questId);
+		params.put("limit", pageable.getPageSize());
+		params.put("offset", pageable.getPageSize() * (pageable.getPageNumber()-1));
+		return jdbcTemplate.query(query, params, new BaseUserMapper());
 	}
 	
 	public class BaseUserMapper implements RowMapper<BaseUser> {

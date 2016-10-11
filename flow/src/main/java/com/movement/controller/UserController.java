@@ -118,6 +118,22 @@ public class UserController extends BaseController {
 		return response;	
 	}
 	
+	/**
+	 * Returns a page of users that are participating in a quest
+	 * @param id (corresponds to the quest id)
+	 * @param size
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value = "/quests/{id}")
+	public ResponseList<BaseUser> findUsersInQuest(@PathVariable("id") Long id, @Param(PARAM_SIZE) int size, 
+			@Param(PARAM_PAGE) int page){
+		RestPreconditions.checkNotNull(size);
+		RestPreconditions.checkNotNull(page);
+		Page<BaseUser> users = userService.getUsersEnrolledInQuest(id, new PageRequest(page, size));
+		return new ResponseList<BaseUser>(users);		
+	}
+	
 	
 
 }

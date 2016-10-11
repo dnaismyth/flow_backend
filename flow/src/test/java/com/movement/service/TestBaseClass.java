@@ -12,8 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.movement.GetMovingMainApplication;
 import com.movement.dto.Event;
 import com.movement.dto.Location;
+import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
+import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.FollowRepository;
 import com.movement.repository.UserRepository;
@@ -50,6 +52,9 @@ public class TestBaseClass {
 	protected WorkoutRepository workoutRepo;
 	
 	@Autowired
+	protected QuestService questService;
+	
+	@Autowired
 	protected MediaService mediaService;
 	
 	// Helper method to create test workouts
@@ -72,5 +77,11 @@ public class TestBaseClass {
 		e.setEventDate(eventDate);
 		return eventService.createEvent(e, owner.getId());
 	}
-
+	
+	protected Quest createQuest(User admin, String title) throws NoPermissionException{
+		Quest quest = new Quest();
+		quest.setTitle("Testing start new quest");
+		Quest created = questService.createQuest(quest, admin);
+		return created;
+	}
 }

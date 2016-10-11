@@ -1,5 +1,7 @@
 package com.movement.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.RestResponse;
 import com.movement.controller.dto.SimpleResponse;
 import com.movement.dto.Operation;
@@ -79,6 +82,20 @@ public class QuestController extends BaseController {
 		} else {
 			return new SimpleResponse(Operation.NO_CHANGE);
 		}
+	}
+
+	/**
+	 * Return all of the quests that a user is currently participating in.
+	 * @param id (corresponds to the user id)
+	 * @return
+	 * @throws NoPermissionException 
+	 */
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	public ResponseList<Quest> getCurrentUserQuests(@PathVariable Long id) throws NoPermissionException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		List<Quest> quests = questService.getUsersCurrentQuests(id);
+		return new ResponseList<Quest>(quests);
 	}
 	
 }

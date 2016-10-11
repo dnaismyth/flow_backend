@@ -22,6 +22,7 @@ import com.movement.domain.RWorkout;
 import com.movement.domain.RWorkoutFavourite;
 import com.movement.domain.RWorkoutFavouritePK;
 import com.movement.dto.BaseUser;
+import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
@@ -299,6 +300,20 @@ public class UserService {
 	 */
 	public List<BaseUser> findTrendingUsersByWorkoutLikes(){
 		return userJDBCRepo.findTrendingUsers();
+	}
+	
+	/**
+	 * Returns all of the users who are currently participating in the quest
+	 * corresponding to the input questId param.
+	 * @param questId
+	 * @param page
+	 * @return
+	 */
+	public Page<BaseUser> getUsersEnrolledInQuest(Long questId, Pageable pageable){
+		RestPreconditions.checkNotNull(questId);
+		RestPreconditions.checkNotNull(pageable);
+		List<BaseUser> users = userJDBCRepo.findUsersInQuest(questId, pageable);
+		return new PageImpl<BaseUser>(users, pageable, users.size());	
 	}
 	
 	
