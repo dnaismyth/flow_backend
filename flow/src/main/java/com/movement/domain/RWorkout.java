@@ -3,6 +3,7 @@ package com.movement.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -18,8 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import com.movement.dto.ShowType;
 import com.movement.dto.TextLength;
@@ -43,7 +42,8 @@ public class RWorkout extends BaseEntity {
 	@Column(name="description", length=TextLength.DESCRIPTION)
 	private String description;
 	
-	@OneToOne
+	//@Cascade{{CascadeType.DELETE}}
+	@OneToOne(cascade = CascadeType.REMOVE)
 	private RMedia media;
 	
 	@Column(name="distance", nullable = false)
