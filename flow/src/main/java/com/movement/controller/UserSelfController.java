@@ -81,17 +81,6 @@ public class UserSelfController extends BaseController {
 	}
 	
 	/**
-	 * Returns all of the users workouts.
-	 * @return
-	 */
-	@RequestMapping(value="/workouts", method = RequestMethod.GET)
-	@ResponseBody
-	public Page<Workout> getMyWorkouts(@RequestParam int page, int size){
-		User current = getLoggedInUser();
-		return workoutService.findAllWorkoutsByUser(current.getId(), new PageRequest(page, size));
-	}
-	
-	/**
 	 * Test Function to say hello to the current user
 	 * @return
 	 */
