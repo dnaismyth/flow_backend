@@ -1,5 +1,6 @@
 package com.movement.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 
 
-public class Workout {
+public class Workout implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -552573535204658873L;
 
 	private Long id;
 	
@@ -44,6 +50,20 @@ public class Workout {
 		this.description = description;
 		this.showType = showType;
 	}
+	
+	public Workout(Long id, BaseUser owner, Date createdDate, String description, Media media,
+			ShowType showType, String address, String distance, String duration){
+		this.id = id;
+		this.owner = owner;
+		this.createdDate = createdDate;
+		this.description = description;
+		this.media = media;
+		this.showType = showType;
+		this.address= address;
+		this.distance = distance;
+		this.duration = duration;
+	}
+	
 	
 	public String getDistance(){
 		return distance;

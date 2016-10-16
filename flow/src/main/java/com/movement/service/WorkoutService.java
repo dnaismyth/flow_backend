@@ -1,6 +1,7 @@
 package com.movement.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.domain.RMedia;
 import com.movement.domain.RWorkout;
+import com.movement.dto.BaseUser;
+import com.movement.dto.Media;
 import com.movement.dto.ShowType;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
+import com.movement.dto.WorkoutInfo;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.WorkoutJDBCRepository;
@@ -144,14 +148,14 @@ public class WorkoutService {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	public Workout findWorkoutById(Long workoutId) throws ResourceNotFoundException{
+	public WorkoutInfo findWorkoutById(Long workoutId) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(workoutId);
 		RWorkout rw = workoutRepo.findOne(workoutId);
 		if(rw == null){
 			String message = String.format("Cannot find workout with provided id: %s", workoutId);
 			throw new ResourceNotFoundException(message);
 		}
-		return workoutMapper.toWorkout(rw);
+		return convertToWorkoutInfo(rw);
 	}
 	
 	/**
@@ -177,7 +181,20 @@ public class WorkoutService {
 		feedService.addWorkoutToFeed(followerIds, rw);
 	}
 	
-//	public Workout attachImageToWorkout(User user, Media media){
-//		
-//	}
+	/**
+	 * Conver RWorkout into workoutInfo to expose WorkoutStats
+	 * @param rw
+	 * @return
+	 */
+	private WorkoutInfo convertToWorkoutInfo(RWorkout rw){
+//		WorkoutInfo(Long id, BaseUser owner, Date createdDate, String description, Media media,
+//				ShowType showType, String address, String distance, String duration){
+		BaseUser owner = new BaseUser(rw.getOwner().getId(), rw.getOwner().getUsername(), rw.getOwner().getAvatar());
+		Media media = mediaMapper.toMedia(rw.getMedia());
+		WorkoutInfo workoutInfo = new WorkoutInfo(rw.getId(), owner, rw.getCreatedDate(), rw.getDescription(), media,
+				rw.getShowType(), rw.getLocation().getAddress(), rw.getDistance(), rw.getDuration());
+		
+		return workoutInfo;
+		
+	}
 }
