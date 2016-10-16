@@ -1,8 +1,12 @@
 package com.movement.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.movement.domain.RMedia;
 import com.movement.domain.RWorkout;
+import com.movement.domain.RWorkoutFavourite;
 import com.movement.dto.BaseUser;
 import com.movement.dto.Media;
 import com.movement.dto.ShowType;
@@ -21,8 +26,10 @@ import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
 import com.movement.dto.WorkoutInfo;
+import com.movement.dto.WorkoutStats;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
+import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
 import com.movement.service.mapper.MediaMapper;
@@ -45,6 +52,9 @@ public class WorkoutService {
 	
 	@Autowired
 	private WorkoutJDBCRepository workoutJDBCRepo;
+	
+	@Autowired
+	private WorkoutFavouriteRepository workoutFavRepo;
 	
 	@Autowired
 	private UserService userService;
@@ -182,17 +192,47 @@ public class WorkoutService {
 	}
 	
 	/**
+	 * Used to update and show workout stats
+	 * @param workouts
+	 */
+	public void exposeWorkoutStats(Collection<WorkoutInfo> workouts, User user){
+		Map<Long, WorkoutInfo> map = createWorkoutMap(workouts);
+		List<Long> userFavourites = workoutFavRepo.findFavouritedFromCollection(map.keySet(), user.getId());
+		
+		WorkoutStats stats = null;
+		if(userFavourites.size() > 0){
+			for(Long l : userFavourites){
+				stats = new WorkoutStats();
+				stats.setLiked(true);
+				map.get(l).setStats(stats);
+			}
+		}
+	}
+	
+	/**
+	 * Create a map of WorkoutInfo and their corresponding id's
+	 * @param workouts
+	 * @return
+	 */
+	private Map<Long, WorkoutInfo> createWorkoutMap(Collection<WorkoutInfo> workouts){
+		Map<Long, WorkoutInfo> map = new HashMap<Long, WorkoutInfo>();
+		for(WorkoutInfo wi : workouts){
+			map.put(wi.getId(), wi);
+		}
+		return map;
+	}
+	
+	/**
 	 * Conver RWorkout into workoutInfo to expose WorkoutStats
 	 * @param rw
 	 * @return
 	 */
 	private WorkoutInfo convertToWorkoutInfo(RWorkout rw){
-//		WorkoutInfo(Long id, BaseUser owner, Date createdDate, String description, Media media,
-//				ShowType showType, String address, String distance, String duration){
 		BaseUser owner = new BaseUser(rw.getOwner().getId(), rw.getOwner().getUsername(), rw.getOwner().getAvatar());
 		Media media = mediaMapper.toMedia(rw.getMedia());
+		String address = rw.getLocation() != null ? rw.getLocation().getAddress() : null;
 		WorkoutInfo workoutInfo = new WorkoutInfo(rw.getId(), owner, rw.getCreatedDate(), rw.getDescription(), media,
-				rw.getShowType(), rw.getLocation().getAddress(), rw.getDistance(), rw.getDuration());
+				rw.getShowType(), address, rw.getDistance(), rw.getDuration());
 		
 		return workoutInfo;
 		

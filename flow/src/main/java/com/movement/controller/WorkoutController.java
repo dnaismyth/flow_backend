@@ -1,5 +1,8 @@
 package com.movement.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +21,7 @@ import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
+import com.movement.dto.WorkoutInfo;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
@@ -51,7 +55,11 @@ public class WorkoutController extends BaseController {
 	public RestResponse<Workout> getWorkout(@PathVariable Long id) throws ResourceNotFoundException, NoPermissionException{
 		User user = getLoggedInUser();
 		checkUserPermission(user);
-		Workout workout = workoutService.findWorkoutById(id);
+		WorkoutInfo workout = workoutService.findWorkoutById(id);
+		List<WorkoutInfo> workouts = new ArrayList<WorkoutInfo>(1);
+		workouts.add(workout);
+		
+		workoutService.exposeWorkoutStats(workouts, user);	// show workout stats
 		return new RestResponse<Workout>(workout);
 	}
 	

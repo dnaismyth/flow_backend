@@ -23,6 +23,7 @@ import com.movement.domain.RWorkoutFavourite;
 import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.dto.Workout;
+import com.movement.dto.WorkoutInfo;
 import com.movement.dto.WorkoutType;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
@@ -143,6 +144,19 @@ public class WorkoutServiceTest extends TestBaseClass {
 		userService.addWorkoutToFavourites(user2, w.getId());
 		RWorkoutFavourite fav = workoutFavRepo.findByUserIdAndWorkoutId(w.getId(), user2.getId());
 		Assert.assertNotNull(fav);	
+	}
+	
+	// Check that workout stats are being updated
+	@Test
+	public void testFillWorkoutStats() throws BadRequestException, ResourceNotFoundException{
+		Workout w = createWorkout("15km", "1 hr", user, null);
+		workouts.add(w);
+		userService.addWorkoutToFavourites(user2, w.getId());
+		List<WorkoutInfo> workoutList = new ArrayList<WorkoutInfo>();
+		WorkoutInfo wi = workoutService.findWorkoutById(w.getId());
+		workoutList.add(wi);
+		workoutService.exposeWorkoutStats(workoutList, user2);
+		Assert.assertTrue(workoutList.get(0).getStats().isLiked());
 	}
 	
 }
