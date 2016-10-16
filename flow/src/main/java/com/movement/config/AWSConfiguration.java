@@ -9,13 +9,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import com.amazonaws.ClientConfiguration;
-import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 
 @Configuration
 public class AWSConfiguration {
@@ -35,20 +35,19 @@ public class AWSConfiguration {
 	        });
 		return ppc;
 	   }
-//		
+		
 	   @Bean
 	   public AWSCredentials credential() {
-	   	return new BasicAWSCredentials(awsId, awsKey);
+	   		return new BasicAWSCredentials("awsId", "awsKey");
 	   }
 		
 	   @Bean
 	   public AmazonS3 s3client() {
-		   ClientConfiguration clientConfig = new ClientConfiguration();
-		   clientConfig.setProtocol(Protocol.HTTP);
-		   AmazonS3 s3Client = new AmazonS3Client(credential(), clientConfig);
+		   AmazonS3 s3Client = new AmazonS3Client(credential());
 		   Region usWest2 = Region.getRegion(Regions.US_WEST_2);
 		   s3Client.setRegion(usWest2);
 		   return s3Client;
 	   }
+	   
 
 }

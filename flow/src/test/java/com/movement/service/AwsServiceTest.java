@@ -1,11 +1,13 @@
 package com.movement.service;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.amazonaws.auth.BasicSessionCredentials;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
@@ -46,6 +48,12 @@ public class AwsServiceTest extends TestBaseClass{
 		String uploadFile = "C:/Users/dayna/Pictures/IMG_4424.jpg";
 		// String fileName = "IMG_4424.jpg";
 		service.uploadFile(user, uploadFile);
+	}
+	
+	@Test
+	public void testGetUserCredentials(){
+		BasicSessionCredentials creds = service.getS3UserCredentials();
+		Assert.assertNotNull(creds);
 	}
 
 	
