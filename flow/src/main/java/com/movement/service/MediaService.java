@@ -53,8 +53,7 @@ public class MediaService {
 		//awsService.uploadFile(owner, m.getFileName());
 		RMedia rm = mediaMapper.toRMedia(m);
 		RMedia saved = mediaRepo.save(rm);
-		RMedia updated = updateFileName(saved);	// update the filename (temp for now, find better way to do this)
-		return mediaMapper.toMedia(updated);
+		return mediaMapper.toMedia(saved);
 		
 	}
 	
@@ -113,22 +112,6 @@ public class MediaService {
 		
 		mediaRepo.delete(toDelete);
 		return true;
-	}
-	
-	/**
-	 * Update to create a unique filename based on media.id and media.owner.id
-	 * Ex output: "media.owner.id/media.id/media.jpg" --> 10/40/media
-	 * @param media
-	 * @param fileName
-	 * @return
-	 */
-	private RMedia updateFileName(RMedia media){
-		RestPreconditions.checkNotNull(media);
-		Long ownerId = media.getOwnerId();
-		Long mediaId = media.getId();
-		String fileName = ownerId + "/" + mediaId + "/media";
-		media.setFileName(fileName);
-		return mediaRepo.save(media);
 	}
 	
 }
