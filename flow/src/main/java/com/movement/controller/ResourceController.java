@@ -3,10 +3,12 @@ package com.movement.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.auth.BasicSessionCredentials;
+import com.movement.controller.dto.ResetRequest;
 import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.TokenResponse;
 import com.movement.dto.BaseUser;
@@ -31,5 +33,12 @@ public class ResourceController extends BaseController {
 		checkUserPermission(user);
 		BasicSessionCredentials credentials = awsService.getS3UserCredentials();
 		return new TokenResponse(credentials);
+	}
+	
+	@RequestMapping(value="/password_reset")
+	public void generatePasswordReset(@RequestBody final ResetRequest req){
+		//TODO: check if e-mail exists in db.
+		// If exists, send e-mail to that address.
+		// Provide a password reset url.		
 	}
 }
