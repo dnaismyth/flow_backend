@@ -1,6 +1,7 @@
 package com.movement.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,9 @@ public class UserService {
 	
 	@Autowired
 	private FeedRepository feedRepo;
+	
+	@Autowired
+	private MailService mailService;
 	
 	private UserMapper userMapper = new UserMapper();
 	private LocationMapper locationMapper = new LocationMapper();
@@ -295,6 +299,22 @@ public class UserService {
 	}
 	
 	/**
+	 * Find user by their e-mail address
+	 * @param emailAddress
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	private User findUserByEmailAddress(String emailAddress) throws ResourceNotFoundException{
+		RestPreconditions.checkNotNull(emailAddress);
+		RUser user = userRepo.findByEmail(emailAddress);
+		if(user == null){
+			throw new ResourceNotFoundException("Could not find user with provided email: " + emailAddress);
+		}
+		
+		return userMapper.toUser(user);
+	}
+	
+	/**
 	 * Returns a list of users who have the most amount of workout "likes"
 	 * @return
 	 */
@@ -314,6 +334,21 @@ public class UserService {
 		RestPreconditions.checkNotNull(pageable);
 		List<BaseUser> users = userJDBCRepo.findUsersInQuest(questId, pageable);
 		return new PageImpl<BaseUser>(users, pageable, users.size());	
+	}
+	
+	/**
+	 * To provide for a user to reset their password if the e-mail address
+	 * corresponds to an entry in the database. 
+	 * @param emailAddress
+	 * @return
+	 * @throws ResourceNotFoundException 
+	 */
+	public void userPasswordResetRequest(String emailAddress) throws ResourceNotFoundException{
+		RestPreconditions.checkNotNull(emailAddress);
+		User user = findUserByEmailAddress(emailAddress);
+		if(user != null){
+			mailService.sendPasswordResetMail(emailAddress, user);
+		}
 	}
 	
 	

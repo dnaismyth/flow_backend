@@ -35,6 +35,10 @@ public class ResourceController extends BaseController {
 		return new TokenResponse(credentials);
 	}
 	
+	/**
+	 * Allow for a user to request for a password reset
+	 * @param req
+	 */
 	@RequestMapping(value="/password_reset")
 	public void generatePasswordReset(@RequestBody final ResetRequest req){
 		//TODO: check if e-mail exists in db.
