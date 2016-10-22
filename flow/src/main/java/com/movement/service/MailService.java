@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,29 +16,30 @@ import com.movement.util.RestPreconditions;
 @Service
 public class MailService {
 	
+	private static final String BASE_URL = "localhost:8080/";
+	
+	private static final Logger logger = Logger.getLogger(UserService.class); 
+
 	@Autowired
 	private UserRepository userRepo;
 	
+	/**
+	 * Attempt to send a password reset e-mail to the provided address
+	 * @param emailAddress
+	 * @param user
+	 */
 	public void sendPasswordResetMail(String emailAddress, User user){
 		RestPreconditions.checkNotNull(emailAddress);
 		RestPreconditions.checkNotNull(user);
-		//TODO:
-	}
-	
-	private static String uuidToBase64(String str) {
-	    Base64 base64 = new Base64();
-	    UUID uuid = UUID.fromString(str);
-	    ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-	    bb.putLong(uuid.getMostSignificantBits());
-	    bb.putLong(uuid.getLeastSignificantBits());
-	    return base64.encodeBase64URLSafeString(bb.array());
-	}
-	private static String uuidFromBase64(String str) {
-	    Base64 base64 = new Base64(); 
-	    byte[] bytes = base64.decodeBase64(str);
-	    ByteBuffer bb = ByteBuffer.wrap(bytes);
-	    UUID uuid = new UUID(bb.getLong(), bb.getLong());
-	    return uuid.toString();
+		RUser ru = userRepo.findOne(user.getId());
+		ru.setResetPasswordKey(UUID.randomUUID().toString());
+		userRepo.save(ru);
+		try{
+			//TODO: build message template and send to email address
+			
+		} catch (Exception e){
+			logger.debug(e);
+		}
 	}
 
 }

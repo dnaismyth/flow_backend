@@ -21,5 +21,8 @@ public interface UserRepository extends JpaRepository<RUser, Long> {
 
     @Query
     RUser findByEmailAndResetPasswordKey(String email, String resetPasswordKey);
+    
+    @Query
+    RUser findByResetPasswordKey(String resetPasswordKey);
 
 }

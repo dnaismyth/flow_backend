@@ -1,16 +1,16 @@
 package com.movement.controller.dto;
 
 /**
- * Used in password reset request.
- * User will provide their email.
- * @author DN
- *
+ * For a user to provide their e-mail address.
+ * Example use case might be for the initial password reset request.
  */
-public class ResetRequest {
+public class EmailRequest {
 	
 	private String email;
 	
-	public ResetRequest(String email){
+	public EmailRequest(){}
+	
+	public EmailRequest(String email){
 		this.email = email;
 	}
 	

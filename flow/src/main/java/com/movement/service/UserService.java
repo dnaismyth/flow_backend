@@ -156,9 +156,9 @@ public class UserService {
 			ru.setBio(user.getBio());
 		}
 		
-//		if(!CompareUtil.compare(ru.getCreatedDate(), user.getCreatedDate())){
-//			ru.setCreatedDate(user.getCreatedDate());
-//		}
+		if(!CompareUtil.compare(ru.getCreatedDate(), user.getCreatedDate())){
+			ru.setCreatedDate(user.getCreatedDate());
+		}
 		
 		if(!CompareUtil.compare(ru.getName(), user.getName())){
 			ru.setName(user.getName());
@@ -351,5 +351,35 @@ public class UserService {
 		}
 	}
 	
+	/**
+	 * Find a user via a provided reset password key
+	 * @param key
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	public User findUserByResetPasswordKey(String key) throws ResourceNotFoundException{
+		RestPreconditions.checkNotNull(key);
+		RUser found = userRepo.findByResetPasswordKey(key);
+		if(found == null){
+			throw new ResourceNotFoundException("Cannot find user with provided reset password key.");
+		}
+		
+		return userMapper.toUser(found);
+	}
 	
+	
+	/**
+	 * Reset the user's password and remove reset password key
+	 * @param user
+	 * @param password
+	 */
+	public void changePassowordFromResetRequest(User user, String password){
+		RestPreconditions.checkNotNull(user.getId());
+		RestPreconditions.checkNotNull(password);
+		
+		RUser ru = userRepo.findOne(user.getId());
+		ru.setPassword(passwordEncode.encode(password));	// update as new password
+		ru.setResetPasswordKey(null);						// remove reset key
+		userRepo.save(ru);
+	}
 }
