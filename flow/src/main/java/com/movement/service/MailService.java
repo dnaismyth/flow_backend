@@ -23,12 +23,12 @@ import com.movement.util.RestPreconditions;
 @Service
 public class MailService {
 	
-	@Autowired
-	private JavaMailSender mailSender;
-	
-	private static final String BASE_URL = "http://localhost:8080/api/";
-		
 	private static final Logger logger = Logger.getLogger(UserService.class); 
+	
+	private static final String BASE_URL = "http://localhost:8080/api/"; 
+	
+	@Autowired
+	private JavaMailSender mailSender;	
 
 	@Autowired
 	private UserRepository userRepo;
