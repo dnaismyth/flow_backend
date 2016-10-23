@@ -6,8 +6,6 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.movement.controller.dto.EmailRequest;
 import com.movement.controller.dto.PasswordResetRequest;
-import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.TokenResponse;
-import com.movement.dto.BaseUser;
 import com.movement.dto.User;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.service.AwsS3Service;
+import com.movement.service.ConfirmationService;
 
 @RestController
 @RequestMapping("/resources")
@@ -31,6 +28,9 @@ public class ResourceController extends BaseController {
 
 	@Autowired
 	private AwsS3Service awsService;
+	
+	@Autowired
+	private ConfirmationService confirmService;
 	
 	private static final String KEY_PARAM = "key";
 	/**
@@ -73,6 +73,21 @@ public class ResourceController extends BaseController {
 	@RequestMapping(value="/finish-reset-password", method = RequestMethod.POST)
 	public void finishPasswordReset(@RequestBody final PasswordResetRequest resetRequest, HttpServletRequest req){
 		
+	}
+	
+	/**
+	 * Update the user's confirmation and set status as confirmed.
+	 * @param criteria
+	 * @return
+	 */
+	@RequestMapping(value="/confirmation", method = RequestMethod.GET)
+	public String verifyUserConfirmation(@RequestParam(required=false) Map<String, String> criteria){
+		if(criteria.containsKey(KEY_PARAM)){
+			confirmService.setUserConfirmationStatus(criteria.get(KEY_PARAM), true);	// set the status as confirmed
+			return "Thank you for confirming your e-mail address.";
+		}
+		else
+			return "e-mail not confirmed";
 	}
 	
 }
