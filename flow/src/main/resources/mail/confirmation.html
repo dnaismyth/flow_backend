@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Template for HTML email (simple)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    Hey there,
+        <p th:text="${name}"></p>
+  		<br />
+  		<p>
+  			We are so excited for you to join our team.  Please take a second to click the link below to confirm your e-mail address.
+  			<br />
+  			<a th:href="${url}">Confirm your e-mail address</a>
+  		</p>
+		<br />
+            Regards, <br />
+            &emsp; <em>The STRIVE. Team</em>
+    </body>
+</html>

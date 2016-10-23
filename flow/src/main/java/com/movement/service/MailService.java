@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.movement.domain.RConfirmation;
 import com.movement.domain.RUser;
 import com.movement.dto.User;
+import com.movement.exception.ResourceNotFoundException;
+import com.movement.repository.ConfirmationRepository;
 import com.movement.repository.UserRepository;
 import com.movement.util.RestPreconditions;
 
@@ -32,6 +35,9 @@ public class MailService {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private ConfirmationRepository confirmRepo;
 	
 	@Autowired
 	private TemplateEngine emailTemplateEngine;
@@ -66,17 +72,45 @@ public class MailService {
 			message.setText(context, true);
 			
 			mailSender.send(mimeMessage);
-		} catch (MessagingException e1) {
-			logger.debug(e1);
+		} catch (MessagingException e) {
+			logger.debug(e);
 		}
 
 	}
 	
+	/**
+	 * Send a confirmation e-mail to a user upon signing up
+	 * @param emailAddress
+	 * @param user
+	 * @throws ResourceNotFoundException 
+	 */
 	@Async
-	public void setConfirmationEmail(String emailAddress, User user){
+	public void sendConfirmationEmail(String emailAddress, User user) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(emailAddress);
 		RestPreconditions.checkNotNull(user);
-		RUser ru = userRepo.findOne(user.getId());
+		RConfirmation rc = confirmRepo.findByUserId(user.getId());
+		
+		if(rc == null){
+			throw new ResourceNotFoundException("Confirmation instance not found");
+		}
+		
+		Context ctx = new Context(Locale.ENGLISH);
+		ctx.setVariable("name", user.getName() != null ? user.getName() : user.getUsername());
+		ctx.setVariable("url", BASE_URL + "resources/confirmation?key=" + rc.getKey());
+		
+		String context = emailTemplateEngine.process("confirmation", ctx);
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+		
+		try{
+			message.setFrom("dayna-n@hotmail.com");
+			message.setTo("naismythdayna@gmail.com");
+			message.setSubject("STRIVE. Confirmation");
+			message.setText(context, true);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e){
+			logger.debug(e);
+		}
 	}
 	
 }

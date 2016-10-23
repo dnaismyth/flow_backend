@@ -17,6 +17,9 @@ public class MailServiceTest extends TestBaseClass {
 	@Autowired
 	private MailService mailService;
 	
+	@Autowired
+	private ConfirmationService confirmService;
+	
 	private User user;
 	
 	@Before
@@ -31,7 +34,13 @@ public class MailServiceTest extends TestBaseClass {
 	}
 	
 	@Test
-	public void testSendEmail() throws MessagingException{
+	public void testSendPasswordResetEmail() throws MessagingException{
 		mailService.sendPasswordResetMail(user.getEmail(), user);
+	}
+	
+	@Test
+	public void testSendConfirmationEmail() throws ResourceNotFoundException{
+		confirmService.createUserConfirmationInstance(user.getId(), false);
+		mailService.sendConfirmationEmail(user.getEmail(), user);
 	}
 }
