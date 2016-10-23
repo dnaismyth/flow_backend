@@ -37,16 +37,16 @@ public class AWSConfiguration {
 	   }
 		
 	   @Bean
-	   public AWSCredentials credential() {
-	   		return new BasicAWSCredentials("awsId", "awsKey");
-	   }
-		
-	   @Bean
 	   public AmazonS3 s3client() {
 		   AmazonS3 s3Client = new AmazonS3Client(credential());
 		   Region usWest2 = Region.getRegion(Regions.US_WEST_2);
 		   s3Client.setRegion(usWest2);
 		   return s3Client;
+	   }
+	   
+	   @Bean
+	   public AWSCredentials credential() {
+	   		return new BasicAWSCredentials(awsId, awsKey);
 	   }
 	   
 
