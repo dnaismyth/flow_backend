@@ -1,5 +1,7 @@
 package com.movement.service;
 
+import javax.mail.MessagingException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -29,7 +31,7 @@ public class MailServiceTest extends TestBaseClass {
 	}
 	
 	@Test
-	public void testSendEmail(){
+	public void testSendEmail() throws MessagingException{
 		mailService.sendPasswordResetMail(user.getEmail(), user);
 	}
 }

@@ -1,5 +1,6 @@
 package com.movement.controller;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,10 @@ public class ResourceController extends BaseController {
 	 * Allow for a user to request for a password reset
 	 * @param req
 	 * @throws ResourceNotFoundException 
+	 * @throws MessagingException 
 	 */
 	@RequestMapping(value="/resetpassword", method = RequestMethod.POST)
-	public void generatePasswordReset(@RequestBody EmailRequest email) throws ResourceNotFoundException{
+	public void generatePasswordReset(@RequestBody EmailRequest email) throws ResourceNotFoundException, MessagingException{
 		userService.userPasswordResetRequest(email.getEmail());	
 	}
 		
@@ -56,7 +58,7 @@ public class ResourceController extends BaseController {
 	 * @throws ResourceNotFoundException
 	 */
 	@RequestMapping(value="/resetpassword/{key}", method = RequestMethod.GET)
-	public String startPasswordReset(@PathVariable("key") int key) throws ResourceNotFoundException{
+	public String startPasswordReset(@PathVariable("key") String key) throws ResourceNotFoundException{
 		return "Start password reset";
 	}
 	

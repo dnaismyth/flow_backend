@@ -3,6 +3,8 @@ package com.movement.service;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -342,8 +344,9 @@ public class UserService {
 	 * @param emailAddress
 	 * @return
 	 * @throws ResourceNotFoundException 
+	 * @throws MessagingException 
 	 */
-	public void userPasswordResetRequest(String emailAddress) throws ResourceNotFoundException{
+	public void userPasswordResetRequest(String emailAddress) throws ResourceNotFoundException, MessagingException{
 		RestPreconditions.checkNotNull(emailAddress);
 		User user = findUserByEmailAddress(emailAddress);
 		if(user != null){

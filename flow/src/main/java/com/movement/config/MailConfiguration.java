@@ -41,7 +41,6 @@ public class MailConfiguration {
 		props.setProperty("mail.aws.user", credentials.getAWSAccessKeyId());
 		props.setProperty("mail.aws.password", credentials.getAWSSecretKey());
 		return props;
-	    //properties.load(new ClassPathResource("configuration.properties").getInputStream());
 	}
 	
 	// Java Mail properties 
