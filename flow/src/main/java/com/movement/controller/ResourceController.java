@@ -51,15 +51,18 @@ public class ResourceController extends BaseController {
 	}
 		
 	/**
-	 * Allow the user to change their password with provided url/{uuid} they received via e-mail
+	 * Mapping to begin password reset. 
 	 * @param req
 	 * @throws ResourceNotFoundException
 	 */
-	@RequestMapping(value="/resetpassword/{uuid}", method = RequestMethod.POST)
-	public void finishPasswordReset(@RequestBody final PasswordResetRequest resetRequest, HttpServletRequest req) throws ResourceNotFoundException{
-		String key = resetRequest.getKey();
-		User toReset = userService.findUserByResetPasswordKey(key);
-		userService.changePassowordFromResetRequest(toReset, resetRequest.getPassword());
+	@RequestMapping(value="/resetpassword/{key}", method = RequestMethod.GET)
+	public String startPasswordReset(@PathVariable("key") int key) throws ResourceNotFoundException{
+		return "Start password reset";
+	}
+	
+	@RequestMapping(value="/finish-reset-password", method = RequestMethod.POST)
+	public void finishPasswordReset(@RequestBody final PasswordResetRequest resetRequest, HttpServletRequest req){
+		
 	}
 	
 }
