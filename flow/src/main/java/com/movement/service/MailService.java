@@ -52,7 +52,7 @@ public class MailService {
 		
 		Context ctx = new Context(Locale.ENGLISH);
 		ctx.setVariable("name", ru.getName() != null ? ru.getName() : ru.getUsername());
-		ctx.setVariable("url", BASE_URL + "resources/resetpassword/" + ru.getResetPasswordKey());
+		ctx.setVariable("url", BASE_URL + "resources/resetpassword?key=" + ru.getResetPasswordKey());
 		
 		String context = emailTemplateEngine.process("passwordreset", ctx);
 		

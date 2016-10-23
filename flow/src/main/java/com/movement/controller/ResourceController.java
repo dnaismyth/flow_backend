@@ -1,5 +1,7 @@
 package com.movement.controller;
 
+import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.auth.BasicSessionCredentials;
@@ -28,6 +31,8 @@ public class ResourceController extends BaseController {
 
 	@Autowired
 	private AwsS3Service awsService;
+	
+	private static final String KEY_PARAM = "key";
 	/**
 	 * Allow user access to S3 Bucket
 	 * @return
@@ -57,9 +62,12 @@ public class ResourceController extends BaseController {
 	 * @param req
 	 * @throws ResourceNotFoundException
 	 */
-	@RequestMapping(value="/resetpassword/{key}", method = RequestMethod.GET)
-	public String startPasswordReset(@PathVariable("key") String key) throws ResourceNotFoundException{
-		return "Start password reset";
+	@RequestMapping(value="/resetpassword", method = RequestMethod.GET)
+	public String startPasswordReset(@RequestParam(required=false) Map<String, String> criteria) throws ResourceNotFoundException{
+		if(criteria.containsKey(KEY_PARAM))
+			return "Start password reset"; // TODO: change temp return values
+		else
+			return "no key provided";
 	}
 	
 	@RequestMapping(value="/finish-reset-password", method = RequestMethod.POST)
