@@ -385,4 +385,19 @@ public class UserService {
 		ru.setResetPasswordKey(null);						// remove reset key
 		userRepo.save(ru);
 	}
+	
+	/**
+	 * Check if a username is unique (for client side to check dynamically
+	 * during user initial sign-up)
+	 * @param username
+	 * @return
+	 */
+	public boolean isUniqueUsername(String username){
+		RestPreconditions.checkNotNull(username);
+		RUser ru = userRepo.findByUsernameCaseInsensitive(username);
+		if(ru != null){
+			return true;
+		}else 
+			return false;
+	}
 }

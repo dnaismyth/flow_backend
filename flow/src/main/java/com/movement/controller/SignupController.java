@@ -37,13 +37,11 @@ public class SignupController {
 	
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value="/hello", method = RequestMethod.GET)
-    @ResponseBody
-    public User sayHello() throws ResourceNotFoundException {
-        User user = userService.getUser(194l);
-        return user;
-    }
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String testGetRegister(){
+		return "hello";
+	}
     
     /**
      * Create a user login
@@ -52,6 +50,7 @@ public class SignupController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
     public RestResponse<User> createLogin(@RequestBody SignupRequest req){
     	RestPreconditions.checkNotNull(req);
     	User u = buildUser(req);

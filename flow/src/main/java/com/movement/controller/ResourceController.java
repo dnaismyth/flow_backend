@@ -6,14 +6,17 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.movement.controller.dto.EmailRequest;
+import com.movement.controller.dto.FlowResponseCode;
 import com.movement.controller.dto.PasswordResetRequest;
 import com.movement.controller.dto.TokenResponse;
 import com.movement.dto.User;
@@ -88,6 +91,22 @@ public class ResourceController extends BaseController {
 		}
 		else
 			return "e-mail not confirmed";
+	}
+	
+	/**
+	 * Check for unique username on initial user sign up
+	 * @param username
+	 * @return
+	 */
+	@RequestMapping(value="/{username}/unique", method = RequestMethod.GET)
+	@ResponseBody
+	public FlowResponseCode checkUniqueUsername(@PathVariable("username") String username){
+		boolean unique = userService.isUniqueUsername(username);
+		if(unique){
+			return FlowResponseCode.OK;
+		} else {
+			return FlowResponseCode.USERNAME_TAKEN;
+		}
 	}
 	
 }
