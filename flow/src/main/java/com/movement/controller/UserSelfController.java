@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.auth.BasicSessionCredentials;
 import com.movement.controller.dto.RestResponse;
+import com.movement.controller.dto.TokenResponse;
 import com.movement.domain.RWorkout;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
@@ -19,6 +21,7 @@ import com.movement.dto.UserRole;
 import com.movement.dto.Workout;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
+import com.movement.service.AwsS3Service;
 import com.movement.service.UserService;
 
 /**
@@ -31,6 +34,22 @@ import com.movement.service.UserService;
 @RequestMapping("/me")
 public class UserSelfController extends BaseController {
 
+	@Autowired
+	private AwsS3Service awsService;
+	
+	/**
+	 * Allow user access to S3 Bucket
+	 * @return
+	 * @throws NoPermissionException 
+	 */
+	@RequestMapping(value = "/s3token", method = RequestMethod.GET)
+	public TokenResponse generateS3Access() throws NoPermissionException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		BasicSessionCredentials credentials = awsService.getS3UserCredentials();
+		return new TokenResponse(credentials);
+	}
+	
 	/**
 	 * Returns the current logged in user information.
 	 * @return

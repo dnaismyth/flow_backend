@@ -103,8 +103,8 @@ public class MailService {
 		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
 		
 		try{
-			message.setFrom("dayna-n@hotmail.com");
-			message.setTo("naismythdayna@gmail.com");
+			message.setFrom("");
+			message.setTo("");
 			message.setSubject("STRIVE. Confirmation");
 			message.setText(context, true);
 			mailSender.send(mimeMessage);

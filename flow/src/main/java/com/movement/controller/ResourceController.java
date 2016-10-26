@@ -28,26 +28,11 @@ import com.movement.service.ConfirmationService;
 @RestController
 @RequestMapping("/resources")
 public class ResourceController extends BaseController {
-
-	@Autowired
-	private AwsS3Service awsService;
 	
 	@Autowired
 	private ConfirmationService confirmService;
 	
 	private static final String KEY_PARAM = "key";
-	/**
-	 * Allow user access to S3 Bucket
-	 * @return
-	 * @throws NoPermissionException 
-	 */
-	@RequestMapping(value = "/s3token", method = RequestMethod.GET)
-	public TokenResponse generateS3Access() throws NoPermissionException{
-		User user = getLoggedInUser();
-		checkUserPermission(user);
-		BasicSessionCredentials credentials = awsService.getS3UserCredentials();
-		return new TokenResponse(credentials);
-	}
 	
 	/**
 	 * Allow for a user to request for a password reset

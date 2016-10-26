@@ -396,8 +396,8 @@ public class UserService {
 		RestPreconditions.checkNotNull(username);
 		RUser ru = userRepo.findByUsernameCaseInsensitive(username);
 		if(ru != null){
-			return true;
-		}else 
 			return false;
+		}else 
+			return true;
 	}
 }
