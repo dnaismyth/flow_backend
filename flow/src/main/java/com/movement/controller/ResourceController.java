@@ -33,6 +33,8 @@ public class ResourceController extends BaseController {
 	private ConfirmationService confirmService;
 	
 	private static final String KEY_PARAM = "key";
+	private static final String EMAIL = "email";
+	private static final String USERNAME = "username";
 	
 	/**
 	 * Allow for a user to request for a password reset
@@ -83,10 +85,13 @@ public class ResourceController extends BaseController {
 	 * @param username
 	 * @return
 	 */
-	@RequestMapping(value="/{username}/unique", method = RequestMethod.GET)
+	@RequestMapping(value="/unique", method = RequestMethod.GET)
 	@ResponseBody
-	public FlowResponseCode checkUniqueUsername(@PathVariable("username") String username){
-		boolean unique = userService.isUniqueUsername(username);
+	public FlowResponseCode checkUniqueUsername(@RequestParam(required=false) Map<String, String> criteria){
+		boolean unique = false;
+		if(criteria.containsKey(USERNAME)){
+			unique = userService.isUniqueUsername(criteria.get(USERNAME));
+		}
 		if(unique){
 			return FlowResponseCode.OK;
 		} else {
