@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/register")
                 .antMatchers("/api/activate")
                 .antMatchers("/api/lostpassword")
+                .antMatchers("api/resources/**")
                 .antMatchers("/api/login")
                 .antMatchers("/api/hello");
 
@@ -61,13 +61,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-    private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
+    private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {	
+    	@SuppressWarnings("unused")
+		GlobalSecurityConfiguration(){}	
         @Override
         protected MethodSecurityExpressionHandler createExpressionHandler() {
             return new OAuth2MethodSecurityExpressionHandler();
         }
 
     }
-
+    
 }
 

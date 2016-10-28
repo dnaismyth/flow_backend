@@ -49,23 +49,19 @@ public class OAuth2Configuration {
                     .exceptionHandling()
                     .authenticationEntryPoint(customAuthenticationEntryPoint)
                     .and()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
                     .logout()
                     .logoutUrl("/oauth/logout")
                     .logoutSuccessHandler(customLogoutSuccessHandler)
                     .and()
-                    .csrf()
-                    .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-                    .disable()
-                    .headers()
-                    .frameOptions().disable()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
-                    .antMatchers("api/resources/unique").permitAll()
+                    .antMatchers("api/resources/**").permitAll()
                     .antMatchers("/hello/").permitAll()
                     .antMatchers("/secure/**").authenticated();
+      
         }
 
     }
