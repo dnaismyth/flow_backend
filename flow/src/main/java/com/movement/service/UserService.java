@@ -400,4 +400,21 @@ public class UserService {
 		}else 
 			return true;
 	}
+	
+	/**
+	 * Check if an e-mail address is unique (for client side to dynamically
+	 * during user initial sign-up)
+	 * @param emailAddress
+	 * @return
+	 */
+	public boolean isUniqueEmailAddress(String emailAddress){
+		RestPreconditions.checkNotNull(emailAddress);
+		RUser ru = userRepo.findByEmail(emailAddress);
+		if(ru != null){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 }

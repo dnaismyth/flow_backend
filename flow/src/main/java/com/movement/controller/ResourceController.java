@@ -18,6 +18,7 @@ import com.amazonaws.auth.BasicSessionCredentials;
 import com.movement.controller.dto.EmailRequest;
 import com.movement.controller.dto.FlowResponseCode;
 import com.movement.controller.dto.PasswordResetRequest;
+import com.movement.controller.dto.RestResponse;
 import com.movement.controller.dto.TokenResponse;
 import com.movement.dto.User;
 import com.movement.exception.NoPermissionException;
@@ -87,16 +88,26 @@ public class ResourceController extends BaseController {
 	 */
 	@RequestMapping(value="/unique", method = RequestMethod.GET)
 	@ResponseBody
-	public FlowResponseCode checkUniqueUsername(@RequestParam(required=false) Map<String, String> criteria){
+	public RestResponse<String> checkUniqueUsername(@RequestParam(required=false) Map<String, String> criteria){
+		RestResponse<String> response = new RestResponse<String>(FlowResponseCode.OK);
 		boolean unique = false;
+	
+		// Check for unique user name
 		if(criteria.containsKey(USERNAME)){
 			unique = userService.isUniqueUsername(criteria.get(USERNAME));
+			if(!unique){
+				response = new RestResponse<String>(FlowResponseCode.USERNAME_TAKEN,  criteria.get(USERNAME) + " is already taken.");
+			}
 		}
-		if(unique){
-			return FlowResponseCode.OK;
-		} else {
-			return FlowResponseCode.USERNAME_TAKEN;
+		
+		// Check for unique e-mail address
+		if(criteria.containsKey(EMAIL)){
+			unique = userService.isUniqueEmailAddress(criteria.get(EMAIL));
+			if(!unique){
+				response = new RestResponse<String>(FlowResponseCode.EMAIL_TAKEN, criteria.get(EMAIL) + " is already taken.");
+			}
 		}
+		return response;
 	}
 	
 }

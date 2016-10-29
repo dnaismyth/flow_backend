@@ -19,9 +19,15 @@ public class RestResponse<T> implements Serializable{
 	private T data;
 	private Operation op;
 	private Long id;
+	private FlowResponseCode code;
 	
 	public RestResponse(Operation op, T data){
 		this.op = op;
+		this.data = data;
+	}
+	
+	public RestResponse(FlowResponseCode code, T data){
+		this.code = code;
 		this.data = data;
 	}
 	
@@ -34,6 +40,26 @@ public class RestResponse<T> implements Serializable{
 		this.data = data;
 	}
 	
+	public RestResponse(FlowResponseCode code){
+		this.code = code;
+	}
+	
+	public Operation getOp() {
+		return op;
+	}
+
+	public void setOp(Operation op) {
+		this.op = op;
+	}
+
+	public FlowResponseCode getCode() {
+		return code;
+	}
+
+	public void setCode(FlowResponseCode code) {
+		this.code = code;
+	}
+
 	public Operation getOperation(){
 		return op;
 	}
