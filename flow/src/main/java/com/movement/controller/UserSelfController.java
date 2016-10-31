@@ -1,5 +1,7 @@
 package com.movement.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.auth.BasicSessionCredentials;
+import com.movement.controller.dto.ResponseList;
 import com.movement.controller.dto.RestResponse;
 import com.movement.controller.dto.TokenResponse;
 import com.movement.domain.RWorkout;
+import com.movement.dto.Notification;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -22,6 +26,7 @@ import com.movement.dto.Workout;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.service.AwsS3Service;
+import com.movement.service.NotificationService;
 import com.movement.service.UserService;
 
 /**
@@ -36,6 +41,9 @@ public class UserSelfController extends BaseController {
 
 	@Autowired
 	private AwsS3Service awsService;
+	
+	@Autowired
+	private NotificationService notifyService;
 	
 	/**
 	 * Allow user access to S3 Bucket
@@ -99,6 +107,18 @@ public class UserSelfController extends BaseController {
 		return new RestResponse<User>(Operation.DELETE, user.getId());
 	}
 	
+	/**
+	 * Find notifications for the current logged in user to be displayed on their navigation bar
+	 * @return
+	 * @throws NoPermissionException
+	 */
+	@RequestMapping(value="/notifications", method = RequestMethod.GET)
+	public ResponseList<Notification> getNotificationsForUser() throws NoPermissionException{
+		User user = getLoggedInUser();
+		checkUserPermission(user);
+		List<Notification> notifications = notifyService.findNotificationsForUser(user.getId());
+		return new ResponseList<Notification>(notifications);
+	}
 	/**
 	 * Test Function to say hello to the current user
 	 * @return

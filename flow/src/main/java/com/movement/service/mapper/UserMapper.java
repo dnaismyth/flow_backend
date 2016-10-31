@@ -27,6 +27,7 @@ public class UserMapper {
 			u.setPassword(user.getPassword());
 			u.setCreatedDate(user.getCreatedDate());
 			u.setUserRole(user.getUserRole());
+			u.setAvatar(user.getAvatar());
 			u.setLocation(locationMapper.toLocation(user.getLocation()));
 		}
 		return u;
@@ -52,6 +53,7 @@ public class UserMapper {
 			ru.setUsername(user.getUsername());
 			ru.setCreatedDate(user.getCreatedDate());
 			ru.setUserRole(user.getUserRole());
+			ru.setAvatar(user.getAvatar());
 			ru.setLocation(locationMapper.toRLocation(user.getLocation()));
 		}
 		return ru;

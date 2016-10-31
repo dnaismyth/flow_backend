@@ -1,7 +1,9 @@
 package com.movement.service.mapper;
 
-import com.movement.domain.RNotification;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.movement.domain.RNotification;
 import com.movement.dto.Notification;
 
 /**
@@ -41,5 +43,13 @@ public class NotificationMapper {
 		}
 		
 		return rn;
+	}
+	
+	public List<Notification> toNotificationList(List<RNotification> rNotify){
+		List<Notification> notifyList = new ArrayList<Notification>();
+		for(RNotification rn : rNotify ){
+			notifyList.add(toNotification(rn));
+		}
+		return notifyList;
 	}
 }

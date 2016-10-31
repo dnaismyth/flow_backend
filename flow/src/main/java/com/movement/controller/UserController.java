@@ -3,10 +3,8 @@ package com.movement.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +19,9 @@ import com.movement.controller.dto.SimpleResponse;
 import com.movement.dto.BaseUser;
 import com.movement.dto.Operation;
 import com.movement.dto.User;
-import com.movement.dto.Workout;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
-import com.movement.service.UserService;
-import com.movement.service.WorkoutService;
 import com.movement.util.RestPreconditions;
 
 /**

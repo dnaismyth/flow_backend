@@ -1,7 +1,6 @@
 package com.movement.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.mail.MessagingException;
 
@@ -18,22 +17,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.movement.domain.Authority;
-import com.movement.domain.RLocation;
 import com.movement.domain.RUser;
 import com.movement.domain.RWorkout;
 import com.movement.domain.RWorkoutFavourite;
 import com.movement.domain.RWorkoutFavouritePK;
 import com.movement.dto.BaseUser;
-import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
-import com.movement.dto.Workout;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.AuthorityJDBCRepository;
-import com.movement.repository.AuthorityRepository;
 import com.movement.repository.FeedRepository;
 import com.movement.repository.FollowJDBCRepository;
 import com.movement.repository.FollowRepository;
@@ -42,7 +36,6 @@ import com.movement.repository.UserRepository;
 import com.movement.repository.WorkoutFavouriteRepository;
 import com.movement.repository.WorkoutJDBCRepository;
 import com.movement.repository.WorkoutRepository;
-import com.movement.security.Authorities;
 import com.movement.service.mapper.LocationMapper;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.util.CompareUtil;

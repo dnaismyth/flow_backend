@@ -1,10 +1,13 @@
 package com.movement.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movement.domain.RNotification;
 import com.movement.dto.Notification;
 import com.movement.dto.NotificationType;
 import com.movement.dto.User;
@@ -78,6 +81,17 @@ public class NotificationService {
 		RestPreconditions.checkNotNull(ownerId);
 		Notification notify = new Notification(ownerId, NotificationType.LIKE);
 		notifyRepo.save(notifyMapper.toRNotification(notify));
+	}
+	
+	/**
+	 * Find Notifications for a user
+	 * @param userId
+	 * @return
+	 */
+	public List<Notification> findNotificationsForUser(Long userId){
+		RestPreconditions.checkNotNull(userId);
+		List<RNotification> rn = notifyRepo.findNotificationsForUserById(userId);
+		return notifyMapper.toNotificationList(rn);
 	}
 
 }
