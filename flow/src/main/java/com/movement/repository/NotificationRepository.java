@@ -12,6 +12,6 @@ import com.movement.domain.RNotification;
 @Repository
 public interface NotificationRepository extends JpaRepository<RNotification, Long>{
 
-	@Query("SELECT rn FROM RNotification rn WHERE rn.user_id = :userId")
+	@Query("SELECT rn FROM RNotification rn WHERE rn.userId = :userId")
 	public List<RNotification> findNotificationsForUserById(@Param("userId") Long userId);
 }
