@@ -188,6 +188,7 @@ public class WorkoutService {
 	 */
 	private void sendWorkoutToFollowerFeeds(Long workoutOwnerId, RWorkout rw){
 		List<Long> followerIds = userService.findFollowersByUserId(workoutOwnerId);
+		followerIds.add(workoutOwnerId); // display the owner's workout in their own feed
 		feedService.addWorkoutToFeed(followerIds, rw);
 	}
 	

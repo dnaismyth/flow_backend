@@ -50,7 +50,6 @@ public class MediaService {
 		RestPreconditions.checkNotNull(m);
 		RestPreconditions.checkNotNull(owner);
 		m.setOwnerId(owner.getId());
-		//awsService.uploadFile(owner, m.getFileName());
 		RMedia rm = mediaMapper.toRMedia(m);
 		RMedia saved = mediaRepo.save(rm);
 		return mediaMapper.toMedia(saved);

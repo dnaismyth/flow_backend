@@ -20,6 +20,7 @@ import com.movement.dto.BaseUser;
 import com.movement.dto.Media;
 import com.movement.dto.ShowType;
 import com.movement.dto.Workout;
+import com.movement.service.util.MediaUtils;
 
 @Repository
 public class WorkoutJDBCRepository extends BaseJDBCRepository{
@@ -60,8 +61,9 @@ public class WorkoutJDBCRepository extends BaseJDBCRepository{
 		   public Workout mapRow(ResultSet rs, int rowNum) throws SQLException {
 			  BaseUser baseUser = new BaseUser((Long)rs.getObject("owner_id"), rs.getString("username"), rs.getString("avatar"));
 			  
+			  String fileName = MediaUtils.generateMediaUrl(rs.getString("filename"));
 			  ShowType showType = rs.getString("showtype") != null ? ShowType.valueOf(rs.getString("showtype")) : null;
-			  Media m = new Media((Long)rs.getObject("media_id"), (Long)rs.getObject("owner_id"), rs.getString("filename"), rs.getString("caption"));
+			  Media m = new Media((Long)rs.getObject("media_id"), (Long)rs.getObject("owner_id"), fileName, rs.getString("caption"));
 
 		      Workout w = new Workout((Long)rs.getObject("id"),
 		    		  rs.getDate("created_date"),
