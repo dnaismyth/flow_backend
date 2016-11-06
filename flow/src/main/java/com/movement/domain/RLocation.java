@@ -24,9 +24,8 @@ public class RLocation {
 	@Column
 	private String address;
 	
-//	@Type(type="org.hibernate.spatial.GeometryType")
-//	@Column(columnDefinition="Geometry")
-//	private Point point;
+	@Column
+	private Point point;
 	
 	public void setLatitude(float latitude){
 		this.latitude = latitude;
@@ -44,13 +43,13 @@ public class RLocation {
 		return longitude;
 	}
 	
-//	public Point getPoint(){
-//		return point;
-//	}
-//	
-//	public void setPoint(Point point){
-//		this.point = point;
-//	}
+	public Point getPoint(){
+		return point;
+	}
+	
+	public void setPoint(Point point){
+		this.point = point;
+	}
 	
 	public String getAddress(){
 		return address;

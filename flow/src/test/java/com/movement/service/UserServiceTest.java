@@ -9,8 +9,10 @@ import org.junit.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.movement.domain.RLocation;
 import com.movement.domain.RUser;
 import com.movement.dto.BaseUser;
+import com.movement.dto.Location;
 import com.movement.dto.Quest;
 import com.movement.dto.User;
 import com.movement.dto.UserRole;
@@ -18,12 +20,14 @@ import com.movement.dto.Workout;
 import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
+import com.movement.service.mapper.LocationMapper;
 
 
 public class UserServiceTest extends TestBaseClass {
 
 	private String userName1 = "testuser@mediacenter.com";
 	private User user1;
+	private LocationMapper locMapper = new LocationMapper();
 	
 	@Before
 	public void setUp() throws ResourceNotFoundException{
@@ -41,8 +45,8 @@ public class UserServiceTest extends TestBaseClass {
 	
 	@After
 	public void tearDown() throws NoPermissionException{
-		if(user1.getId() != null)
-			userService.delete(user1, user1.getId());
+//		if(user1.getId() != null)
+//			userService.delete(user1, user1.getId());
 	}
 	
 	// Test that a user is being stored in the db
@@ -85,6 +89,19 @@ public class UserServiceTest extends TestBaseClass {
 		questService.startNewQuest(created.getId(), user1);
 		Page<BaseUser> results = userService.getUsersEnrolledInQuest(created.getId(), new PageRequest(0,5));
 		Assert.assertEquals(1, results.getNumberOfElements());
+	}
+	
+	// Test that location mapper is working as expected
+	@Test
+	public void testLocationMapper(){
+		Location l = new Location();
+		l.setLatitude(0.00f);
+		l.setLongitude(0.00f);
+		user1.setLocation(l);
+		userService.updateUser(user1);
+		RLocation rl = locMapper.toRLocation(l);
+		Assert.assertNotNull(rl);
+		
 	}
 
 }

@@ -58,6 +58,7 @@ public class OAuth2Configuration {
                     .and()
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS,"**").permitAll()
+                    .antMatchers("api/register/**").permitAll()
                     .antMatchers("api/resources/**").permitAll()
                     .antMatchers("/hello/").permitAll()
                     .antMatchers("/secure/**").authenticated();

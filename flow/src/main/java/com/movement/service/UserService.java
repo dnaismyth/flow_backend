@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.movement.domain.RLocation;
 import com.movement.domain.RUser;
 import com.movement.domain.RWorkout;
 import com.movement.domain.RWorkoutFavourite;
@@ -39,6 +40,7 @@ import com.movement.repository.WorkoutRepository;
 import com.movement.service.mapper.LocationMapper;
 import com.movement.service.mapper.UserMapper;
 import com.movement.service.util.CompareUtil;
+import com.movement.service.util.LocationUtil;
 import com.movement.util.RestPreconditions;
 
 
@@ -159,10 +161,10 @@ public class UserService {
 			ru.setName(user.getName());
 		}
 		
-//		RLocation rl = locationMapper.toRLocation(user.getLocation());
-//		if(!CompareUtil.compare(ru.getLocation().getAddress(), rl)){
-//			ru.setLocation(rl);
-//		}
+		if(!LocationUtil.compareLocation(ru.getLocation(), user.getLocation())){
+			RLocation rl = locationMapper.toRLocation(user.getLocation());
+			ru.setLocation(rl);
+		}
 		
 		if(!CompareUtil.compare(ru.getPhone(), user.getPhone())){
 			ru.setPhone(user.getPhone());

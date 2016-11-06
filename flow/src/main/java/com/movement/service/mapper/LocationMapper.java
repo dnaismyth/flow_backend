@@ -45,7 +45,7 @@ public class LocationMapper {
 			rl.setLongitude(l.getLongitude());
 			rl.setAddress(l.getAddress());
 			Geometry geom = wktToGeometry(l.getLongitude(), l.getLatitude());
-			//rl.setPoint(geom);
+			rl.setPoint((Point)geom);
 		}
 		
 		return rl;
