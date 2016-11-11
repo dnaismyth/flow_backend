@@ -72,8 +72,4 @@ public class FeedService {
 		}	
 	}
 	
-//	public Page<Workout> getUsersFeed(Long userId){
-//		//TODO: find feeds for each user
-//	}
-	
 }

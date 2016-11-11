@@ -29,6 +29,7 @@ import com.movement.exception.BadRequestException;
 import com.movement.exception.NoPermissionException;
 import com.movement.exception.ResourceNotFoundException;
 import com.movement.repository.AuthorityJDBCRepository;
+import com.movement.repository.FeedJDBCRepository;
 import com.movement.repository.FeedRepository;
 import com.movement.repository.FollowJDBCRepository;
 import com.movement.repository.FollowRepository;
@@ -61,6 +62,9 @@ public class UserService {
 	
 	@Autowired
 	private WorkoutJDBCRepository workoutJDBCRepo;
+	
+	@Autowired
+	private FeedJDBCRepository feedJDBCRepo;
 	
 	@Autowired
 	private FollowService followService;
@@ -185,6 +189,7 @@ public class UserService {
 		if(!user.getId().equals(userId) && user.getUserRole()!= UserRole.ADMIN){
 			throw new NoPermissionException("You do not have permission to delete this user.");
 		}
+		feedJDBCRepo.deleteFeedReferencesByUserId(userId);
 		workoutJDBCRepo.deleteWorkoutAndReferencesByOwner(userId);
 		feedRepo.deleteFeedByUserId(userId);
 		userRepo.delete(userId);
@@ -196,6 +201,7 @@ public class UserService {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
+	
 	@Cacheable
 	public User findUserByUsername(String username) throws ResourceNotFoundException{
 		RestPreconditions.checkNotNull(username);

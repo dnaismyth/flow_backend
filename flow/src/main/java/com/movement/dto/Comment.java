@@ -16,6 +16,11 @@ public class Comment {
 	
 	//TODO: add commentText validation for length
 	
+	public Comment () {}
+	
+	public Comment (String commentText){
+		this.commentText = commentText;
+	}
 	public void setCommentId(Long commentId){
 		this.commentId = commentId;
 	}

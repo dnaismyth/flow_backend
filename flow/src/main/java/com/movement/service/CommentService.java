@@ -1,6 +1,11 @@
 package com.movement.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.movement.domain.RComment;
@@ -62,7 +67,7 @@ public class CommentService {
 	 */
 	public Comment createWorkoutComment(Comment comment, Long commenterId) throws ResourceNotFoundException, BadRequestException{
 		RestPreconditions.checkNotNull(comment.getWorkoutId());
-		RestPreconditions.checkNotNull(comment.getUserId());
+		RestPreconditions.checkNotNull(commenterId);
 		
 		Workout w = workoutService.findWorkoutById(comment.getWorkoutId());
 		if(w.getShowType() == ShowType.PRIVATE){
@@ -131,6 +136,19 @@ public class CommentService {
 		
 		commentRepo.delete(commentId);
 		return true;
+	}
+	
+	/**
+	 * Return all comments for the provided workout id
+	 * @param workoutId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Comment> getAllCommentsForWorkout(Long workoutId, Pageable pageable){
+		RestPreconditions.checkNotNull(workoutId);
+		List<RComment> rc = commentRepo.getAllCommentsForWorkout(workoutId, pageable);
+		List<Comment> commentList = commentMapper.toCommentList(rc);
+		return new PageImpl<Comment>(commentList, pageable, commentList.size());
 	}
 	
 	
