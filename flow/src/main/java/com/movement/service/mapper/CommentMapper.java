@@ -58,6 +58,7 @@ public class CommentMapper {
 	public List<Comment> toCommentList(List<RComment> rcomment) {
 		List<Comment> comments = null;
 		if (rcomment != null) {
+			comments = new ArrayList<Comment>();
 			for (RComment rc : rcomment) {
 				comments.add(toComment(rc));
 			}
